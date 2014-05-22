@@ -7,11 +7,11 @@ require "webmasters_cms/version"
 Gem::Specification.new do |s|
   s.name        = "webmasters_cms"
   s.version     = WebmastersCms::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of WebmastersCms."
-  s.description = "TODO: Description of WebmastersCms."
+  s.authors     = ["Christian Gallitzendörfer"]
+  s.email       = ["c.gallitzendoerfer@webmasters.de"]
+  s.homepage    = "http://www.webmasters.de"
+  s.summary     = "CMS for Webmasters Akademie"
+  s.description = "CMS for Webmasters Akademie"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.1.1"
 
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "mysql2"
 end
