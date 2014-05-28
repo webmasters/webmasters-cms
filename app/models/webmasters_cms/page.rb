@@ -15,7 +15,7 @@ module WebmastersCms
       presence: true
 
     validates_format_of :local_path,
-      with: /\A[a-zA-Z0-9\-\_]\Z/,
+      with: /[a-zA-Z0-9\-\_]/,
       message: "Only alphanumeric letters, hyphens and underscore are allowed!"
   end
 end
