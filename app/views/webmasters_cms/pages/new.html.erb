@@ -1,0 +1,27 @@
+<h1>Neue Page erstellen</h1>
+
+<%= form_for @page, url: {action: "create"} do |f| %>
+   <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+   <p>
+    <%= f.label :local_path %><br>
+    <%= f.text_field :local_path %>
+  </p>
+   <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+   <p>
+    <%= f.label :meta_description %><br>
+    <%= f.text_field :meta_description %>
+  </p>
+   <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body, size: "60x20" %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
