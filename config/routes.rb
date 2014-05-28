@@ -1,6 +1,6 @@
 WebmastersCms::Engine.routes.draw do
 
-  resource :pages
+  resources :pages
 
   root 'pages#new'
 end
