@@ -26,9 +26,4 @@ ActiveRecord::Schema.define(version: 20140528070854) do
   add_index "webmasters_cms_pages", ["local_path"], name: "index_webmasters_cms_pages_on_local_path", unique: true, using: :btree
   add_index "webmasters_cms_pages", ["name"], name: "index_webmasters_cms_pages_on_name", unique: true, using: :btree
 
-  create_table "webmasters_cms_users", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
 end
