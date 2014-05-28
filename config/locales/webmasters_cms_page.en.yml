@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    errors:
+      models:
+        webmasters_cms/page:
+          attributes:
+            local_path:
+              invalid: "can only consist of alphanumeric letters, hyphens and underscores"

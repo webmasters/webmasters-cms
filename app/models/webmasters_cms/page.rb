@@ -4,10 +4,7 @@ module WebmastersCms
     validates_uniqueness_of :local_path
 
     validates :name, :title, :local_path, :meta_description,
-      length: {
-        maximum: 255,
-        too_long: "%{count} characters is the maximum allowed!"
-      },
+      length: { maximum: 255 },
       presence: true
 
     validates :body,
@@ -15,7 +12,6 @@ module WebmastersCms
       presence: true
 
     validates_format_of :local_path,
-      with: /[a-zA-Z0-9\-\_]/,
-      message: "Only alphanumeric letters, hyphens and underscore are allowed!"
+      with: /[a-zA-Z0-9\-\_]/
   end
 end
