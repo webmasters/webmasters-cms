@@ -8,8 +8,11 @@ module WebmastersCms
 
     def create
       @page = Page.new(page_params)
-      @page.save
-      redirect_to @page
+      if @page.save
+        redirect_to @page
+      else
+        render 'new'
+      end
     end
 
     private
