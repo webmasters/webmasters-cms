@@ -144,4 +144,5 @@ DEPENDENCIES
   guard-rspec
   mysql2
   rspec-rails
+  thor
   webmasters_cms!
