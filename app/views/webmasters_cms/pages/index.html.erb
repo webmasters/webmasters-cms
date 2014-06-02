@@ -1,0 +1,11 @@
+<h1>All Pages</h1>
+
+<% @pages.each do |page| %>
+  <ul>
+    <li>
+      <%= link_to page do %>
+      <%= page.name %><% end %>
+      <%= page.title %>
+    </li>
+  </ul>
+<% end %>

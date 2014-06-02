@@ -2,6 +2,14 @@ require_dependency "webmasters_cms/application_controller"
 
 module WebmastersCms
   class PagesController < ApplicationController
+    def index
+      @pages = Page.all
+    end
+
+    def show
+      @page = Page.find(params[:id])
+    end
+
     def new
       @page = Page.new
     end
