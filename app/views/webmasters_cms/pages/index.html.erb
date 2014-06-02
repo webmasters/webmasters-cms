@@ -3,9 +3,9 @@
 <% @pages.each do |page| %>
   <ul>
     <li>
-      <%= link_to page do %>
-      <%= page.name %><% end %>
+      <%= link_to page.name, page_path(page) %>
       <%= page.title %>
+      <%= link_to 'Edit', edit_page_path(page) %>
     </li>
   </ul>
 <% end %>
