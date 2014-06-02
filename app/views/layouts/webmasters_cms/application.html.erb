@@ -6,6 +6,9 @@
   <%= javascript_include_tag "webmasters_cms/application" %>
   <%= csrf_meta_tags %>
 </head>
+<% flash.each do |name, msg| -%>
+  <%= content_tag :div, msg, class: name %>
+<% end -%>
 <header>
   <nav>
     <%= link_to 'New Page', new_page_path %>

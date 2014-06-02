@@ -21,6 +21,7 @@ module WebmastersCms
     def create
       @page = Page.new(page_params)
       if @page.save
+        flash[:success] = "Page successfully created!"
         redirect_to @page
       else
         render 'new'
@@ -31,6 +32,7 @@ module WebmastersCms
       @page = Page.find(params[:id])
 
       if @page.update(page_params)
+        flash[:success] = "Page successfully updated!"
         redirect_to @page
       else
         render 'edit'
@@ -40,7 +42,8 @@ module WebmastersCms
     def destroy
       @page = Page.find(params[:id])
       @page.destroy
-      
+
+      flash[:success] = "Page successfully deleted!"
       redirect_to pages_path
     end
 
