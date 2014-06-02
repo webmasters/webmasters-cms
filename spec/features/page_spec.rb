@@ -3,7 +3,7 @@ require 'spec_helper'
 module WebmastersCms
   describe "A user" do
     it "creates a new page" do
-      visit 'webmasters_cms/pages/new'
+      visit new_page_path
       fill_in 'Name', :with => "CapyTest"
       fill_in 'Local path', :with => "CapyTest"
       fill_in 'Title', :with => "CapyTest"

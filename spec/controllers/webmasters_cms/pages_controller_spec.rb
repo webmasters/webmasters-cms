@@ -145,7 +145,7 @@ module WebmastersCms
       end
       it "redirects to the index" do
         delete :destroy, id: @page
-        response.should redirect_to pages_url
+        response.should redirect_to pages_path
       end
     end
   end
