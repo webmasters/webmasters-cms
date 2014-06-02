@@ -2,6 +2,6 @@ WebmastersCms::Engine.routes.draw do
 
   resources :pages
 
-  root 'pages#index'
+  root :to => 'pages#index'
 
 end
