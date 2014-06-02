@@ -3,8 +3,10 @@
 <% @pages.each do |page| %>
   <ul>
     <li>
-      <%= link_to page.name, page_path(page) %>
-      <%= page.title %>
+      <p>
+        <%= link_to page.name, page_path(page) %>
+        (Title: <%= page.title %>)
+      </p>
       <%= link_to 'Edit', edit_page_path(page) %>
       <%= link_to 'Destroy', page_path(page),
         method: :delete,
