@@ -37,6 +37,13 @@ module WebmastersCms
       end
     end
 
+    def destroy
+      @page = Page.find(params[:id])
+      @page.destroy
+      
+      redirect_to pages_path
+    end
+
     private
       def page_params
         params.required(:page).permit(:name, :title, :meta_description, :local_path, :body)
