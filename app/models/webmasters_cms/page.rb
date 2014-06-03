@@ -1,5 +1,6 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
+    self.primary_key = :id
     validates_uniqueness_of :name
     validates_uniqueness_of :local_path
 

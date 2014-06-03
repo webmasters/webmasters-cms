@@ -4,7 +4,7 @@
   <ul>
     <li>
       <p>
-        <%= link_to page.name, page_path(page) %>
+        <%= link_to page.name, page.local_path %>
         (Title: <%= page.title %>)
       </p>
       <%= link_to 'Edit', edit_page_path(page) %>

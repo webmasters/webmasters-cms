@@ -7,7 +7,7 @@ module WebmastersCms
     end
 
     def show
-      @page = Page.find(params[:id])
+      @page = Page.find(params[:id]) unless @page = Page.where(:local_path => params[:id]).first
     end
 
     def new
@@ -15,7 +15,7 @@ module WebmastersCms
     end
 
     def edit
-      @page = Page.find(params[:id])
+      @page = Page.find(params[:id]) unless @page = Page.where(:local_path => params[:id]).first
     end
 
     def create
