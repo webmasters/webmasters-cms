@@ -52,7 +52,7 @@ module WebmastersCms
 
         it "redirects to the created Page" do
           post :create, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-          response.should redirect_to Page.last
+          response.should redirect_to page_path(Page.last.local_path)
         end
       end
 
@@ -112,7 +112,8 @@ module WebmastersCms
 
         it "redirects to the Page #show view" do
           put :update, id: @page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-          response.should redirect_to @page
+          @page.reload
+          response.should redirect_to page_path(@page.local_path)
         end
       end
 

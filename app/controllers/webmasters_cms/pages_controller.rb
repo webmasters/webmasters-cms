@@ -22,7 +22,7 @@ module WebmastersCms
       @page = Page.new(page_params)
       if @page.save
         flash[:success] = "Page successfully created!"
-        redirect_to @page
+        redirect_to page_path(@page.local_path)
       else
         render 'new'
       end
@@ -33,7 +33,7 @@ module WebmastersCms
 
       if @page.update(page_params)
         flash[:success] = "Page successfully updated!"
-        redirect_to @page
+        redirect_to page_path(@page.local_path)
       else
         render 'edit'
       end
