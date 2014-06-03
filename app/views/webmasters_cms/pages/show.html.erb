@@ -1,23 +1,9 @@
-<h1>Details of <%= @page.name %></h1>
-<p>
-  <strong>Local Path:</strong>
-  <%= @page.local_path %>
-</p>
-<p>
-  <strong>Title:</strong>
-  <%= @page.title %>
-</p>
-<p>
-  <strong>Meta Description:</strong>
-  <%= @page.meta_description %>
-</p>
-<p>
-  <strong>Body:</strong>
-  <%= @page.body %>
-</p>
-
 <%= link_to 'Back', pages_path %>
-<%= link_to 'Edit', edit_page_path %>
-<%= link_to 'Destroy', page_path(@page),
-  method: :delete,
-  data: { confirm: 'Are you sure?' } %>
+<%= render partial: 'actions', locals: {page: @page} %>
+
+<h1><%= @page.name %></h1>
+  <% content_for :title, @page.title %>
+  <% content_for :meta_description, @page.meta_description %>
+<div>
+  <%= raw @page.body %>
+</div>

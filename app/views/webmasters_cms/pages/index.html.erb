@@ -7,10 +7,7 @@
         <%= link_to page.name, page.local_path %>
         (Title: <%= page.title %>)
       </p>
-      <%= link_to 'Edit', edit_page_path(page) %>
-      <%= link_to 'Destroy', page_path(page),
-        method: :delete,
-        data: { confirm: 'Are you sure?' } %>
+      <%= render partial: 'actions', locals: {page: page} %>
     </li>
   </ul>
 <% end %>
