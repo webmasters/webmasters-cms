@@ -1,6 +1,5 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
-    self.primary_key = :id
     validates_uniqueness_of :name
     validates_uniqueness_of :local_path
 
@@ -13,6 +12,6 @@ module WebmastersCms
       presence: true
 
     validates_format_of :local_path,
-      with: /[a-zA-Z0-9\-\_]/
+      with: /\A[a-zA-Z0-9\-\_]+\z/
   end
 end

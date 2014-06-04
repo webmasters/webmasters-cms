@@ -21,6 +21,7 @@ module WebmastersCms
         FactoryGirl.build(:webmasters_cms_page, name: "A"*256).should_not be_valid
       end
 
+
       it "is valid with a long name with multibyte characters" do
         FactoryGirl.create(:webmasters_cms_page, name: "A"*253 + "€€").should be_valid
       end
@@ -45,6 +46,9 @@ module WebmastersCms
         FactoryGirl.build(:webmasters_cms_page, local_path: "A"*256).should_not be_valid
       end
 
+      it "is invalid with special characters in the local_path" do
+        FactoryGirl.build(:webmasters_cms_page, local_path: ",.\"/?\\|[+={]';!@#$%^&*()'}").should_not be_valid
+      end
     end
 
     describe "#title" do

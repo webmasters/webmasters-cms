@@ -2,11 +2,11 @@
 
 FactoryGirl.define do
   factory :webmasters_cms_page, :class => WebmastersCms::Page do |f|
-    f.name "MyString"
-    f.local_path "MyString"
-    f.title "MyString"
-    f.meta_description "MyString"
-    f.body "MyText"
+    f.name "Name"
+    f.local_path "Local_path"
+    f.title "Title"
+    f.meta_description "Meta Description"
+    f.body "Body"
   end
 
   factory :invalid_webmasters_cms_page, parent: :webmasters_cms_page do |f|
