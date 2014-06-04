@@ -1,9 +1,4 @@
 <%= link_to 'Back', pages_path %>
 <%= render partial: 'actions', locals: {page: @page} %>
 
-<h1><%= @page.name %></h1>
-  <% content_for :title, @page.title %>
-  <% content_for :meta_description, @page.meta_description %>
-<div>
-  <%= raw @page.body %>
-</div>
+<%= render partial: 'page', locals: {page: @page} %>
