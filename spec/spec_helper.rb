@@ -4,8 +4,9 @@ require File.expand_path("../../test/dummy/config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl_rails'
-require 'capybara/rails'
 require 'capybara/rspec'
+require 'selenium-webdriver'
+require 'database_cleaner'
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -17,12 +18,23 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+Capybara.javascript_driver = :selenium
+
 RSpec.configure do |config|
   config.mock_with :rspec
-  config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
   config.include FactoryGirl::Syntax::Methods
   config.include WebmastersCms::Engine.routes.url_helpers
   config.include Capybara::DSL
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 end
