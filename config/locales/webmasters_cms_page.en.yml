@@ -12,21 +12,22 @@ en:
             local_path:
               invalid: "can only consist of alphanumeric letters, hyphens and underscores"
   webmasters_cms:
-    pages:
-      index:
-        allPages: "All Pages"
-      new:
-        createPage: "Create a page"
-      edit:
-        editPage: "Edit page"
-      actions:
-        edit: "Edit"
-        destroy: "Delete"
-      back:
-        back: "Back"
-      form:
-        name: "Name"
-        local_path: "Local path"
-        title: "Title"
-        meta_description: "Meta description"
-        body: "Body"
+    admin:
+      pages:
+        index:
+          allPages: "All Pages"
+        new:
+          createPage: "Create a page"
+        edit:
+          editPage: "Edit page"
+        actions:
+          edit: "Edit"
+          delete: "Delete"
+        back:
+          back: "Back"
+        form:
+          name: "Name"
+          local_path: "Local path"
+          title: "Title"
+          meta_description: "Meta description"
+          body: "Body"

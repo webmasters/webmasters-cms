@@ -1,0 +1,11 @@
+<%= form_for resource, url: admin_page_path(resource) do |f| %>
+
+<%= render 'messages' %>
+
+<h1><%= t('.editPage') + ' ' + resource.name %></h1>
+
+<%= render partial: 'form', locals: {f: f} %>
+
+<% end %>
+
+<%= render 'back' %>

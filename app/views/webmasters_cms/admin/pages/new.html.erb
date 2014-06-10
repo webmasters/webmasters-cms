@@ -1,0 +1,11 @@
+<%= form_for resource, url: {action: "create"} do |f| %>
+
+  <%= render 'messages' %>
+
+  <h1><%= t('.createPage') %></h1>
+
+  <%= render partial: 'form', locals: {f: f} %>
+
+<% end %>
+
+<%= render 'back' %>

@@ -4,7 +4,7 @@ module WebmastersCms
   describe "Pages" do
     describe "Manage pages" do
       it "creates a new page and displays it with a success notice" do
-        visit new_page_path
+        visit new_admin_page_path
 
         expect{
           fill_in 'Name', :with => "Name"
@@ -26,7 +26,7 @@ module WebmastersCms
       end
 
       it "shows an error when created with invalid attributes" do
-        visit new_page_path
+        visit new_admin_page_path
 
         fill_in "Title", with: ""
         fill_in "Name", with: ""
@@ -45,7 +45,7 @@ module WebmastersCms
 
       it "edits a page successfully and displays a success notice" do
         cms_page = FactoryGirl.create(:webmasters_cms_page)
-        visit edit_page_path(cms_page)
+        visit edit_admin_page_path(cms_page)
 
         fill_in "Title", with: "Updated Title"
         fill_in "Name", with: "Updated Name"
@@ -54,7 +54,7 @@ module WebmastersCms
         fill_in "Body", with: "Updated Body"
         click_button "Update Page"
 
-        expect(current_path).to eq(page_path(cms_page))
+        expect(current_path).to eq(admin_page_path(cms_page))
         expect(page).to have_css 'meta[name="description"][content="Updated Meta Description"]', :visible => false
         expect(page).to have_title "Updated Title"
         expect(page).to have_content "Updated Name"
@@ -68,7 +68,7 @@ module WebmastersCms
       it "shows an error when edited with invalid attributes" do
         cms_page = FactoryGirl.create(:webmasters_cms_page)
 
-        visit edit_page_path(cms_page)
+        visit edit_admin_page_path(cms_page)
 
         fill_in "Title", with: ""
         fill_in "Name", with: ""
@@ -89,7 +89,7 @@ module WebmastersCms
         DatabaseCleaner.clean
         cms_page = FactoryGirl.create(:webmasters_cms_page, name: "DeleteMe", title: "DeleteMe")
 
-        visit pages_path
+        visit admin_pages_path
 
         expect{
           within "ul li" do
@@ -97,7 +97,7 @@ module WebmastersCms
           end
           page.driver.browser.switch_to.alert.accept
 
-          expect(current_path).to eq(pages_path)
+          expect(current_path).to eq(admin_pages_path)
         }.to change(Page,:count).by(-1)
 
         within '.success' do

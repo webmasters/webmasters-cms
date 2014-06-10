@@ -1,4 +1,6 @@
 WebmastersCms::Engine.routes.draw do
-  resources :pages
-  root :to => 'pages#index'
+  namespace :admin do
+    resources :pages
+    root :to => 'pages#index'
+  end
 end
