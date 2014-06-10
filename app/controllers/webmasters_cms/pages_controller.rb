@@ -2,54 +2,61 @@ require_dependency "webmasters_cms/application_controller"
 
 module WebmastersCms
   class PagesController < ApplicationController
+    helper_method :collection, :resource
+
     def index
-      @pages = Page.all
     end
 
     def show
-      @page = Page.find(params[:id]) unless @page = Page.where(:local_path => params[:id]).first
+      resource
     end
 
     def new
-      @page = Page.new
+      @resource = Page.new
     end
 
     def edit
-      @page = Page.find(params[:id]) unless @page = Page.where(:local_path => params[:id]).first
+      resource
     end
 
     def create
-      @page = Page.new(page_params)
-      if @page.save
-        flash[:success] = "Page successfully created!"
-        redirect_to page_path(@page.local_path)
+      @resource = Page.new(page_params)
+      if @resource.save
+        flash[:success] = t :create, scope: [:activerecord, :flash, :success]
+        redirect_to page_path(@resource)
       else
         render 'new'
       end
     end
 
     def update
-      @page = Page.find(params[:id])
-
-      if @page.update(page_params)
-        flash[:success] = "Page successfully updated!"
-        redirect_to page_path(@page.local_path)
+      resource
+      if resource.update(page_params)
+        flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+        redirect_to page_path(resource)
       else
         render 'edit'
       end
     end
 
     def destroy
-      @page = Page.find(params[:id])
-      @page.destroy
+      resource.destroy
 
-      flash[:success] = "Page successfully deleted!"
+      flash[:success] = t :delete, scope: [:activerecord, :flash, :success]
       redirect_to pages_path
     end
 
     private
       def page_params
         params.required(:page).permit(:name, :title, :meta_description, :local_path, :body)
+      end
+
+      def collection
+        @collection ||= Page.all
+      end
+
+      def resource
+        @resource ||= Page.find(params[:id])
       end
   end
 end

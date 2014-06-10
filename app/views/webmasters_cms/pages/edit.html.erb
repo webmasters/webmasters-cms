@@ -1,5 +1,5 @@
-<h1>Editing Page <%= @page.name %></h1>
+<h1>Editing Page <%= resource.name %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', page_path(@page.local_path) %>
+<%= render 'back' %>

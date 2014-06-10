@@ -1,4 +1,5 @@
-<%= link_to 'Back', pages_path %>
-<%= render partial: 'actions', locals: {page: @page} %>
+<%= render 'back' %>
 
-<%= render partial: 'page', locals: {page: @page} %>
+<%= render partial: 'actions', locals: {page: resource} %>
+
+<%= render partial: 'page', locals: {page: resource} %>

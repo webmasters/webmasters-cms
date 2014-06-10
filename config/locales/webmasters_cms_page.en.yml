@@ -1,8 +1,28 @@
 en:
   activerecord:
+    flash:
+      success:
+        create: "Page successfully created!"
+        update: "Page successfully updated!"
+        delete: "Page successfully deleted!"
     errors:
       models:
         webmasters_cms/page:
           attributes:
             local_path:
               invalid: "can only consist of alphanumeric letters, hyphens and underscores"
+  webmasters_cms:
+    pages:
+      index:
+        allPages: "All Pages"
+      actions:
+        edit: "Edit"
+        destroy: "Delete"
+      back:
+        back: "Back"
+      form:
+        name: "Name"
+        local_path: "Local path"
+        title: "Title"
+        meta_description: "Meta description"
+        body: "Body"
