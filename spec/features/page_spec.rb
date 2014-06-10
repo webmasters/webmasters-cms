@@ -16,13 +16,13 @@ module WebmastersCms
         }.to change(Page,:count).by(1)
 
         within '.success' do
-          page.should have_content 'Page successfully created'
+          expect(page).to have_content 'Page successfully created'
         end
 
-        page.should have_css 'meta[name="description"][content="Meta Description"]', :visible => false
-        page.should have_title "Title"
-        page.should have_content "Name"
-        page.should have_content "Body"
+        expect(page).to have_css 'meta[name="description"][content="Meta Description"]', :visible => false
+        expect(page).to have_title "Title"
+        expect(page).to have_content "Name"
+        expect(page).to have_content "Body"
       end
 
       it "shows an error when created with invalid attributes" do
@@ -35,7 +35,7 @@ module WebmastersCms
         fill_in "Body", with: ""
         click_button "Create Page"
 
-        page.should have_css "#error_explanation"
+        expect(page).to have_css "#error_explanation"
         expect(page).to have_selector('.field_with_errors #page_title')
         expect(page).to have_selector('.field_with_errors #page_local_path')
         expect(page).to have_selector('.field_with_errors #page_name')
@@ -54,14 +54,14 @@ module WebmastersCms
         fill_in "Body", with: "Updated Body"
         click_button "Update Page"
 
-        current_path.should eq(page_path("Updated_Local_Path"))
-        page.should have_css 'meta[name="description"][content="Updated Meta Description"]', :visible => false
-        page.should have_title "Updated Title"
-        page.should have_content "Updated Name"
-        page.should have_content "Updated Body"
+        expect(current_path).to eq(page_path(cms_page))
+        expect(page).to have_css 'meta[name="description"][content="Updated Meta Description"]', :visible => false
+        expect(page).to have_title "Updated Title"
+        expect(page).to have_content "Updated Name"
+        expect(page).to have_content "Updated Body"
 
         within ".success" do
-          page.should have_content "Page successfully updated"
+          expect(page).to have_content "Page successfully updated"
         end
       end
 
@@ -77,7 +77,7 @@ module WebmastersCms
         fill_in "Body", with: ""
         click_button "Update Page"
 
-        page.should have_css "#error_explanation"
+        expect(page).to have_css "#error_explanation"
         expect(page).to have_selector('.field_with_errors #page_title')
         expect(page).to have_selector('.field_with_errors #page_local_path')
         expect(page).to have_selector('.field_with_errors #page_name')
@@ -93,7 +93,7 @@ module WebmastersCms
 
         expect{
           within "ul li" do
-            click_link "Destroy"
+            click_link "Delete"
           end
           page.driver.browser.switch_to.alert.accept
 
@@ -101,10 +101,10 @@ module WebmastersCms
         }.to change(Page,:count).by(-1)
 
         within '.success' do
-          page.should have_content "Page successfully deleted"
+          expect(page).to have_content "Page successfully deleted"
         end
 
-        page.should_not have_content "DeleteMe"
+        expect(page).to_not have_content "DeleteMe"
       end
     end
   end

@@ -5,6 +5,7 @@ module WebmastersCms
     helper_method :collection, :resource
 
     def index
+      collection
     end
 
     def show

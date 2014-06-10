@@ -8,37 +8,37 @@ module WebmastersCms
       it "shows all available Pages" do
         page = FactoryGirl.create(:webmasters_cms_page)
         get :index
-        assigns(:pages).should eq([page])
+        expect(assigns(:collection)).to eq([page])
       end
 
       it "renders the #index view" do
         get :index
-        response.should render_template :index
+        expect(response).to render_template :index
       end
     end
 
     describe "GET #show" do
-      it "assigns the requested Page to @page" do
+      it "assigns the requested Page to @resource" do
         page = FactoryGirl.create(:webmasters_cms_page)
         get :show, id: page
-        assigns(:page).should eq(page)
+        expect(assigns(:resource)).to eq(page)
       end
 
       it "renders the #show view" do
         get :show, id: FactoryGirl.create(:webmasters_cms_page)
-        response.should render_template :show
+        expect(response).to render_template :show
       end
     end
 
     describe "GET #new" do
-      it "assigns a new Page to @page" do
+      it "assigns a new Page to @resource" do
         get :new
-        expect(assigns(:page)).to be_a_new(Page)
+        expect(assigns(:resource)).to be_a_new(Page)
       end
 
       it "renders the #new view" do
         get :new
-        response.should render_template :new
+        expect(response).to render_template :new
       end
     end
 
@@ -52,7 +52,7 @@ module WebmastersCms
 
         it "redirects to the created Page" do
           post :create, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-          response.should redirect_to page_path(Page.last.local_path)
+          expect(response).to redirect_to page_path(Page.last)
         end
       end
 
@@ -65,7 +65,7 @@ module WebmastersCms
 
         it "stays in the #new view" do
           post :create, page: FactoryGirl.attributes_for(:invalid_webmasters_cms_page)
-          response.should render_template :new
+          expect(response).to render_template :new
         end
       end
     end
@@ -74,12 +74,12 @@ module WebmastersCms
       it "assigns the requested Page to @page" do
         page = FactoryGirl.create(:webmasters_cms_page)
         get :edit, id: page
-        assigns(:page).should eq(page)
+        expect(assigns(:resource)).to eq(page)
       end
 
       it "renders the #edit view" do
         get :edit, id: FactoryGirl.create(:webmasters_cms_page)
-        response.should render_template :edit
+        expect(response).to render_template :edit
       end
     end
 
@@ -95,7 +95,7 @@ module WebmastersCms
       context "with valid attributes" do
         it "located the requested @page" do
           put :update, id: @page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-          assigns(:page).should eq(@page)
+          expect(assigns(:resource)).to eq(@page)
         end
 
         it "updates @page" do
@@ -106,14 +106,14 @@ module WebmastersCms
               local_path: "UpdatedLocalpath"
             )
           @page.reload
-          @page.name.should eq("UpdatedName")
-          @page.local_path.should eq("UpdatedLocalpath")
+          expect(@page.name).to eq("UpdatedName")
+          expect(@page.local_path).to eq("UpdatedLocalpath")
         end
 
         it "redirects to the Page #show view" do
           put :update, id: @page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
           @page.reload
-          response.should redirect_to page_path(@page.local_path)
+          expect(response).to redirect_to page_path(@page)
         end
       end
 
@@ -126,13 +126,13 @@ module WebmastersCms
               local_path: nil
             )
           @page.reload
-          @page.name.should_not eq("UpdatedName")
-          @page.local_path.should eq("Localpath")
+          expect(@page.name).to_not eq("UpdatedName")
+          expect(@page.local_path).to eq("Localpath")
         end
 
         it "stays on the #edit view" do
           put :update, id: @page, page: FactoryGirl.attributes_for(:invalid_webmasters_cms_page)
-          response.should render_template :edit
+          expect(response).to render_template :edit
         end
       end
     end
@@ -146,7 +146,7 @@ module WebmastersCms
       end
       it "redirects to the index" do
         delete :destroy, id: @page
-        response.should redirect_to pages_path
+        expect(response).to redirect_to pages_path
       end
     end
   end

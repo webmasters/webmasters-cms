@@ -21,6 +21,9 @@ ActiveRecord::Migration.maintain_test_schema!
 Capybara.javascript_driver = :selenium
 
 RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
   config.mock_with :rspec
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
