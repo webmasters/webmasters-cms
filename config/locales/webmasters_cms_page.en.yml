@@ -16,6 +16,7 @@ en:
       pages:
         index:
           allPages: "All Pages"
+          title: "Title"
         new:
           createPage: "Create a page"
         edit:
@@ -23,6 +24,7 @@ en:
         actions:
           edit: "Edit"
           delete: "Delete"
+          show: "Show"
         back:
           back: "Back"
         form:
