@@ -11,7 +11,7 @@ module WebmastersCms
       end
 
       def show
-        resource
+        redirect_to admin_pages_path unless resource
       end
 
       def new
@@ -19,7 +19,7 @@ module WebmastersCms
       end
 
       def edit
-        resource
+        redirect_to admin_pages_path unless resource
       end
 
       def create

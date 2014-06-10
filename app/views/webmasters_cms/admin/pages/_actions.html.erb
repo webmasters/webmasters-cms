@@ -2,4 +2,4 @@
 <%= link_to t('.delete'), admin_page_path(page),
   method: :delete,
   data: { confirm: 'Are you sure?' } %>
-<%= link_to t('.show'), local_path(page.local_path), target: "_blank" %>
+<%= link_to t('.show'), main_app.local_path(page.local_path), target: "_blank" %>
