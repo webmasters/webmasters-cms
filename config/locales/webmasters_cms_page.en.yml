@@ -15,6 +15,10 @@ en:
     pages:
       index:
         allPages: "All Pages"
+      new:
+        createPage: "Create a page"
+      edit:
+        editPage: "Edit page"
       actions:
         edit: "Edit"
         destroy: "Delete"
