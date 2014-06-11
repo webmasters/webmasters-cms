@@ -3,6 +3,5 @@ WebmastersCms::Engine.routes.draw do
       resources :pages
     end
 
-    get ':local_path', as: 'local', to: 'pages#show'
     root :to => 'pages#index'
 end

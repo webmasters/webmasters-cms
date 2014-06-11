@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140528070854) do
+ActiveRecord::Schema.define(version: 20140611073001) do
 
   create_table "webmasters_cms_pages", force: true do |t|
-    t.string   "name"
-    t.string   "local_path"
-    t.string   "title"
-    t.string   "meta_description"
-    t.text     "body"
+    t.string   "name",             null: false
+    t.string   "local_path",       null: false
+    t.string   "title",            null: false
+    t.string   "meta_description", null: false
+    t.text     "body",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

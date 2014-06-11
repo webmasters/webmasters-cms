@@ -1,4 +1,5 @@
 require "webmasters_cms/engine"
+require "webmasters_cms/extensions/routing"
 
 module WebmastersCms
 end

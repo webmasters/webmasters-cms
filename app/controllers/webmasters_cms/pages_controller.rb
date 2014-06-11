@@ -2,10 +2,11 @@ require_dependency "webmasters_cms/application_controller"
 
 module WebmastersCms
   class PagesController < ApplicationController
+    extend WebmastersCms::PagesHelper
+    use_cms_pages_layout
     helper_method :resource
 
     def index
-      redirect_to admin_pages_path
     end
 
     def show
