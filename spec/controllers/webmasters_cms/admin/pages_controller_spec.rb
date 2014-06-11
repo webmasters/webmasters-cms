@@ -29,6 +29,10 @@ module WebmastersCms
           get :show, id: FactoryGirl.create(:webmasters_cms_page)
           expect(response).to render_template :show
         end
+
+        it "renders a 404 given an invalid Id" do
+          expect{get :show, id: ""}.to raise_error(ActiveRecord::RecordNotFound)
+        end
       end
 
       describe "GET #new" do
@@ -86,11 +90,7 @@ module WebmastersCms
 
       describe "PUT #update" do
         before :each do
-          @page = FactoryGirl.create(
-            :webmasters_cms_page,
-            name: "Name",
-            local_path: "Localpath"
-          )
+          @page = FactoryGirl.create(:webmasters_cms_page)
         end
 
         context "with valid attributes" do
@@ -100,15 +100,15 @@ module WebmastersCms
           end
 
           it "updates @page" do
-            put :update, id: @page,
+            expect {
+              put :update, id: @page,
               page: FactoryGirl.attributes_for(
                 :webmasters_cms_page,
                 name: "UpdatedName",
                 local_path: "UpdatedLocalpath"
               )
-            @page.reload
-            expect(@page.name).to eq("UpdatedName")
-            expect(@page.local_path).to eq("UpdatedLocalpath")
+              @page.reload
+            }.to change{[@page.name, @page.local_path]}
           end
 
           it "redirects to the Page #show view" do
@@ -120,15 +120,13 @@ module WebmastersCms
 
         context "with invalid attributes" do
           it "does not update the @page" do
-            put :update, id: @page,
+            expect {
+              put :update, id: @page,
               page: FactoryGirl.attributes_for(
                 :webmasters_cms_page,
-                name: "UpdatedName",
                 local_path: nil
               )
-            @page.reload
-            expect(@page.name).to_not eq("UpdatedName")
-            expect(@page.local_path).to eq("Localpath")
+            }.to_not change{@page}
           end
 
           it "stays on the #edit view" do
@@ -142,9 +140,11 @@ module WebmastersCms
         before :each do
           @page = FactoryGirl.create(:webmasters_cms_page)
         end
+
         it "deletes the requested Page" do
           expect { delete :destroy, id: @page }.to change(Page,:count).by(-1)
         end
+
         it "redirects to the index" do
           delete :destroy, id: @page
           expect(response).to redirect_to admin_pages_path

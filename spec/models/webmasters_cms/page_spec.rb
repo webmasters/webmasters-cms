@@ -8,8 +8,8 @@ module WebmastersCms
 
     describe "#name" do
       it "is invalid without an unique name" do
-        page1 = FactoryGirl.create(:webmasters_cms_page, name: "Page", local_path: "localpath1")
-        page2 = FactoryGirl.build(:webmasters_cms_page, name: "Page", local_path: "localpath2")
+        page1 = FactoryGirl.create(:webmasters_cms_page)
+        page2 = FactoryGirl.build(:webmasters_cms_page, name: page1.name)
         expect(page2).to_not be_valid
       end
 
@@ -20,7 +20,6 @@ module WebmastersCms
       it "is invalid with a too long name" do
         expect(FactoryGirl.build(:webmasters_cms_page, name: "A"*256)).to_not be_valid
       end
-
 
       it "is valid with a long name with multibyte characters" do
         expect(FactoryGirl.create(:webmasters_cms_page, name: "A"*253 + "€€")).to be_valid
@@ -37,8 +36,8 @@ module WebmastersCms
       end
 
       it "is invalid without an unique local_path" do
-        page1 = FactoryGirl.create(:webmasters_cms_page, name: "Page1", local_path: "localpath")
-        page2 = FactoryGirl.build(:webmasters_cms_page, name: "Page2", local_path: "localpath")
+        page1 = FactoryGirl.create(:webmasters_cms_page)
+        page2 = FactoryGirl.build(:webmasters_cms_page, local_path: page1.local_path)
         expect(page2).to_not be_valid
       end
 
