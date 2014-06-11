@@ -5,6 +5,8 @@ en:
         create: "Page successfully created!"
         update: "Page successfully updated!"
         delete: "Page successfully deleted!"
+      error:
+        notFound: "Page not found!"
     errors:
       models:
         webmasters_cms/page:

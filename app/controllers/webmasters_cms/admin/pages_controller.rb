@@ -19,7 +19,10 @@ module WebmastersCms
       end
 
       def edit
-        redirect_to admin_pages_path unless resource
+        unless resource do
+          flash[:error] = t :notFound, scope: [:activerecord, :flash, :error]
+          redirect_to admin_pages_path
+        end
       end
 
       def create
@@ -33,7 +36,6 @@ module WebmastersCms
       end
 
       def update
-        resource
         if resource.update(page_params)
           flash[:success] = t :update, scope: [:activerecord, :flash, :success]
           redirect_to admin_page_path(resource)
