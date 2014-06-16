@@ -7,7 +7,8 @@ gemspec
 gem 'passenger'
 gem 'capistrano'
 gem 'capistrano-rails'
-gem 'rvm-capistrano'
+gem 'capistrano-bundler'
+gem 'capistrano-rvm'
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
