@@ -1,5 +1,4 @@
 # encoding: utf-8
-require "rvm/capistrano"
 
 set :application, "webmasters_cms"
 set :rails_env, "production"
@@ -113,27 +112,25 @@ namespace :deploy do
 
   desc "Install rvm version"
   task :install_rvm do
-    execute "source ~/.bash_profile; rvm get stable --auto-dotfiles"
+    on release_roles :all do
+      execute "source ~/.bash_profile; rvm get stable --auto-dotfiles"
+    end
   end
 
   desc "Install ruby version"
   task :install_ruby_version do
     ruby_version = File.read('test/dummy/RUBY_VERSION').strip
-    execute "source ~/.bash_profile; if [[ $(rvm list strings | grep '#{ruby_version}') == '' ]]; then rvm install #{ruby_version} --disable-binary && rvm use #{ruby_version} --default && gem install bundler; fi"
-    set :rvm_ruby_string, ruby_version
-
-    set :default_shell do
-      shell = File.join(rvm_bin_path, "rvm-shell")
-      ruby = rvm_ruby_string.to_s.strip
-      shell = "rvm_path=#{rvm_path} #{shell} '#{ruby}'" unless ruby.empty?
-      shell
+    on release_roles :all do
+      execute "source ~/.bash_profile; if [[ $(rvm list strings | grep '#{ruby_version}') == '' ]]; then rvm install #{ruby_version} --disable-binary && rvm use #{ruby_version} --default && gem install bundler; fi"
     end
   end
 
   desc "Install rubygem version"
   task :install_rubygem_version do
-    execute "source ~/.bash_profile && gem install -v #{File.read('test/dummy/GEM_VERSION').strip} rubygems-update && update_rubygems"
-    execute "source ~/.bash_profile && gem install bundler -v #{File.read('test/dummy/BUNDLER_VERSION').strip}"
+    on release_roles :all do
+      execute "source ~/.bash_profile && gem install -v #{File.read('test/dummy/GEM_VERSION').strip} rubygems-update && update_rubygems"
+      execute "source ~/.bash_profile && gem install bundler -v #{File.read('test/dummy/BUNDLER_VERSION').strip}"
+    end
   end
 
   desc "Builds the passenger module"
@@ -141,7 +138,10 @@ namespace :deploy do
     passenger_install = "bundle exec passenger-install-apache2-module"
     passenger_mod = "/etc/apache2/mods-available/passenger.load"
     to_release_path = "source ~/.bash_profile; cd #{fetch(:application_path)}"
-    execute "#{to_release_path}; if [ ! -f $(#{passenger_install} --snippet | grep LoadModule | awk '{print $3}') ]; then #{passenger_install} -a; fi"
+
+    on release_roles :all do
+      execute "#{to_release_path}; if [ ! -f $(#{passenger_install} --snippet | grep LoadModule | awk '{print $3}') ]; then #{passenger_install} -a; fi"
+    end
   end
 
   desc "Updates the passenger module"
@@ -149,7 +149,10 @@ namespace :deploy do
     passenger_install = "bundle exec passenger-install-apache2-module"
     passenger_mod = "/etc/apache2/mods-available/passenger.load"
     to_release_path = "source ~/.bash_profile; cd #{fetch(:application_path)}"
-    execute "#{to_release_path}; snippet=$(#{passenger_install} --snippet); config=$(cat #{passenger_mod} | grep -v LoadModule | grep -v PassengerRoot | grep -v PassengerRuby | grep -v PassengerDefaultRuby | grep -v IfModule); echo \"$snippet\" > #{passenger_mod}; echo \"$config\" >> #{passenger_mod}"
+
+    on release_roles :all do
+      execute "#{to_release_path}; snippet=$(#{passenger_install} --snippet); config=$(cat #{passenger_mod} | grep -v LoadModule | grep -v PassengerRoot | grep -v PassengerRuby | grep -v PassengerDefaultRuby | grep -v IfModule); echo \"$snippet\" > #{passenger_mod}; echo \"$config\" >> #{passenger_mod}"
+    end
   end
 end
 
@@ -171,15 +174,32 @@ namespace :db do
       end
     end
   end
+
+  desc "Migrate db"
+  task :migrate do
+    within fetch(:application_path) do
+      with rails_env: fetch(:rails_env) do
+        execute :rake, "db:migrate"
+      end
+    end
+  end
 end
 
 namespace :bundle do
   task :install do
-    execute "source ~/.bash_profile; cd #{fetch(:application_path)} && bundle install --path #{fetch(:bundle_dir, "#{shared_path}/bundle")} --deployment --without development test"
+    on release_roles :all do
+      execute "source ~/.bash_profile; cd #{fetch(:application_path)} && bundle install --path #{fetch(:bundle_dir, "#{shared_path}/bundle")} --deployment --without development test"
+    end
   end
 end
 
-before 'bundle:install', 'deploy:install_rvm', 'deploy:install_ruby_version',
-  'deploy:install_rubygem_version'
-after 'bundle:install', 'deploy:build_passenger_apache_module'
-before 'deploy:restart', 'deploy:update_passenger_apache_module'
+['deploy:install_rvm', 'deploy:install_ruby_version',
+  'deploy:install_rubygem_version', 'bundle:install',
+  'deploy:build_passenger_apache_module', 'deploy:create_assets',
+  'db:create', 'db:backup', 'db:migrate'].each do |hook|
+    after 'deploy:updated', hook
+end
+  before 'deploy:publishing', 'deploy:update_passenger_apache_module'
+# before 'bundle:install', 'deploy:install_rvm', 'deploy:install_ruby_version', 'deploy:install_rubygem_version'
+# after 'bundle:install', 'deploy:build_passenger_apache_module'
+# before 'deploy:restart', 'deploy:update_passenger_apache_module'

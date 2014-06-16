@@ -1,5 +1,5 @@
 set :target, :production
-server production_server, :app, :web, :db, :primary => true
+# server production_server, :app, :web, :db, :primary => true
 
 # Simple Role Syntax
 # ==================
