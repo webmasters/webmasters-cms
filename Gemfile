@@ -6,6 +6,7 @@ source "https://rubygems.org"
 gemspec
 gem 'passenger'
 gem 'capistrano'
+gem 'capistrano-rails'
 gem 'rvm-capistrano'
 
 # Declare any dependencies that are still in development here instead of in
