@@ -19,6 +19,7 @@ set :ssh_options, {:compression => true}
 set :sql_dump_file, "#{fetch(:shared_path)}/dumps/webmasters_cms_production_#{Time.now.strftime("%Y_%m_%d__%H_%M_%S")}.sql"
 
 set :shared_children, %w(config dumps log pids)
+set :application_path, "#{release_path}/test/dummy"
 
 namespace :staging do
   desc "Abort if app server is not staging"
@@ -89,16 +90,16 @@ namespace :deploy do
 
 # task :finalize_update, :except => { :no_release => true } do
   task :finalize_update do
-    execute :rm, "-rf", "#{release_path}/log"
-    execute :ln, "-s", "#{shared_path}/log #{release_path}/log"
-    execute :rm, "-f", "#{release_path}/config/database.yml"
-    execute :ln, "-s", "#{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    execute :ln, "-s", "#{shared_path}/pids/ #{release_path}/tmp/pids"
+    execute :rm, "-rf", "#{fetch(:application_path)}/log"
+    execute :ln, "-s", "#{shared_path}/log #{fetch(:application_path)}/log"
+    execute :rm, "-f", "#{fetch(:application_path)}/config/database.yml"
+    execute :ln, "-s", "#{shared_path}/config/database.yml #{fetch(:application_path)}/config/database.yml"
+    execute :ln, "-s", "#{shared_path}/pids/ #{fetch(:application_path)}/tmp/pids"
   end
 
   desc "create asset files"
   task :create_assets do
-    within "#{fetch(:release_path)}/test/dummy" do
+    within "#{fetch(:application_path)}" do
       with rails_env: fetch(:rails_env) do
         execute :rake, "assets:precompile"
       end
@@ -107,7 +108,7 @@ namespace :deploy do
 
   desc "Create a file with the milestone number"
   task :create_milestone_file do
-    execute "echo #{milestone} > #{release_path}/MILESTONE"
+    execute "echo #{milestone} > #{fetch(:application_path)}/MILESTONE"
   end
 
   desc "Install rvm version"
@@ -139,7 +140,7 @@ namespace :deploy do
   task :build_passenger_apache_module do
     passenger_install = "bundle exec passenger-install-apache2-module"
     passenger_mod = "/etc/apache2/mods-available/passenger.load"
-    to_release_path = "source ~/.bash_profile; cd #{release_path}"
+    to_release_path = "source ~/.bash_profile; cd #{fetch(:application_path)}"
     execute "#{to_release_path}; if [ ! -f $(#{passenger_install} --snippet | grep LoadModule | awk '{print $3}') ]; then #{passenger_install} -a; fi"
   end
 
@@ -147,7 +148,7 @@ namespace :deploy do
   task :update_passenger_apache_module do
     passenger_install = "bundle exec passenger-install-apache2-module"
     passenger_mod = "/etc/apache2/mods-available/passenger.load"
-    to_release_path = "source ~/.bash_profile; cd #{release_path}"
+    to_release_path = "source ~/.bash_profile; cd #{fetch(:application_path)}"
     execute "#{to_release_path}; snippet=$(#{passenger_install} --snippet); config=$(cat #{passenger_mod} | grep -v LoadModule | grep -v PassengerRoot | grep -v PassengerRuby | grep -v PassengerDefaultRuby | grep -v IfModule); echo \"$snippet\" > #{passenger_mod}; echo \"$config\" >> #{passenger_mod}"
   end
 end
@@ -155,7 +156,7 @@ end
 namespace :db do
   desc "Create Databases"
   task :create do
-    within fetch(:release_path) do
+    within fetch(:application_path) do
       with rails_env: fetch(:rails_env) do
         execute :rake, "db:create:all"
       end
@@ -164,7 +165,7 @@ namespace :db do
 
   desc "Backup db"
   task :backup do
-    within fetch(:release_path) do
+    within fetch(:application_path) do
       with rails_env: fetch(:rails_env) do
         execute :rake, "app:webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
       end
@@ -174,7 +175,7 @@ end
 
 namespace :bundle do
   task :install do
-    execute "source ~/.bash_profile; cd #{release_path} && bundle install --path #{fetch(:bundle_dir, "#{shared_path}/bundle")} --deployment --without development test"
+    execute "source ~/.bash_profile; cd #{fetch(:application_path)} && bundle install --path #{fetch(:bundle_dir, "#{shared_path}/bundle")} --deployment --without development test"
   end
 end
 
