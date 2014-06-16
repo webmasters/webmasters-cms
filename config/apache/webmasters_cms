@@ -1,0 +1,4 @@
+<VirtualHost *:80>
+  DocumentRoot /var/www/apps/webmasters_cms/current/test/dummy/public
+  ServerName webmasters_cms-staging.webmasters.de
+</VirtualHost>
