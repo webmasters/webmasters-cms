@@ -10,34 +10,17 @@ set :repo_url, 'git@github.com:cgallitz/webmasters-cms.git'
 set :branch, 'release'
 set :scm, :git
 
-set :deploy_to, "/var/www/apps/#{application}"
+ set :deploy_to, "/var/www/apps/#{fetch(:application)}"
 # set :deploy_via, :export
 
 set :ssh_options, {:compression => true}
 # is now the default
 #set :rvm_type, :user
-set :sql_dump_file, "#{shared_path}/dumps/webmasters_cms_production_#{Time.now.strftime("%Y_%m_%d__%H_%M_%S")}.sql"
-
-set :staging_server, "ubuntu-test.nbg.webmasters.de"
-#set :production_server, "www.wprin.org"
+set :sql_dump_file, "#{fetch(:shared_path)}/dumps/webmasters_cms_production_#{Time.now.strftime("%Y_%m_%d__%H_%M_%S")}.sql"
 
 set :shared_children, %w(config dumps log pids)
-set :target, nil
-
-before :deploy do
-  if target.nil?
-    raise "Bitte ein Target (staging, production) zum Deployment angeben. " +
-      "Beispiel: cap staging deploy"
-  end
-end
 
 namespace :staging do
-  desc 'set the staging environment'
-  task :default do
-    set :target, :staging
-    server staging_server, :app, :web, :db, :primary => true
-  end
-
   desc "Abort if app server is not staging"
   task :abort_unless_staging do
     if target != :staging
@@ -47,12 +30,6 @@ namespace :staging do
 end
 
 namespace :production do
-  desc 'set the production environment'
-  task :default do
-    set :target, :production
-    server production_server, :app, :web, :db, :primary => true
-  end
-
   desc "Abort if app server is not production"
   task :abort_unless_production do
     if target != :production
@@ -80,46 +57,68 @@ namespace :deploy do
     restart
   end
 
+  task :setup do
+    on release_roles :all do
+      fetch(:shared_children).each do |child_path|
+        path = shared_path.join(child_path)
+        execute :mkdir, '-p', path
+      end
+    end
+  end
+
+  desc "Check that we can access everything"
+  task :check_write_permissions do
+    on roles(:all) do |host|
+      if test("[ -w #{fetch(:deploy_to)} ]")
+        info "#{fetch(:deploy_to)} is writable on #{host}"
+      else
+        error "#{fetch(:deploy_to)} is not writable on #{host}"
+      end
+    end
+  end
+
   # Passenger!
   task(:start) {}
   task(:stop) {}
 
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path, 'tmp', 'restart.txt')}"
-    run "sudo /etc/init.d/apache2 reload"
+# task :restart, :roles => :app, :except => { :no_release => true } do
+  task :restart do
+    execute :touch, "#{File.join(current_path, 'tmp', 'restart.txt')}"
+    execute "sudo /etc/init.d/apache2 reload"
   end
 
-  task :finalize_update, :except => { :no_release => true } do
-    run <<-CMD
-      rm -rf #{release_path}/log &&
-      ln -s #{shared_path}/log #{release_path}/log &&
-
-      rm -f #{release_path}/config/database.yml &&
-      ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
-
-      ln -s #{shared_path}/pids/ #{release_path}/tmp/pids
-    CMD
+# task :finalize_update, :except => { :no_release => true } do
+  task :finalize_update do
+    execute :rm, "-rf", "#{release_path}/log"
+    execute :ln, "-s", "#{shared_path}/log #{release_path}/log"
+    execute :rm, "-f", "#{release_path}/config/database.yml"
+    execute :ln, "-s", "#{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    execute :ln, "-s", "#{shared_path}/pids/ #{release_path}/tmp/pids"
   end
 
   desc "create asset files"
   task :create_assets do
-    run("cd #{release_path}/test/dummy && bundle exec rake RAILS_ENV=#{rails_env} assets:precompile")
+    within "#{fetch(:release_path)}/test/dummy" do
+      with rails_env: fetch(:rails_env) do
+        execute :rake, "assets:precompile"
+      end
+    end
   end
 
   desc "Create a file with the milestone number"
   task :create_milestone_file do
-    run "echo #{milestone} > #{release_path}/MILESTONE"
+    execute "echo #{milestone} > #{release_path}/MILESTONE"
   end
 
   desc "Install rvm version"
   task :install_rvm do
-    run "source ~/.bash_profile; rvm get stable --auto-dotfiles"
+    execute "source ~/.bash_profile; rvm get stable --auto-dotfiles"
   end
 
   desc "Install ruby version"
   task :install_ruby_version do
     ruby_version = File.read('test/dummy/RUBY_VERSION').strip
-    run "source ~/.bash_profile; if [[ $(rvm list strings | grep '#{ruby_version}') == '' ]]; then rvm install #{ruby_version} --disable-binary && rvm use #{ruby_version} --default && gem install bundler; fi"
+    execute "source ~/.bash_profile; if [[ $(rvm list strings | grep '#{ruby_version}') == '' ]]; then rvm install #{ruby_version} --disable-binary && rvm use #{ruby_version} --default && gem install bundler; fi"
     set :rvm_ruby_string, ruby_version
 
     set :default_shell do
@@ -132,8 +131,8 @@ namespace :deploy do
 
   desc "Install rubygem version"
   task :install_rubygem_version do
-    run "source ~/.bash_profile && gem install -v #{File.read('test/dummy/GEM_VERSION').strip} rubygems-update && update_rubygems"
-    run "source ~/.bash_profile && gem install bundler -v #{File.read('test/dummy/BUNDLER_VERSION').strip}"
+    execute "source ~/.bash_profile && gem install -v #{File.read('test/dummy/GEM_VERSION').strip} rubygems-update && update_rubygems"
+    execute "source ~/.bash_profile && gem install bundler -v #{File.read('test/dummy/BUNDLER_VERSION').strip}"
   end
 
   desc "Builds the passenger module"
@@ -141,7 +140,7 @@ namespace :deploy do
     passenger_install = "bundle exec passenger-install-apache2-module"
     passenger_mod = "/etc/apache2/mods-available/passenger.load"
     to_release_path = "source ~/.bash_profile; cd #{release_path}"
-    run "#{to_release_path}; if [ ! -f $(#{passenger_install} --snippet | grep LoadModule | awk '{print $3}') ]; then #{passenger_install} -a; fi"
+    execute "#{to_release_path}; if [ ! -f $(#{passenger_install} --snippet | grep LoadModule | awk '{print $3}') ]; then #{passenger_install} -a; fi"
   end
 
   desc "Updates the passenger module"
@@ -149,25 +148,33 @@ namespace :deploy do
     passenger_install = "bundle exec passenger-install-apache2-module"
     passenger_mod = "/etc/apache2/mods-available/passenger.load"
     to_release_path = "source ~/.bash_profile; cd #{release_path}"
-    run "#{to_release_path}; snippet=$(#{passenger_install} --snippet); config=$(cat #{passenger_mod} | grep -v LoadModule | grep -v PassengerRoot | grep -v PassengerRuby | grep -v PassengerDefaultRuby | grep -v IfModule); echo \"$snippet\" > #{passenger_mod}; echo \"$config\" >> #{passenger_mod}"
+    execute "#{to_release_path}; snippet=$(#{passenger_install} --snippet); config=$(cat #{passenger_mod} | grep -v LoadModule | grep -v PassengerRoot | grep -v PassengerRuby | grep -v PassengerDefaultRuby | grep -v IfModule); echo \"$snippet\" > #{passenger_mod}; echo \"$config\" >> #{passenger_mod}"
   end
 end
 
 namespace :db do
   desc "Create Databases"
   task :create do
-    run "cd #{release_path} && bundle exec rake db:create:all RAILS_ENV=#{rails_env}"
+    within fetch(:release_path) do
+      with rails_env: fetch(:rails_env) do
+        execute :rake, "db:create:all"
+      end
+    end
   end
 
   desc "Backup db"
   task :backup do
-    run "cd #{release_path} && bundle exec rake app:webmasters_cms:dump_db[#{sql_dump_file}] RAILS_ENV=#{rails_env}"
+    within fetch(:release_path) do
+      with rails_env: fetch(:rails_env) do
+        execute :rake, "app:webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
+      end
+    end
   end
 end
 
 namespace :bundle do
   task :install do
-    run "source ~/.bash_profile; cd #{release_path} && bundle install --path #{fetch(:bundle_dir, "#{shared_path}/bundle")} --deployment --without development test"
+    execute "source ~/.bash_profile; cd #{release_path} && bundle install --path #{fetch(:bundle_dir, "#{shared_path}/bundle")} --deployment --without development test"
   end
 end
 

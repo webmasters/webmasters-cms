@@ -1,3 +1,6 @@
+set :target, :production
+server production_server, :app, :web, :db, :primary => true
+
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary server in each group
