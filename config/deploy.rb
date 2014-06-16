@@ -1,6 +1,5 @@
 # encoding: utf-8
 require "rvm/capistrano"
-require 'bundler/capistrano'
 
 set :application, "webmasters_cms"
 set :rails_env, "production"
