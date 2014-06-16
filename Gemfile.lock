@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     webmasters_cms (0.0.1)
-      capistrano
       jquery-rails (~> 2.1)
       rails (>= 4.1)
 
@@ -146,6 +145,8 @@ GEM
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
     rubyzip (1.1.4)
+    rvm-capistrano (1.5.0)
+      capistrano (>= 2.15.4)
     selenium-webdriver (2.42.0)
       childprocess (>= 0.5.0)
       multi_json (~> 1.0)
@@ -182,6 +183,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  capistrano
   capybara
   database_cleaner
   factory_girl_rails
@@ -190,6 +192,7 @@ DEPENDENCIES
   mysql2
   passenger
   rspec-rails
+  rvm-capistrano
   selenium-webdriver
   thor
   webmasters_cms!
