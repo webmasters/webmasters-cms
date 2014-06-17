@@ -28,7 +28,8 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = false
 end
 
-if ENV['RAILS_ENV'] != "production"
+
+if ENV['RAILS_ENV'] != 'production'
   require 'rspec/core'
   require 'rspec/core/rake_task'
 

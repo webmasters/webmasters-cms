@@ -18,7 +18,6 @@ set :ssh_options, {:compression => true}
 set :sql_dump_file, "#{fetch(:shared_path)}/dumps/webmasters_cms_production_#{Time.now.strftime("%Y_%m_%d__%H_%M_%S")}.sql"
 
 set :shared_children, %w(config dumps log pids)
-set :application_path, "#{release_path}/test/dummy"
 
 SSHKit.config.command_map[:rake] = "source ~/.bash_profile; bundle exec rake"
 
@@ -91,13 +90,15 @@ namespace :deploy do
 
 # task :finalize_update, :except => { :no_release => true } do
   task :create_symlinks do
+    set :application_path, "#{release_path}/test/dummy"
     on release_roles :all do
       execute :rm, "-rf", "#{fetch(:application_path)}/log"
       execute :ln, "-s", "#{shared_path}/log #{fetch(:application_path)}/log"
       execute :rm, "-f", "#{fetch(:application_path)}/config/database.yml"
       execute :ln, "-s", "#{shared_path}/config/database.yml #{fetch(:application_path)}/config/database.yml"
+      execute :rm, "-rf", "#{fetch(:application_path)}/tmp/pids"
       execute :mkdir, "-p", "#{fetch(:application_path)}/tmp/pids"
-      execute :ln, "-s", "#{shared_path}/pids/ #{fetch(:application_path)}/tmp/pids"
+      execute :ln, "-s", "#{shared_path}/pids #{fetch(:application_path)}/tmp/pids"
     end
   end
 
@@ -180,7 +181,7 @@ namespace :db do
     on release_roles :all do
       within fetch(:application_path) do
         with rails_env: fetch(:rails_env) do
-          execute :rake, "app:webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
+          execute :rake, "webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
         end
       end
     end

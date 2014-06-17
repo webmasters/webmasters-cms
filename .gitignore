@@ -8,3 +8,4 @@ test/dummy/tmp/
 test/dummy/.sass-cache
 test/dummy/public/assets
 tmp/
+test/dummy/config/secrets.yml

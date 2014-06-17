@@ -25,3 +25,7 @@ development:
 test:
   <<: *webmasters_cms_db_login
   database: webmasters_cms_test
+
+production:
+  <<: *webmasters_cms_db_login
+  database: webmasters_cms_production

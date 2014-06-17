@@ -19,7 +19,7 @@ module WebmastersCms
       end
 
       def edit
-        unless resource do
+        unless resource
           flash[:error] = t :notFound, scope: [:activerecord, :flash, :error]
           redirect_to admin_pages_path
         end
