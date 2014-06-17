@@ -20,6 +20,8 @@ set :sql_dump_file, "#{fetch(:shared_path)}/dumps/webmasters_cms_production_#{Ti
 set :shared_children, %w(config dumps log pids)
 set :application_path, "#{release_path}/test/dummy"
 
+SSHKit.config.command_map[:rake] = "source ~/.bash_profile; bundle exec rake"
+
 namespace :staging do
   desc "Abort if app server is not staging"
   task :abort_unless_staging do
@@ -88,19 +90,24 @@ namespace :deploy do
   end
 
 # task :finalize_update, :except => { :no_release => true } do
-  task :finalize_update do
-    execute :rm, "-rf", "#{fetch(:application_path)}/log"
-    execute :ln, "-s", "#{shared_path}/log #{fetch(:application_path)}/log"
-    execute :rm, "-f", "#{fetch(:application_path)}/config/database.yml"
-    execute :ln, "-s", "#{shared_path}/config/database.yml #{fetch(:application_path)}/config/database.yml"
-    execute :ln, "-s", "#{shared_path}/pids/ #{fetch(:application_path)}/tmp/pids"
+  task :create_symlinks do
+    on release_roles :all do
+      execute :rm, "-rf", "#{fetch(:application_path)}/log"
+      execute :ln, "-s", "#{shared_path}/log #{fetch(:application_path)}/log"
+      execute :rm, "-f", "#{fetch(:application_path)}/config/database.yml"
+      execute :ln, "-s", "#{shared_path}/config/database.yml #{fetch(:application_path)}/config/database.yml"
+      execute :mkdir, "-p", "#{fetch(:application_path)}/tmp/pids"
+      execute :ln, "-s", "#{shared_path}/pids/ #{fetch(:application_path)}/tmp/pids"
+    end
   end
 
   desc "create asset files"
   task :create_assets do
-    within "#{fetch(:application_path)}" do
-      with rails_env: fetch(:rails_env) do
-        execute :rake, "assets:precompile"
+    on release_roles :all do
+      within fetch(:application_path) do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "assets:precompile"
+        end
       end
     end
   end
@@ -159,27 +166,33 @@ end
 namespace :db do
   desc "Create Databases"
   task :create do
-    within fetch(:application_path) do
-      with rails_env: fetch(:rails_env) do
-        execute :rake, "db:create:all"
+    on release_roles :all do
+      within fetch(:application_path) do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "db:create:all"
+        end
       end
     end
   end
 
   desc "Backup db"
   task :backup do
-    within fetch(:application_path) do
-      with rails_env: fetch(:rails_env) do
-        execute :rake, "app:webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
+    on release_roles :all do
+      within fetch(:application_path) do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "app:webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
+        end
       end
     end
   end
 
   desc "Migrate db"
   task :migrate do
-    within fetch(:application_path) do
-      with rails_env: fetch(:rails_env) do
-        execute :rake, "db:migrate"
+    on release_roles :all do
+      within fetch(:application_path) do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "db:migrate"
+        end
       end
     end
   end
@@ -194,7 +207,7 @@ namespace :bundle do
 end
 
 ['deploy:install_rvm', 'deploy:install_ruby_version',
-  'deploy:install_rubygem_version', 'bundle:install',
+  'deploy:install_rubygem_version', 'deploy:create_symlinks', 'bundle:install',
   'deploy:build_passenger_apache_module', 'deploy:create_assets',
   'db:create', 'db:backup', 'db:migrate'].each do |hook|
     after 'deploy:updated', hook
