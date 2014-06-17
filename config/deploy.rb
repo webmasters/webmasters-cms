@@ -5,21 +5,21 @@ set :rails_env, "production"
 
 set :use_sudo, false
 set :user, 'webmasters_cms'
+
 set :repo_url, 'git@github.com:cgallitz/webmasters-cms.git'
 set :branch, 'release'
 set :scm, :git
 
  set :deploy_to, "/var/www/apps/#{fetch(:application)}"
-# set :deploy_via, :export
 
 set :ssh_options, {:compression => true}
-# is now the default
-#set :rvm_type, :user
-set :sql_dump_file, "#{fetch(:shared_path)}/dumps/webmasters_cms_production_#{Time.now.strftime("%Y_%m_%d__%H_%M_%S")}.sql"
+
+set :sql_dump_file, "#{shared_path}/dumps/webmasters_cms_production_#{Time.now.strftime("%Y_%m_%d__%H_%M_%S")}.sql"
 
 set :shared_children, %w(config dumps log pids)
 
-SSHKit.config.command_map[:rake] = "source ~/.bash_profile; bundle exec rake"
+SSHKit.config.command_map[:rake] = "source ~/.bash_profile; RAILS_ENV=#{fetch(:rails_env)} bundle exec rake"
+SSHKit.config.command_map[:rake_without_env] = "source ~/.bash_profile; bundle exec rake"
 
 namespace :staging do
   desc "Abort if app server is not staging"
@@ -40,24 +40,6 @@ namespace :production do
 end
 
 namespace :deploy do
-  task :default do
-
-    # erst nur den Code aktualisieren
-    update_code
-
-    db.create
-
-    create_assets
-    create_milestone_file
-
-    deploy.migrate
-
-    # Symlink erst vor dem Restart umbiegen
-    create_symlink
-
-    restart
-  end
-
   task :setup do
     on release_roles :all do
       fetch(:shared_children).each do |child_path|
@@ -82,13 +64,11 @@ namespace :deploy do
   task(:start) {}
   task(:stop) {}
 
-# task :restart, :roles => :app, :except => { :no_release => true } do
   task :restart do
     execute :touch, "#{File.join(current_path, 'tmp', 'restart.txt')}"
     execute "sudo /etc/init.d/apache2 reload"
   end
 
-# task :finalize_update, :except => { :no_release => true } do
   task :create_symlinks do
     set :application_path, "#{release_path}/test/dummy"
     on release_roles :all do
@@ -106,9 +86,7 @@ namespace :deploy do
   task :create_assets do
     on release_roles :all do
       within fetch(:application_path) do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, "assets:precompile"
-        end
+        execute :rake_without_env, "assets:precompile"
       end
     end
   end
@@ -169,9 +147,7 @@ namespace :db do
   task :create do
     on release_roles :all do
       within fetch(:application_path) do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, "db:create:all"
-        end
+        execute :rake, "db:create:all"
       end
     end
   end
@@ -180,9 +156,7 @@ namespace :db do
   task :backup do
     on release_roles :all do
       within fetch(:application_path) do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, "webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
-        end
+        execute :rake, "webmasters_cms:dump_db[#{fetch(:sql_dump_file)}]"
       end
     end
   end
@@ -190,10 +164,8 @@ namespace :db do
   desc "Migrate db"
   task :migrate do
     on release_roles :all do
-      within fetch(:application_path) do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, "db:migrate"
-        end
+      within fetch(:release_path) do
+        execute :rake, "db:migrate"
       end
     end
   end
@@ -209,11 +181,8 @@ end
 
 ['deploy:install_rvm', 'deploy:install_ruby_version',
   'deploy:install_rubygem_version', 'deploy:create_symlinks', 'bundle:install',
-  'deploy:build_passenger_apache_module', 'deploy:create_assets',
-  'db:create', 'db:backup', 'db:migrate'].each do |hook|
+  'deploy:build_passenger_apache_module', 'deploy:create_assets', 'db:create',
+  'db:backup', 'db:migrate'].each do |hook|
     after 'deploy:updated', hook
 end
-  before 'deploy:publishing', 'deploy:update_passenger_apache_module'
-# before 'bundle:install', 'deploy:install_rvm', 'deploy:install_ruby_version', 'deploy:install_rubygem_version'
-# after 'bundle:install', 'deploy:build_passenger_apache_module'
-# before 'deploy:restart', 'deploy:update_passenger_apache_module'
+before 'deploy:publishing', 'deploy:update_passenger_apache_module'
