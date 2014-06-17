@@ -5,11 +5,14 @@ source "https://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 gem 'passenger'
-gem 'capistrano'
-gem 'capistrano-rails'
-gem 'capistrano-bundler'
-gem 'capistrano-rvm'
 gem 'mysql2'
+
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
+end
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or

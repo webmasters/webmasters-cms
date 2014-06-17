@@ -28,10 +28,12 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = false
 end
 
-require 'rspec/core'
-require 'rspec/core/rake_task'
+if ENV['RAILS_ENV'] != 'production'
+  require 'rspec/core'
+  require 'rspec/core/rake_task'
 
-desc "Run all specs in spec directory (excluding plugin specs)"
-RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
+  desc "Run all specs in spec directory (excluding plugin specs)"
+  RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
 
-task :default => :spec
+  task :default => :spec
+end
