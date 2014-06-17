@@ -29,7 +29,7 @@ Rake::TestTask.new(:test) do |t|
 end
 
 
-if ENV['RAILS_ENV'] != 'production'
+unless Rails.env.production?
   require 'rspec/core'
   require 'rspec/core/rake_task'
 
