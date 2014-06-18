@@ -1,5 +1,5 @@
 set :stage, :staging
-set :staging_server, "192.168.0.16"
+set :staging_server, "webmasters_cms-staging.webmasters.de"
 
 # Simple Role Syntax
 # ==================
