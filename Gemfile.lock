@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     webmasters_cms (0.0.1)
+      awesome_nested_set (~> 3.0.0.rc.5)
       jquery-rails (~> 2.1)
       rails (>= 4.1)
 
@@ -35,6 +36,8 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    awesome_nested_set (3.0.0.rc.5)
+      activerecord (>= 4.0.0, < 5)
     builder (3.2.2)
     capistrano (3.2.1)
       i18n

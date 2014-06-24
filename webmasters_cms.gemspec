@@ -20,6 +20,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", ">= 4.1"
   s.add_dependency "jquery-rails", "~> 2.1"
+  
+  #using this version because of https://github.com/collectiveidea/awesome_nested_set/issues/246
+  s.add_dependency "awesome_nested_set", "~> 3.0.0.rc.5"
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"
