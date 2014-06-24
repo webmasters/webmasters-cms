@@ -19,10 +19,8 @@ module WebmastersCms
           expect(page).to have_content 'Page successfully created'
         end
 
-        expect(page).to have_css 'meta[name="description"][content="Meta Description"]', :visible => false
-        expect(page).to have_title "Title"
+        expect(page).to have_content "Title"
         expect(page).to have_content "Name"
-        expect(page).to have_content "Body"
       end
 
       it "shows an error when created with invalid attributes" do
@@ -83,6 +81,16 @@ module WebmastersCms
         expect(page).to have_selector('.field_with_errors #page_name')
         expect(page).to have_selector('.field_with_errors #page_meta_description')
         expect(page).to have_selector('.field_with_errors #page_body')
+      end
+
+      it "shows a page" do
+        cms_page = FactoryGirl.create(:webmasters_cms_page, meta_description: "Jap")
+        visit admin_page_path(Page.last)
+
+        expect(page).to have_title "#{cms_page.title}"
+        expect(page).to have_css "meta[name='description'][content='#{cms_page.meta_description}']", visible: false
+        expect(page).to have_content "#{cms_page.name}"
+        expect(page).to have_content "#{cms_page.body}"
       end
 
       it "deletes a page and displays a success notice", js: true do

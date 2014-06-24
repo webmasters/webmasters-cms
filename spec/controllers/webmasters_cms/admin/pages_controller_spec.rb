@@ -55,9 +55,9 @@ module WebmastersCms
             }.to change(Page,:count).by(1)
           end
 
-          it "redirects to the created Page" do
+          it "redirects to the Pages overview" do
             post :create, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-            expect(response).to redirect_to admin_page_path(Page.last)
+            expect(response).to redirect_to admin_pages_path
           end
         end
 
