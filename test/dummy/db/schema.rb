@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624073553) do
+ActiveRecord::Schema.define(version: 20140624135531) do
 
   create_table "webmasters_cms_pages", force: true do |t|
     t.string   "name",             null: false
@@ -21,10 +21,15 @@ ActiveRecord::Schema.define(version: 20140624073553) do
     t.text     "body",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "parent_page"
+    t.integer  "rgt"
+    t.integer  "lft"
+    t.integer  "parent_id"
   end
 
+  add_index "webmasters_cms_pages", ["lft"], name: "index_webmasters_cms_pages_on_lft", using: :btree
   add_index "webmasters_cms_pages", ["local_path"], name: "index_webmasters_cms_pages_on_local_path", unique: true, using: :btree
   add_index "webmasters_cms_pages", ["name"], name: "index_webmasters_cms_pages_on_name", unique: true, using: :btree
+  add_index "webmasters_cms_pages", ["parent_id"], name: "index_webmasters_cms_pages_on_parent_id", using: :btree
+  add_index "webmasters_cms_pages", ["rgt"], name: "index_webmasters_cms_pages_on_rgt", using: :btree
 
 end
