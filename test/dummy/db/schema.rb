@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611073001) do
+ActiveRecord::Schema.define(version: 20140624073553) do
 
   create_table "webmasters_cms_pages", force: true do |t|
     t.string   "name",             null: false
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140611073001) do
     t.text     "body",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "parent_page"
   end
 
   add_index "webmasters_cms_pages", ["local_path"], name: "index_webmasters_cms_pages_on_local_path", unique: true, using: :btree
