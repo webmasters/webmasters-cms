@@ -29,7 +29,7 @@ module WebmastersCms
         @resource = Page.new(page_params)
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :flash, :success]
-          redirect_to admin_page_path(resource)
+          redirect_to admin_pages_path
         else
           render 'new'
         end
