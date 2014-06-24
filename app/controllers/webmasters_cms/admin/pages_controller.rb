@@ -52,7 +52,7 @@ module WebmastersCms
 
       private
         def page_params
-          params.required(:page).permit(:name, :title, :meta_description, :local_path, :body)
+          params.required(:page).permit(:name, :title, :meta_description, :local_path, :body, :parent_page)
         end
 
         def collection
