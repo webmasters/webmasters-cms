@@ -1,11 +1,24 @@
 <h1><%= t('.allPages') %></h1>
 
 <ul>
-  <% collection.each do |page| %>
+  <% collection.each do |page|
+    if page.root? %>
     <li>
       <%= link_to page.name, admin_page_path(page) %>
       (<%= t('.title') %>: <%= page.title %>)
       <%= render partial: 'actions', locals: {page: page} %>
+      <% !page.children.empty? %>
+      <ul>
+        <% page.children.each do |child| %>
+          <li>
+            <%= link_to child.name, admin_page_path(child) %>
+            (<%= t('.title') %>: <%= child.title %>)
+            <%= render partial: 'actions', locals: {page: child} %>
+          </li>
+        <% end %>
+      </ul>
     </li>
+    <br />
+    <% end %>
   <% end %>
 </ul>

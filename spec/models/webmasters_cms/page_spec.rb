@@ -99,5 +99,16 @@ module WebmastersCms
         expect(Page.without_page(page2)).to_not include(page2)
       end
     end
+
+    # describe "#ancestry" do
+    #   it "can create a page with children" do
+    #     root_page = FactoryGirl.create(:webmasters_cms_page)
+    #     expect(root_page.parent).to be_nil
+    #     expect(root_page.children).to be_empty
+    #     child_page = FactoryGirl.create(:webmasters_cms_page, parent: root_page)
+    #     expect(child_page.parent).to eq(root_page)
+    #     expect(root_page.children).to include(child_page)
+    #   end
+    # end
   end
 end

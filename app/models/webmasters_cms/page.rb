@@ -1,5 +1,6 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
+    acts_as_nested_set
     validates :name, :local_path, uniqueness: true
 
     validates :name, :title, :local_path, :meta_description,
