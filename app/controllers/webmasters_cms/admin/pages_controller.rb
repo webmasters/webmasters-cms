@@ -4,7 +4,7 @@ module WebmastersCms
   module Admin
     class PagesController < ApplicationController
       layout "webmasters_cms/admin/application"
-      helper_method :collection, :resource
+      helper_method :collection, :available_parent_pages, :resource
 
       def index
         collection
@@ -61,6 +61,10 @@ module WebmastersCms
 
         def resource
           @resource ||= Page.find(params[:id])
+        end
+
+        def available_parent_pages
+          @available_parent_pages ||= Page.without_page(resource).all
         end
     end
   end

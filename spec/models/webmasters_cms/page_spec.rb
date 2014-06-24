@@ -79,5 +79,25 @@ module WebmastersCms
         expect(FactoryGirl.build(:webmasters_cms_page, body: "A"*65536)).to_not be_valid
       end
     end
+
+    describe ".without_page(not_persisted_page)" do
+      it "returns a collection of all available pages" do
+        page1 = FactoryGirl.create(:webmasters_cms_page)
+        page2 = FactoryGirl.create(:webmasters_cms_page)
+
+        expect(Page.without_page(Page.new)).to include(page1)
+        expect(Page.without_page(Page.new)).to include(page2)
+      end
+    end
+
+    describe ".without_page(persisted_page)" do
+      it "returns a collection without the persisted page" do
+        page1 = FactoryGirl.create(:webmasters_cms_page)
+        page2 = FactoryGirl.create(:webmasters_cms_page)
+
+        expect(Page.without_page(page2)).to include(page1)
+        expect(Page.without_page(page2)).to_not include(page2)
+      end
+    end
   end
 end

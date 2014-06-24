@@ -11,5 +11,13 @@ module WebmastersCms
       presence: true
 
     validates :local_path, format: { with: /\A[a-zA-Z0-9\-\_]+\z/ }
+
+    def self.without_page(page)
+      if page.persisted?
+        where.not(id: page.id)
+      else
+        where({})
+      end
+    end
   end
 end
