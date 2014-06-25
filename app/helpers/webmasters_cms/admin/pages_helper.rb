@@ -21,7 +21,7 @@ module WebmastersCms
         list_item << link_to(page.name, admin_page_path(page))
         list_item << "(#{t('.title')}: #{page.title})"
         list_item << render(partial: 'actions', locals: {page: page})
-        return list_item.join(" ").html_safe
+        list_item.join(" ").html_safe
       end
     end
   end
