@@ -62,10 +62,6 @@ module WebmastersCms
         def resource
           @resource ||= Page.find(params[:id])
         end
-
-        def available_parent_pages
-          @available_parent_pages ||= Page.without_page(resource).all
-        end
     end
   end
 end

@@ -141,6 +141,13 @@ module WebmastersCms
           expect(page).to have_content child_page2.name
         end
       end
+
+      it "nestes a child page under a root page in parent selection" do
+        cms_page = FactoryGirl.create(:webmasters_cms_page)
+        child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
+
+        visit new_admin_page_path
+      end
     end
   end
 end
