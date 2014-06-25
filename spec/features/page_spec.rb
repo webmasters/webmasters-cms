@@ -114,6 +114,33 @@ module WebmastersCms
 
         expect(page).to_not have_content "DeleteMe"
       end
+
+      it "nestes a child page under a root page" do
+        cms_page = FactoryGirl.create(:webmasters_cms_page)
+        child_page = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
+
+        visit admin_pages_path
+
+        within "body > ul > li > span" do
+          expect(page).to have_content cms_page.name
+        end
+
+        within "body > ul > li > ul > li > span" do
+          expect(page).to have_content child_page.name
+        end
+      end
+
+      it "nestes a child page under a child page" do
+        cms_page = FactoryGirl.create(:webmasters_cms_page)
+        child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
+        child_page2 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(child_page1)
+
+        visit admin_pages_path
+
+        within "body > ul > li > ul > li > ul > li > span" do
+          expect(page).to have_content child_page2.name
+        end
+      end
     end
   end
 end
