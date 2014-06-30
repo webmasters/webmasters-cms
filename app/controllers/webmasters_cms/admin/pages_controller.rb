@@ -14,6 +14,11 @@ module WebmastersCms
         redirect_to admin_pages_path unless resource
       end
 
+      def sort
+        Page.updateParent_Ids(params['page'])
+        render :nothing => true
+      end
+
       def new
         @resource = Page.new
       end

@@ -1,7 +1,7 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
     acts_as_nested_set
-    
+
     validates :name, :local_path, uniqueness: true
 
     validates :name, :title, :local_path, :meta_description,
@@ -20,6 +20,13 @@ module WebmastersCms
       else
         where({})
       end
+    end
+
+    def self.updateParent_Ids(pages)
+      pages.each do |page, parent| {
+        child = Page.find(page)
+        child.parent_id = parent
+      }
     end
   end
 end

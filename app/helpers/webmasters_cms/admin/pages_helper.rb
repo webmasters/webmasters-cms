@@ -10,7 +10,7 @@ module WebmastersCms
             line_content << list_collection_ancestry(page.children)
           end
 
-          content_tag :li, line_content.join("\n").html_safe
+          content_tag :li, line_content.join("\n").html_safe, id: "page_#{page.id}"
         end
 
         content_tag :ul, lines.join("\n").html_safe
