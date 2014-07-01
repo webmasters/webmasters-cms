@@ -100,15 +100,40 @@ module WebmastersCms
       end
     end
 
-    # describe "#ancestry" do
-    #   it "can create a page with children" do
-    #     root_page = FactoryGirl.create(:webmasters_cms_page)
-    #     expect(root_page.parent).to be_nil
-    #     expect(root_page.children).to be_empty
-    #     child_page = FactoryGirl.create(:webmasters_cms_page, parent: root_page)
-    #     expect(child_page.parent).to eq(root_page)
-    #     expect(root_page.children).to include(child_page)
-    #   end
-    # end
+    describe ".update_parents(valid_hash)" do
+      it "updates the parent_id (value) of the page_id (key)" do
+        child_page = FactoryGirl.create(:webmasters_cms_page)
+        parent_page = FactoryGirl.create(:webmasters_cms_page)
+
+        Page.update_parents({child_page.id => parent_page.id})
+
+        child_page.reload
+
+        expect(child_page.parent_id).to eq(parent_page.id)
+      end
+
+      it "translates parent_id 'null' to parent_id nil" do
+        parent_page = FactoryGirl.create(:webmasters_cms_page)
+        child_page = FactoryGirl.create(:webmasters_cms_page, parent_id: parent_page.id)
+
+        Page.update_parents({child_page.id => 'null'})
+
+        child_page.reload
+
+        expect(child_page.parent_id).to be_nil
+      end
+    end
+
+    describe ".update_parents(invalid_hash)" do
+      it "does nothing" do
+        child_page = FactoryGirl.create(:webmasters_cms_page)
+
+        Page.update_parents({child_page.id => child_page.name})
+
+        child_page.reload
+
+        expect(child_page.parent_id).to be_nil
+      end
+    end
   end
 end

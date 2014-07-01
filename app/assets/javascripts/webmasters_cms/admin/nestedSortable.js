@@ -11,11 +11,22 @@ $(document).ready(function(){
     cursor: 'crosshair',
     opacity: 0.7,
     update: function() {
+      $('.tree_notice').text("");
       $.ajax({
         data: $sortableList.nestedSortable('serialize'),
         type: 'put',
         dataType: 'script',
-        url: 'pages/sort'
+        url: 'pages/sort',
+        success: function (data, textStatus, jqXHR) {
+          $('.tree_notice').text("Tree successfully saved!");
+        },
+        error: function (jqXHR, error, errorThrown) {
+          if (jqXHR.status && jqXHR.status == 400) {
+            $('.tree_notice').text(jqXHR.responseText);
+          } else {
+            $('.tree_notice').text("Something went wrong.");
+          }
+        }
       })
     }
   });
