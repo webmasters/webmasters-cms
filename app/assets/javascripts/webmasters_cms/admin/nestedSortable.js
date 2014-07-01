@@ -22,7 +22,7 @@ $(document).ready(function(){
         },
         error: function (jqXHR, error, errorThrown) {
           if (jqXHR.status && jqXHR.status == 400) {
-            $('.tree_notice').text(jqXHR.responseText);
+            $('.tree_notice').text(jQuery.parseJSON(jqXHR.responseText));
           } else {
             $('.tree_notice').text("Something went wrong.");
           }
