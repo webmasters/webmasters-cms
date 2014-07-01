@@ -9,6 +9,7 @@ $(document).ready(function(){
     items: 'li',
     toleranceElement: '> span',
     cursor: 'crosshair',
+    opacity: 0.7,
     update: function() {
       $.ajax({
         data: $sortableList.nestedSortable('serialize'),

@@ -22,11 +22,18 @@ module WebmastersCms
       end
     end
 
-    def self.updateParent_Ids(pages)
-      pages.each do |page, parent| {
-        child = Page.find(page)
-        child.parent_id = parent
-      }
+    def self.update_parents(page_ids_with_parent_ids)
+      ActiveRecord::Base.transaction do
+        page_ids_with_parent_ids.each do |page_id, new_parent_id|
+          child = Page.find(page_id)
+          raise ActiveRecord::RecordNotFound if child.nil?
+          if new_parent_id == "null"
+            child.update_attributes!(:parent_id => nil)
+          else
+            child.update_attributes!(:parent_id => new_parent_id)
+          end
+        end
+      end
     end
   end
 end

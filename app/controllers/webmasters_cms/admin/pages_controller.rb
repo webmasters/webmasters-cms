@@ -15,7 +15,7 @@ module WebmastersCms
       end
 
       def sort
-        Page.updateParent_Ids(params['page'])
+        Page.update_parents(params['page'])
         render :nothing => true
       end
 
