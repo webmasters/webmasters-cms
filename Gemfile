@@ -6,6 +6,8 @@ source "https://rubygems.org"
 gemspec
 gem 'passenger'
 gem 'mysql2'
+gem "acts_as_versioned", git: "https://github.com/hinagiku/acts_as_versioned.git"
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails'

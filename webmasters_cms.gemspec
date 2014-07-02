@@ -23,8 +23,6 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-ui-rails"
   s.add_dependency "jquery-mjs-nestedSortable-rails"
 
-  s.add_dependency "acts_as_versioned_jw", "~> 3.2.2"
-
   #using this version because of https://github.com/collectiveidea/awesome_nested_set/issues/246
   s.add_dependency "awesome_nested_set", "~> 3.0.0.rc.5"
 

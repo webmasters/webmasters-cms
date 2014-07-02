@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702110154) do
+ActiveRecord::Schema.define(version: 20140702160154) do
 
   create_table "page_versions", force: true do |t|
     t.integer  "page_id"
@@ -30,16 +30,19 @@ ActiveRecord::Schema.define(version: 20140702110154) do
 
   add_index "page_versions", ["page_id"], name: "index_page_versions_on_page_id", using: :btree
 
-  create_table "versions", force: true do |t|
-    t.string   "item_type",  null: false
-    t.integer  "item_id",    null: false
-    t.string   "event",      null: false
-    t.string   "whodunnit"
-    t.text     "object"
+  create_table "webmasters_cms_page_versions", force: true do |t|
+    t.integer  "page_id"
+    t.integer  "version"
+    t.string   "name"
+    t.string   "local_path"
+    t.string   "title"
+    t.string   "meta_description"
+    t.text     "body"
     t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "webmasters_cms_page_versions", ["page_id"], name: "index_webmasters_cms_page_versions_on_page_id", using: :btree
 
   create_table "webmasters_cms_pages", force: true do |t|
     t.string   "name",             null: false

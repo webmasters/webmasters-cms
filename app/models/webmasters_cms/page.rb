@@ -1,7 +1,8 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
     acts_as_nested_set
-    acts_as_versioned except: [:rgt, :lft, :parent_id]
+    acts_as_versioned
+    self.non_versioned_columns += ['rgt', 'lft', 'parent_id']
 
     validates :name, :local_path, uniqueness: true
 

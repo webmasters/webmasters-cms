@@ -1,8 +1,13 @@
+GIT
+  remote: https://github.com/hinagiku/acts_as_versioned.git
+  revision: ec2fba8b2702ea89c3726d5728a2b681f03a2ff5
+  specs:
+    acts_as_versioned (0.6.0)
+
 PATH
   remote: .
   specs:
     webmasters_cms (0.0.1)
-      acts_as_versioned_jw (~> 3.2.2)
       awesome_nested_set (~> 3.0.0.rc.5)
       jquery-mjs-nestedSortable-rails
       jquery-rails (~> 2.1)
@@ -38,8 +43,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    acts_as_versioned_jw (3.2.3)
-      activerecord
     arel (5.0.1.20140414130214)
     awesome_nested_set (3.0.0.rc.6)
       activerecord (>= 4.0.0, < 5)
@@ -201,6 +204,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_versioned!
   capistrano
   capistrano-bundler
   capistrano-rails
