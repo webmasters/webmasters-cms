@@ -1,7 +1,7 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
     acts_as_nested_set
-    acts_as_versioned
+    acts_as_versioned table_name: "webmasters_cms_page_versions"
     self.non_versioned_columns += ['rgt', 'lft', 'parent_id']
 
     validates :name, :local_path, uniqueness: true

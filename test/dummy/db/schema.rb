@@ -13,23 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140702160154) do
 
-  create_table "page_versions", force: true do |t|
-    t.integer  "page_id"
-    t.integer  "version"
-    t.string   "name"
-    t.string   "local_path"
-    t.string   "title"
-    t.string   "meta_description"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "rgt"
-    t.integer  "lft"
-    t.integer  "parent_id"
-  end
-
-  add_index "page_versions", ["page_id"], name: "index_page_versions_on_page_id", using: :btree
-
   create_table "webmasters_cms_page_versions", force: true do |t|
     t.integer  "page_id"
     t.integer  "version"
