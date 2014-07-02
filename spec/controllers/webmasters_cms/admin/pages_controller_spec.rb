@@ -7,9 +7,9 @@ module WebmastersCms
 
       describe "GET #index" do
         it "shows all available Pages" do
-          page = FactoryGirl.create(:webmasters_cms_page)
+          cms_page = FactoryGirl.create(:webmasters_cms_page)
           get :index
-          expect(assigns(:collection)).to eq([page])
+          expect(assigns(:collection)).to eq([cms_page])
         end
 
         it "renders the #index view" do
@@ -20,9 +20,9 @@ module WebmastersCms
 
       describe "GET #show" do
         it "assigns the requested Page to @resource" do
-          page = FactoryGirl.create(:webmasters_cms_page)
-          get :show, id: page
-          expect(assigns(:resource)).to eq(page)
+          cms_page = FactoryGirl.create(:webmasters_cms_page)
+          get :show, id: cms_page
+          expect(assigns(:resource)).to eq(cms_page)
         end
 
         it "renders the #show view" do
@@ -148,6 +148,24 @@ module WebmastersCms
         it "redirects to the index" do
           delete :destroy, id: @page
           expect(response).to redirect_to admin_pages_path
+        end
+      end
+
+      describe "PUT #sort" do
+        it "does not redirect" do
+          expect { put :sort }.to render_template nil
+        end
+
+        it "updates the tree" do
+          child_page = FactoryGirl.create(:webmasters_cms_page)
+          parent_page = FactoryGirl.create(:webmasters_cms_page)
+          params = {child_page.id => parent_page.id}
+
+          put :sort, page: params
+          child_page.reload
+
+          expect(response).to be_success
+          expect(child_page.parent_id).to eq(parent_page.id)
         end
       end
     end
