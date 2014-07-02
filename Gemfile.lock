@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     webmasters_cms (0.0.1)
+      acts_as_versioned_jw (~> 3.2.2)
       awesome_nested_set (~> 3.0.0.rc.5)
       jquery-mjs-nestedSortable-rails
       jquery-rails (~> 2.1)
@@ -37,8 +38,10 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    acts_as_versioned_jw (3.2.3)
+      activerecord
     arel (5.0.1.20140414130214)
-    awesome_nested_set (3.0.0.rc.5)
+    awesome_nested_set (3.0.0.rc.6)
       activerecord (>= 4.0.0, < 5)
     builder (3.2.2)
     capistrano (3.2.1)

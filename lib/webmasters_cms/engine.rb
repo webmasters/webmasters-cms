@@ -3,6 +3,7 @@ module WebmastersCms
     isolate_namespace WebmastersCms
 
     require 'awesome_nested_set'
+    require 'acts_as_versioned'
 
     config.generators do |g|
       g.orm :active_record

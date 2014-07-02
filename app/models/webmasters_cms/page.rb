@@ -1,6 +1,7 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
     acts_as_nested_set
+    acts_as_versioned except: [:rgt, :lft, :parent_id]
 
     validates :name, :local_path, uniqueness: true
 
@@ -33,7 +34,7 @@ module WebmastersCms
           end
         end
       end
-      
+
       true
     rescue => e
       # p e.inspect if Rails.env.test?
