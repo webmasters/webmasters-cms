@@ -168,6 +168,35 @@ module WebmastersCms
           expect(child_page.parent_id).to eq(parent_page.id)
         end
       end
+
+      describe "GET #versions" do
+        it "routes to 'list_versions'" do
+          cms_page = FactoryGirl.create(:webmasters_cms_page)
+          expect(get: "admin/pages/#{cms_page.id}/versions").to route_to(
+            controller: "webmasters_cms/admin/pages",
+            action: "list_versions",
+            page_id: "1"
+          )
+        end
+
+        # it "lists all available versions" do
+        #   cms_page = FactoryGirl.create(:webmasters_cms_page)
+        #   cms_page_version1 = FactoryGirl.create(:webmasters_cms_page_version)
+        #   cms_page_version2 = FactoryGirl.create(:webmasters_cms_page_version)
+        #   get :list_versions
+        #   expect(response.body).to have_css('select')
+        # end
+
+        it "finds the object given a 'page_id'"
+      end
+
+      describe "PATCH #set_current_version" do
+        it "reverts the object to an other version"
+
+        it "redirects to list_versions"
+
+        it "gives a success notice after successful saving"
+      end
     end
   end
 end
