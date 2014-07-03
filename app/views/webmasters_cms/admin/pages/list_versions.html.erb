@@ -1,0 +1,6 @@
+<%= form_for resource, url: {action: 'set_current_version'} do |f| %>
+  <%= f.select :version, versions_of_page_for_select, selected: :version %>
+  <%= f.submit "Use as current version" %>
+<% end %>
+
+<%= render partial: 'back' %>

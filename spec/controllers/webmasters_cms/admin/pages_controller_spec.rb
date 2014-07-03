@@ -52,7 +52,7 @@ module WebmastersCms
           it "creates a new Page" do
             expect{
               post :create, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-            }.to change(Page,:count).by(1)
+            }.to change(Page, :count).by(1)
           end
 
           it "redirects to the Pages overview" do

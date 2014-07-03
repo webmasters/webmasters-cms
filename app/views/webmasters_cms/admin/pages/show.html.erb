@@ -3,3 +3,5 @@
 <%= render partial: 'actions', locals: {page: resource} %>
 
 <%= render partial: 'page', locals: {page: resource} %>
+<% content_for :title, resource.title %>
+<% content_for :meta_description, resource.meta_description %>

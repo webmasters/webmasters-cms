@@ -27,6 +27,15 @@ module WebmastersCms
       def nested_set_for_select
         nested_set_options(collection, resource) {|i| "#{'-' * i.level} #{i.name}" }
       end
+
+      def versions_of_page_for_select
+        resource.versions.where(page_id: resource.id).where.not(version: resource.version)
+          .collect {|r| [ r.name + ' v.' + r.version.to_s, r.id ]}
+      end
+
+      def get_current_version
+        resource.versions.where('page_id = #{resource.id} AND version = #{resource.version}')
+      end
     end
   end
 end

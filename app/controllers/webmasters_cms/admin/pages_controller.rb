@@ -55,6 +55,19 @@ module WebmastersCms
         redirect_to admin_pages_path
       end
 
+      def list_versions
+        resource
+      end
+
+      def set_current_version
+        if resource.revert_to!(params[:page][:version])
+          flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+          redirect_to admin_page_path(resource)
+        else
+          render 'list_versions'
+        end
+      end
+
       private
         def page_params
           params.required(:page).permit(:name, :title, :meta_description, :local_path, :body, :parent_id)
@@ -65,6 +78,7 @@ module WebmastersCms
         end
 
         def resource
+          params[:id] = params[:page_id] unless params[:id]
           @resource ||= Page.find(params[:id])
         end
     end

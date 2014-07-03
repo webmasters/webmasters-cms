@@ -4,8 +4,11 @@
 
 <h1><%= t('.editPage') + ' ' + resource.name %></h1>
 
+<%= render partial: 'versions', locals: {resource: resource} unless resource.versions.size == 0 %>
+
 <%= render partial: 'form', locals: {f: f} %>
 
 <% end %>
+
 
 <%= render 'back' %>
