@@ -55,23 +55,13 @@ module WebmastersCms
         redirect_to admin_pages_path
       end
 
-      def list_versions
-        resource
-      end
-
       def set_current_version
-        resource.save_without_revision
-        flash[:success] = t :update, scope: [:activerecord, :flash, :success]
-        redirect_to admin_page_path(resource)
-
-        # render 'list_versions'
-      end
-
-      def preview_page_version
-        #resource.reload
-        #resource.revert_to(params[:version])
-        version = resource.versions.where(:version => params[:version]).first
-        render :partial => 'page', locals: {resource: version}
+        if resource.revert_to!(params[:page][:version])
+          flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+          redirect_to admin_page_path(resource)
+        else
+          render "versions/index"
+        end
       end
 
       private

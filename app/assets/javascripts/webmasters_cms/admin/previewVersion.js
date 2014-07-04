@@ -1,10 +1,19 @@
 jQuery(function($) {
+  var selectedOption = $('#page_version').val();
+  $.ajax({
+    data: { version: $('#page_version').val() },
+    type: 'GET',
+    url: 'versions/show',
+    success: function (data, textStatus, jqXHR) {
+      $('#chosen').html(data);
+    }
+  });
   $(document).on('change', '#page_version', function(event) {
-    var selectedOption = $select.val();
+    var selectedOption = $('#page_version').val();
     $.ajax({
-      data: { version: selectedOption },
+      data: { version: $('#page_version').val() },
       type: 'GET',
-      url: 'preview_page_version',
+      url: 'versions/show',
       success: function (data, textStatus, jqXHR) {
         $('#chosen').html(data);
       }

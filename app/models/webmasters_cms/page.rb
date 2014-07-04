@@ -28,7 +28,7 @@ module WebmastersCms
     def self.update_parents(page_ids_with_parent_ids)
       transaction do
         page_ids_with_parent_ids.each do |page_id, new_parent_id|
-          child = Page.find(page_id)
+          child = find(page_id)
           if new_parent_id == "null"
             child.update_attributes!(:parent_id => nil)
           else
@@ -42,6 +42,10 @@ module WebmastersCms
       # p e.inspect if Rails.env.test?
       Rails.logger.error e.inspect
       false
+    end
+
+    def current_version
+      versions.where(:version => version).first
     end
   end
 end

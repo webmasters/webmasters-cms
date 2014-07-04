@@ -1,0 +1,12 @@
+<%= form_for page, url: {action: 'set_current_version', controller: 'webmasters_cms/admin/pages'} do |f| %>
+  <%= f.select :version, page_versions_for_select %>
+  <%= f.submit "Use as current version" %>
+<% end %>
+
+Chosen Version:
+<div id="chosen">
+</div>
+
+Current Version:
+<%= render partial: 'webmasters_cms/admin/pages/page', locals: {resource: page.current_version} %>
+<%= render partial: 'webmasters_cms/admin/pages/back' %>

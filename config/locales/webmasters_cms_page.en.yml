@@ -24,7 +24,7 @@ en:
         edit:
           edit_page: "Edit page"
         versions:
-          versions_available: 'test'
+          versions_available: 'Versions available'
         actions:
           edit: "Edit"
           delete: "Delete"
