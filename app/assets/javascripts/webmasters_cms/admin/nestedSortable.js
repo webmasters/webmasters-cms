@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
   var $sortableList = $('ul').first();
+  var $noticeField = $('.tree_notice');
 
   $sortableList.nestedSortable({
     protectRoot: true,
@@ -18,14 +19,16 @@ $(document).ready(function(){
         dataType: 'script',
         url: 'pages/sort',
         success: function (data, textStatus, jqXHR) {
-          $('.tree_notice').text("Tree successfully saved!");
+          $noticeField.text("Tree successfully saved!").hide();
+          $noticeField.slideDown().delay( 5000 ).slideUp();
         },
         error: function (jqXHR, error, errorThrown) {
           if (jqXHR.status && jqXHR.status == 400) {
-            $('.tree_notice').text(jQuery.parseJSON(jqXHR.responseText));
+            $noticeField.text(jQuery.parseJSON(jqXHR.responseText)).hide();
           } else {
-            $('.tree_notice').text("Something went wrong.");
+            $noticeField.text("Something went wrong.").hide();
           }
+          $noticeField.slideDown();
         }
       })
     }

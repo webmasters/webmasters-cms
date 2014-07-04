@@ -25,7 +25,7 @@ module WebmastersCms
 
       def edit
         unless resource
-          flash[:error] = t :notFound, scope: [:activerecord, :flash, :error]
+          flash[:error] = t :not_found, scope: [:activerecord, :flash, :error]
           redirect_to admin_pages_path
         end
       end
@@ -60,12 +60,18 @@ module WebmastersCms
       end
 
       def set_current_version
-        if resource.revert_to!(params[:page][:version])
-          flash[:success] = t :update, scope: [:activerecord, :flash, :success]
-          redirect_to admin_page_path(resource)
-        else
-          render 'list_versions'
-        end
+        resource.save_without_revision
+        flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+        redirect_to admin_page_path(resource)
+
+        # render 'list_versions'
+      end
+
+      def preview_page_version
+        #resource.reload
+        #resource.revert_to(params[:version])
+        version = resource.versions.where(:version => params[:version]).first
+        render :partial => 'page', locals: {resource: version}
       end
 
       private
