@@ -55,9 +55,18 @@ module WebmastersCms
         redirect_to admin_pages_path
       end
 
+      def set_current_version
+        if resource.revert_to!(params[:page][:version])
+          flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+          redirect_to admin_page_path(resource)
+        else
+          render :index
+        end
+      end
+
       private
         def page_params
-          params.required(:page).permit(:name, :title, :meta_description, :local_path, :body, :parent_id)
+          params.required(:page).permit(:name, :title, :meta_description, :local_path, :body, :parent_id, :rgt, :lft)
         end
 
         def collection

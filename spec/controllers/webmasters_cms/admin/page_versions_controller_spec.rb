@@ -7,7 +7,7 @@ module WebmastersCms
         routes { WebmastersCms::Engine.routes }
 
         let(:cms_page) { FactoryGirl.create(:webmasters_cms_page) }
-        let(:cms_page_version) { FactoryGirl.create(:webmasters_cms_page_version) }
+        let(:cms_page_version) { FactoryGirl.create(:webmasters_cms_page_version, page_id: cms_page) }
 
         describe "GET #index" do
           before :each do

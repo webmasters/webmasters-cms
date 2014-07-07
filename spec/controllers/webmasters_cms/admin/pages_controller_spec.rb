@@ -166,11 +166,13 @@ module WebmastersCms
       end
 
       describe "PATCH #set_current_version" do
-        it "reverts the object to an other version"
-
-        it "redirects to list_versions"
-
-        it "gives a success notice after successful saving"
+        it "reverts the object to an other version" do
+          cms_page = FactoryGirl.create(:webmasters_cms_page)
+          cms_page_version = FactoryGirl.create(:webmasters_cms_page_version, page_id: cms_page.id, version: cms_page.version + 1)
+          patch :set_current_version, id: cms_page.id, page: { version: cms_page_version.version }
+          cms_page.reload
+          expect(cms_page.version).to eq(cms_page_version.version)
+        end
       end
     end
   end

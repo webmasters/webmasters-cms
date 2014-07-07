@@ -2,7 +2,6 @@
 
 FactoryGirl.define do
   factory :webmasters_cms_page_version, :class => WebmastersCms::Page::Version do |f|
-    f.page_id "1"
     f.sequence(:name) {|n| "Name #{n}"}
     f.sequence(:local_path) {|n| "Local_path-#{n}"}
     f.sequence(:title) {|n| "Title #{n}"}
