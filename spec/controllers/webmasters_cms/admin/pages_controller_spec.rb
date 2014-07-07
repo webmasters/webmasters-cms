@@ -1,32 +1,34 @@
-require 'spec_helper'
 
+require 'spec_helper'
 module WebmastersCms
   module Admin
     describe PagesController do
       routes { WebmastersCms::Engine.routes }
 
+      let (:cms_page) { FactoryGirl.create(:webmasters_cms_page) }
+
       describe "GET #index" do
-        it "shows all available Pages" do
-          cms_page = FactoryGirl.create(:webmasters_cms_page)
+        before :each do
           get :index
+        end
+
+        it "shows all available Pages" do
           expect(assigns(:collection)).to eq([cms_page])
         end
 
         it "renders the #index view" do
-          get :index
           expect(response).to render_template :index
         end
       end
 
       describe "GET #show" do
         it "assigns the requested Page to @resource" do
-          cms_page = FactoryGirl.create(:webmasters_cms_page)
           get :show, id: cms_page
           expect(assigns(:resource)).to eq(cms_page)
         end
 
         it "renders the #show view" do
-          get :show, id: FactoryGirl.create(:webmasters_cms_page)
+          get :show, id: cms_page
           expect(response).to render_template :show
         end
 
@@ -36,13 +38,14 @@ module WebmastersCms
       end
 
       describe "GET #new" do
-        it "assigns a new Page to @resource" do
+        before :each do
           get :new
+        end
+        it "assigns a new Page to @resource" do
           expect(assigns(:resource)).to be_a_new(Page)
         end
 
         it "renders the #new view" do
-          get :new
           expect(response).to render_template :new
         end
       end
@@ -77,76 +80,69 @@ module WebmastersCms
 
       describe "GET #edit" do
         it "assigns the requested Page to @page" do
-          page = FactoryGirl.create(:webmasters_cms_page)
-          get :edit, id: page
-          expect(assigns(:resource)).to eq(page)
+          get :edit, id: cms_page
+          expect(assigns(:resource)).to eq(cms_page)
         end
 
         it "renders the #edit view" do
-          get :edit, id: FactoryGirl.create(:webmasters_cms_page)
+          get :edit, id: cms_page
           expect(response).to render_template :edit
         end
       end
 
       describe "PUT #update" do
-        before :each do
-          @page = FactoryGirl.create(:webmasters_cms_page)
-        end
 
         context "with valid attributes" do
-          it "located the requested @page" do
-            put :update, id: @page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-            expect(assigns(:resource)).to eq(@page)
+          it "located the requested cms_page" do
+            put :update, id: cms_page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
+            expect(assigns(:resource)).to eq(cms_page)
           end
 
           it "updates @page" do
             expect {
-              put :update, id: @page,
+              put :update, id: cms_page,
               page: FactoryGirl.attributes_for(
                 :webmasters_cms_page,
                 name: "UpdatedName",
                 local_path: "UpdatedLocalpath"
               )
-              @page.reload
-            }.to change{[@page.name, @page.local_path]}
+              cms_page.reload
+            }.to change{[cms_page.name, cms_page.local_path]}
           end
 
           it "redirects to the Page #show view" do
-            put :update, id: @page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
-            @page.reload
-            expect(response).to redirect_to admin_page_path(@page)
+            put :update, id: cms_page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
+            expect(response).to redirect_to admin_page_path(cms_page)
           end
         end
 
         context "with invalid attributes" do
-          it "does not update the @page" do
+          it "does not update the cms_page" do
             expect {
-              put :update, id: @page,
+              put :update, id: cms_page,
               page: FactoryGirl.attributes_for(
                 :webmasters_cms_page,
                 local_path: nil
               )
-            }.to_not change{@page}
+            }.to_not change{cms_page}
           end
 
           it "stays on the #edit view" do
-            put :update, id: @page, page: FactoryGirl.attributes_for(:invalid_webmasters_cms_page)
+            put :update, id: cms_page, page: FactoryGirl.attributes_for(:invalid_webmasters_cms_page)
             expect(response).to render_template :edit
           end
         end
       end
 
       describe "POST #delete" do
-        before :each do
-          @page = FactoryGirl.create(:webmasters_cms_page)
-        end
 
         it "deletes the requested Page" do
-          expect { delete :destroy, id: @page }.to change(Page,:count).by(-1)
+          delete_cms_page = FactoryGirl.create(:webmasters_cms_page)
+          expect { delete :destroy, id: delete_cms_page }.to change(Page,:count).by(-1)
         end
 
         it "redirects to the index" do
-          delete :destroy, id: @page
+          delete :destroy, id: cms_page
           expect(response).to redirect_to admin_pages_path
         end
       end
@@ -167,27 +163,6 @@ module WebmastersCms
           expect(response).to be_success
           expect(child_page.parent_id).to eq(parent_page.id)
         end
-      end
-
-      describe "GET #versions" do
-        it "routes to 'list_versions'" do
-          cms_page = FactoryGirl.create(:webmasters_cms_page)
-          expect(get: "admin/pages/#{cms_page.id}/versions").to route_to(
-            controller: "webmasters_cms/admin/pages",
-            action: "list_versions",
-            page_id: "1"
-          )
-        end
-
-        # it "lists all available versions" do
-        #   cms_page = FactoryGirl.create(:webmasters_cms_page)
-        #   cms_page_version1 = FactoryGirl.create(:webmasters_cms_page_version)
-        #   cms_page_version2 = FactoryGirl.create(:webmasters_cms_page_version)
-        #   get :list_versions
-        #   expect(response.body).to have_css('select')
-        # end
-
-        it "finds the object given a 'page_id'"
       end
 
       describe "PATCH #set_current_version" do
