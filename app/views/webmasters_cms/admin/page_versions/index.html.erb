@@ -1,4 +1,4 @@
-<%= form_for page, url: {action: 'set_current_version', controller: 'webmasters_cms/admin/pages'} do |f| %>
+<%= form_for page, url: admin_page_version_as_current_version_path(page, page.version) do |f| %>
   <%= f.select :version, page_versions_for_select %>
   <%= f.submit "Use as current version" %>
 <% end %>

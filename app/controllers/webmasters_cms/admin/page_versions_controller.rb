@@ -10,8 +10,17 @@ module WebmastersCms
       end
 
       def show
-        version = collection.where(:version => params[:version]).first
-        render :partial => '/webmasters_cms/admin/pages/page', locals: {resource: version}
+        version = collection.where(version: params[:version]).first
+        render partial: '/webmasters_cms/admin/pages/page', locals: {resource: version}
+      end
+
+      def as_current_version
+        if page.revert_to!(params[:page][:version])
+          flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+          redirect_to admin_page_path(page)
+        else
+          render :index
+        end
       end
 
       private
