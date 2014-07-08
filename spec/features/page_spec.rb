@@ -3,6 +3,9 @@ require 'spec_helper'
 module WebmastersCms
   describe "Pages" do
     describe "Manage pages" do
+
+      let (:cms_page) { FactoryGirl.create(:webmasters_cms_page) }
+
       it "creates a new page and displays it with a success notice" do
         visit new_admin_page_path
 
@@ -42,7 +45,6 @@ module WebmastersCms
       end
 
       it "edits a page successfully and displays a success notice" do
-        cms_page = FactoryGirl.create(:webmasters_cms_page)
         visit edit_admin_page_path(cms_page)
 
         fill_in "Title", with: "Updated Title"
@@ -64,8 +66,6 @@ module WebmastersCms
       end
 
       it "shows an error when edited with invalid attributes" do
-        cms_page = FactoryGirl.create(:webmasters_cms_page)
-
         visit edit_admin_page_path(cms_page)
 
         fill_in "Title", with: ""
@@ -116,7 +116,6 @@ module WebmastersCms
       end
 
       it "nestes a child page under a root page" do
-        cms_page = FactoryGirl.create(:webmasters_cms_page)
         child_page = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
 
         visit admin_pages_path
@@ -131,7 +130,6 @@ module WebmastersCms
       end
 
       it "nestes a child page under a child page" do
-        cms_page = FactoryGirl.create(:webmasters_cms_page)
         child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
         child_page2 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(child_page1)
 
@@ -143,10 +141,32 @@ module WebmastersCms
       end
 
       it "nestes a child page under a root page in parent selection" do
-        cms_page = FactoryGirl.create(:webmasters_cms_page)
         child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
 
         visit new_admin_page_path
+      end
+
+      it "previews a page from the edit page", js: true do
+        visit edit_admin_page_path(cms_page)
+        click_button "Preview"
+        page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
+          expect(page).to have_content cms_page.name
+          expect(page).to have_content cms_page.body
+        end
+      end
+
+      it "previews a page from the create new page", js: true do
+        visit new_admin_page_path
+        fill_in 'Name', :with => "Name"
+        fill_in 'Local path', :with => "Local_path"
+        fill_in 'Title', :with => "Title"
+        fill_in 'Meta description', :with => "Meta Description"
+        fill_in 'Body', :with => "Body"
+        click_button "Preview"
+        page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
+          expect(page).to have_content "Name"
+          expect(page).to have_content "Body"
+        end
       end
     end
   end

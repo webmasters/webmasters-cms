@@ -13,7 +13,7 @@ module WebmastersCms
           content_tag :li, line_content.join("\n").html_safe, id: "page_#{page.id}"
         end
 
-        content_tag :ul, lines.join("\n").html_safe
+        content_tag :ul, lines.join("\n").html_safe, class: "pages_tree"
       end
 
       def create_list_item(page)

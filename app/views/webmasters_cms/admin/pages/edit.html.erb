@@ -7,6 +7,7 @@
 <%= render partial: 'versions', locals: {resource: resource} unless resource.versions.size <= 1 %>
 
 <%= render partial: 'form', locals: {f: f} %>
+<%= f.submit "Preview", data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
 
 <% end %>
 

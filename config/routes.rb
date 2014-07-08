@@ -13,5 +13,11 @@ WebmastersCms::Engine.routes.draw do
       end
     end
 
+    resources :pages, only: [] do
+      collection do
+        match :preview, via: [:post, :patch]
+      end
+    end
+
     root :to => 'pages#index'
 end

@@ -155,9 +155,8 @@ module WebmastersCms
         it "updates the tree" do
           child_page = FactoryGirl.create(:webmasters_cms_page)
           parent_page = FactoryGirl.create(:webmasters_cms_page)
-          params = {child_page.id => parent_page.id}
 
-          put :sort, page: params
+          put :sort, page: {child_page.id => parent_page.id}
           child_page.reload
 
           expect(response).to be_success
