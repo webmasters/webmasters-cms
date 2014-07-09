@@ -4,7 +4,10 @@ module WebmastersCms
   describe Page do
 
     let (:cms_page) { FactoryGirl.create(:webmasters_cms_page) }
+    let (:cms_page2) { FactoryGirl.create(:webmasters_cms_page) }
     let (:child_page1) { FactoryGirl.create(:webmasters_cms_page, parent: cms_page) }
+    let (:child_page2) { FactoryGirl.create(:webmasters_cms_page, parent: cms_page) }
+
 
     it "has a valid factory" do
       expect(cms_page).to be_valid
@@ -84,8 +87,6 @@ module WebmastersCms
 
     describe ".without_page(not_persisted_page)" do
       it "returns a collection of all available pages" do
-        cms_page2 = FactoryGirl.create(:webmasters_cms_page)
-
         expect(Page.without_page(Page.new)).to include(cms_page)
         expect(Page.without_page(Page.new)).to include(cms_page2)
       end
@@ -93,8 +94,6 @@ module WebmastersCms
 
     describe ".without_page(persisted_page)" do
       it "returns a collection without the persisted page" do
-        cms_page2 = FactoryGirl.create(:webmasters_cms_page)
-
         expect(Page.without_page(cms_page2)).to include(cms_page)
         expect(Page.without_page(cms_page2)).to_not include(cms_page2)
       end
@@ -117,21 +116,68 @@ module WebmastersCms
         expect(child_page1.parent_id).to be_nil
       end
 
-      it "moves a child page to second place in order" do
+      it "moves a child_page1 to second place and child_page2 to first" do
         child_page1
-        child_page2 = FactoryGirl.create(:webmasters_cms_page, parent: cms_page)
+        child_page2
         child_page3 = FactoryGirl.create(:webmasters_cms_page, parent: cms_page)
         params = {}
         params[cms_page.id.to_s] = 'null'
-        params[child_page3.id.to_s] = cms_page.id.to_s
-        params[child_page1.id.to_s] = cms_page.id.to_s
         params[child_page2.id.to_s] = cms_page.id.to_s
+        params[child_page1.id.to_s] = cms_page.id.to_s
+        params[child_page3.id.to_s] = cms_page.id.to_s
 
         expect(cms_page.children(true)).to eq([child_page1, child_page2, child_page3])
 
         Page.update_tree(params)
-        
-        expect(cms_page.children(true)).to eq([child_page3, child_page1, child_page2])
+
+        expect(cms_page.children(true)).to eq([child_page2, child_page1, child_page3])
+      end
+
+      it "saves a new branch when a child_page is placed on a child_page" do
+        child_page1
+        child_page2
+        params = {}
+        params[cms_page.id.to_s] = 'null'
+        params[child_page1.id.to_s] = cms_page.id.to_s
+        params[child_page2.id.to_s] = child_page1.id.to_s
+
+        expect(cms_page.children(true)).to eq([child_page1, child_page2])
+
+        Page.update_tree(params)
+
+        expect(cms_page.children(true)).to eq([child_page1])
+        expect(child_page1.children(true)).to eq([child_page2])
+      end
+
+      it "closes a branch when the last child_page is removed" do
+        child_page1
+        child_page2 = FactoryGirl.create(:webmasters_cms_page, parent: child_page1)
+        params = {}
+        params[cms_page.id.to_s] = 'null'
+        params[child_page1.id.to_s] = cms_page.id.to_s
+        params[child_page2.id.to_s] = cms_page.id.to_s
+
+        expect(cms_page.children(true)).to eq([child_page1])
+        expect(child_page1.children(true)).to eq([child_page2])
+
+        Page.update_tree(params)
+
+        expect(cms_page.children(true)).to eq([child_page1, child_page2])
+        expect(child_page1.children(true)).to be_empty
+      end
+
+      it "does not place a root page as a child" do
+        cms_page
+        cms_page2
+        params = {}
+        params[cms_page.id.to_s] = 'null'
+        params[cms_page2.id.to_s] = cms_page.id.to_s
+
+        expect(cms_page2.parent_id).to be_nil
+
+        Page.update_tree(params)
+
+        expect(cms_page2.parent_id).to be_nil
       end
 
     end
