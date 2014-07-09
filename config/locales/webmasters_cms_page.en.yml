@@ -6,7 +6,7 @@ en:
         update: "Page successfully updated!"
         delete: "Page successfully deleted!"
       error:
-        notFound: "Page not found!"
+        not_found: "Page not found!"
     errors:
       models:
         webmasters_cms/page:
@@ -17,12 +17,14 @@ en:
     admin:
       pages:
         index:
-          allPages: "All Pages"
+          all_pages: "All Pages"
           title: "Title"
         new:
-          createPage: "Create a page"
+          create_page: "Create a page"
         edit:
-          editPage: "Edit page"
+          edit_page: "Edit page"
+        versions:
+          versions_available: 'Versions available'
         actions:
           edit: "Edit"
           delete: "Delete"

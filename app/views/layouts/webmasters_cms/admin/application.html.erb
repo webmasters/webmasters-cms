@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= yield(:title) %></title>
+  <title><%= yield(:title).blank? ? '✨ Webmasters CMS ✨' : yield(:title) %></title>
   <%= stylesheet_link_tag    "webmasters_cms/application", media: "all" %>
-  <%= javascript_include_tag "webmasters_cms/application" %>
   <%= csrf_meta_tags %>
   <% if !yield(:meta_description).blank? %>
     <meta name="description" content="<%= yield(:meta_description) %>" />
   <% end %>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
 <%= render 'notice' %>
@@ -19,5 +19,6 @@
 
 <%= yield %>
 
+<%= javascript_include_tag "webmasters_cms/application" %>
 </body>
 </html>

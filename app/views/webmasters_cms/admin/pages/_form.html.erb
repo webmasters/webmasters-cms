@@ -19,5 +19,11 @@
     <%= f.text_area :body, size: "60x20" %>
   </p>
   <p>
+    <%= f.label :parent_id %><br>
+    <%= f.select :parent_id, nested_set_for_select, include_blank: "- No Parent -" %>
+  </p>
+  <p>
     <%= f.submit %>
   </p>
+
+

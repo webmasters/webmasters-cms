@@ -4,7 +4,7 @@ module WebmastersCms
   module Admin
     class PagesController < ApplicationController
       layout "webmasters_cms/admin/application"
-      helper_method :collection, :resource
+      helper_method :collection, :available_parent_pages, :resource
 
       def index
         collection
@@ -14,13 +14,19 @@ module WebmastersCms
         redirect_to admin_pages_path unless resource
       end
 
+      def sort
+        Rails.logger.info(params[:page].inspect)
+        Page.update_tree(params[:page])
+        render :nothing => true
+      end
+
       def new
         @resource = Page.new
       end
 
       def edit
         unless resource
-          flash[:error] = t :notFound, scope: [:activerecord, :flash, :error]
+          flash[:error] = t :not_found, scope: [:activerecord, :flash, :error]
           redirect_to admin_pages_path
         end
       end
@@ -50,9 +56,18 @@ module WebmastersCms
         redirect_to admin_pages_path
       end
 
+      def set_current_version
+        if resource.revert_to!(params[:page][:version])
+          flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+          redirect_to admin_page_path(resource)
+        else
+          render :index
+        end
+      end
+
       private
         def page_params
-          params.required(:page).permit(:name, :title, :meta_description, :local_path, :body)
+          params.required(:page).permit(:name, :title, :meta_description, :local_path, :body, :parent_id, :rgt, :lft)
         end
 
         def collection
@@ -60,6 +75,7 @@ module WebmastersCms
         end
 
         def resource
+          params[:id] = params[:page_id] unless params[:id]
           @resource ||= Page.find(params[:id])
         end
     end
