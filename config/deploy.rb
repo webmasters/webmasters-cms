@@ -65,8 +65,10 @@ namespace :deploy do
   task(:stop) {}
 
   task :restart do
-    execute :touch, "#{File.join(current_path, 'tmp', 'restart.txt')}"
-    execute "sudo /etc/init.d/apache2 reload"
+    on release_roles :all do
+      execute :touch, "#{File.join(fetch(:application_path), 'tmp', 'restart.txt')}"
+      execute "sudo /etc/init.d/apache2 reload"
+    end
   end
 
   task :create_symlinks do
@@ -186,3 +188,4 @@ end
     after 'deploy:updated', hook
 end
 before 'deploy:publishing', 'deploy:update_passenger_apache_module'
+after 'deploy:publishing', 'deploy:restart'
