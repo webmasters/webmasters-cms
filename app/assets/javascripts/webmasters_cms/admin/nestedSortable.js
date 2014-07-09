@@ -20,7 +20,7 @@ jQuery(function($) {
           url: 'pages/sort',
           success: function (data, textStatus, jqXHR) {
             $noticeField.text("Tree successfully saved!").hide();
-            $noticeField.slideDown().delay( 5000 ).slideUp();
+            $noticeField.slideDown();
           },
           error: function (jqXHR, error, errorThrown) {
             if (jqXHR.status && jqXHR.status == 400) {

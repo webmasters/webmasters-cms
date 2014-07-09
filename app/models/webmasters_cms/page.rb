@@ -35,6 +35,11 @@ module WebmastersCms
             child.update_attributes!(:parent_id => new_parent_id)
           end
         end
+
+        page_ids_with_parent_ids.each do |page_id, new_parent_id|
+          child = find(page_id)
+          child.move_right if child.right_sibling
+        end
       end
 
       true
@@ -43,6 +48,22 @@ module WebmastersCms
       Rails.logger.error e.inspect
       false
     end
+
+    # def self.update_tree(array)
+    #   transaction do
+    #     array.each do |object|
+    #       if object[:item_id] != 'null'
+    #         cms_page = find(object[:item_id])
+    #         cms_page.update_attributes!(:lft => object[:left], :parent_id => object[:parent_id], :rgt => object[:right])
+    #       end
+    #     end
+    #   end
+    #   true
+    # rescue => e
+    #   # p e.inspect if Rails.env.test?
+    #   Rails.logger.error e.inspect
+    #   false
+    # end
 
     def current_version
       versions.where(:version => version).first
