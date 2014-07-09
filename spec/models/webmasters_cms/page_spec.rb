@@ -2,14 +2,17 @@ require 'spec_helper'
 
 module WebmastersCms
   describe Page do
+
+    let (:cms_page) { FactoryGirl.create(:webmasters_cms_page) }
+    let (:child_page1) { FactoryGirl.create(:webmasters_cms_page, parent: cms_page) }
+
     it "has a valid factory" do
-      expect(FactoryGirl.create(:webmasters_cms_page)).to be_valid
+      expect(cms_page).to be_valid
     end
 
     describe "#name" do
       it "is invalid without an unique name" do
-        page1 = FactoryGirl.create(:webmasters_cms_page)
-        page2 = FactoryGirl.build(:webmasters_cms_page, name: page1.name)
+        page2 = FactoryGirl.build(:webmasters_cms_page, name: cms_page.name)
         expect(page2).to_not be_valid
       end
 
@@ -22,7 +25,7 @@ module WebmastersCms
       end
 
       it "is valid with a long name with multibyte characters" do
-        expect(FactoryGirl.create(:webmasters_cms_page, name: "A"*253 + "€€")).to be_valid
+        expect(FactoryGirl.build(:webmasters_cms_page, name: "A"*253 + "€€")).to be_valid
       end
     end
 
@@ -36,8 +39,7 @@ module WebmastersCms
       end
 
       it "is invalid without an unique local_path" do
-        page1 = FactoryGirl.create(:webmasters_cms_page)
-        page2 = FactoryGirl.build(:webmasters_cms_page, local_path: page1.local_path)
+        page2 = FactoryGirl.build(:webmasters_cms_page, local_path: cms_page.local_path)
         expect(page2).to_not be_valid
       end
 
@@ -82,57 +84,65 @@ module WebmastersCms
 
     describe ".without_page(not_persisted_page)" do
       it "returns a collection of all available pages" do
-        page1 = FactoryGirl.create(:webmasters_cms_page)
-        page2 = FactoryGirl.create(:webmasters_cms_page)
+        cms_page2 = FactoryGirl.create(:webmasters_cms_page)
 
-        expect(Page.without_page(Page.new)).to include(page1)
-        expect(Page.without_page(Page.new)).to include(page2)
+        expect(Page.without_page(Page.new)).to include(cms_page)
+        expect(Page.without_page(Page.new)).to include(cms_page2)
       end
     end
 
     describe ".without_page(persisted_page)" do
       it "returns a collection without the persisted page" do
-        page1 = FactoryGirl.create(:webmasters_cms_page)
-        page2 = FactoryGirl.create(:webmasters_cms_page)
+        cms_page2 = FactoryGirl.create(:webmasters_cms_page)
 
-        expect(Page.without_page(page2)).to include(page1)
-        expect(Page.without_page(page2)).to_not include(page2)
+        expect(Page.without_page(cms_page2)).to include(cms_page)
+        expect(Page.without_page(cms_page2)).to_not include(cms_page2)
       end
     end
 
-    describe ".update_parents(valid_hash)" do
+    describe ".update_tree(valid_hash)" do
       it "updates the parent_id (value) of the page_id (key)" do
-        child_page = FactoryGirl.create(:webmasters_cms_page)
-        parent_page = FactoryGirl.create(:webmasters_cms_page)
+        Page.update_tree({child_page1.id => cms_page.id})
 
-        Page.update_parents({child_page.id => parent_page.id})
+        child_page1.reload
 
-        child_page.reload
-
-        expect(child_page.parent_id).to eq(parent_page.id)
+        expect(child_page1.parent_id).to eq(cms_page.id)
       end
 
       it "translates parent_id 'null' to parent_id nil" do
-        parent_page = FactoryGirl.create(:webmasters_cms_page)
-        child_page = FactoryGirl.create(:webmasters_cms_page, parent_id: parent_page.id)
+        Page.update_tree({child_page1.id => 'null'})
 
-        Page.update_parents({child_page.id => 'null'})
+        child_page1.reload
 
-        child_page.reload
-
-        expect(child_page.parent_id).to be_nil
+        expect(child_page1.parent_id).to be_nil
       end
+
+      it "moves a child page to second place in order" do
+        child_page1
+        child_page2 = FactoryGirl.create(:webmasters_cms_page, parent: cms_page)
+        child_page3 = FactoryGirl.create(:webmasters_cms_page, parent: cms_page)
+        params = {}
+        params[cms_page.id.to_s] = 'null'
+        params[child_page3.id.to_s] = cms_page.id.to_s
+        params[child_page1.id.to_s] = cms_page.id.to_s
+        params[child_page2.id.to_s] = cms_page.id.to_s
+
+        expect(cms_page.children(true)).to eq([child_page1, child_page2, child_page3])
+
+        Page.update_tree(params)
+        
+        expect(cms_page.children(true)).to eq([child_page3, child_page1, child_page2])
+      end
+
     end
 
-    describe ".update_parents(invalid_hash)" do
+    describe ".update_tree(invalid_hash)" do
       it "does nothing" do
-        child_page = FactoryGirl.create(:webmasters_cms_page)
+        Page.update_tree({cms_page.id => cms_page.name})
 
-        Page.update_parents({child_page.id => child_page.name})
+        cms_page.reload
 
-        child_page.reload
-
-        expect(child_page.parent_id).to be_nil
+        expect(cms_page.parent_id).to be_nil
       end
     end
   end
