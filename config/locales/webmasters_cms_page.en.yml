@@ -16,6 +16,7 @@ en:
   webmasters_cms:
     admin:
       pages:
+        preview_button: "Page Preview"
         index:
           all_pages: "All Pages"
           title: "Title"

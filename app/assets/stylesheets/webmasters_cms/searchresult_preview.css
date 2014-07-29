@@ -1,0 +1,48 @@
+.searchresult {
+  font-size: small;
+  font-family: arial,sans-serif;
+  width: 512px;
+  margin-bottom: 20px;
+}
+
+.big-link {
+  color: #1a0dab;
+  font-size: 18px;
+  margin: 0;
+  font-weight: normal;
+}
+
+.big-link a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.big-link a:hover {
+  text-decoration: underline;
+}
+
+.big-link a:visited {
+  color: #609;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.info {
+  line-height: 18px;
+}
+
+.url {
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.green {
+  color: #006621;
+  font-style: normal;
+}
+
+.metadesc {
+  color: #545454;
+}
