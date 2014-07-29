@@ -9,7 +9,10 @@
 <%= render partial: 'form', locals: {f: f} %>
 <%= f.submit t('webmasters_cms.admin.pages.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
 
-<% end %>
+  <div class="preview">
+    <%= render partial: 'searchresult_preview' %>
+  </div>
 
+<% end %>
 
 <%= render 'back' %>
