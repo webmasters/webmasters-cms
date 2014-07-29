@@ -168,6 +168,39 @@ module WebmastersCms
           expect(page).to have_content "Body"
         end
       end
+
+      it "adds cssclass ok to title length counter with good length", js: true do
+        visit new_admin_page_path
+        fill_in 'Title', :with => "A"*20
+
+        expect(page).to have_selector "#titleLength.ok"
+        expect(page).to have_content "20 / 55"
+      end
+
+      it "adds cssclass ok to meta desc length counter with good length", js: true do
+        visit new_admin_page_path
+        fill_in 'Meta description', :with => "A"*55
+
+        expect(page).to have_css "#metaDescLength.ok"
+        expect(page).to have_content "55 / 155"
+      end
+
+      it "adds cssclass warning to title length counter with long length", js: true do
+        visit new_admin_page_path
+        fill_in 'Title', :with => "A"*120
+
+        expect(page).to have_css "#titleLength.warning"
+        expect(page).to have_content "120 / 55"
+      end
+
+      it "adds cssclass warning to meta desc length counter with long length", js: true do
+        visit new_admin_page_path
+        fill_in 'Meta description', :with => "A"*170
+
+        expect(page).to have_css "#metaDescLength.warning"
+        expect(page).to have_content "170 / 155"
+      end
+
     end
   end
 end
