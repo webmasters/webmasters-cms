@@ -4,6 +4,7 @@ module WebmastersCms
 
     require 'awesome_nested_set'
     require 'acts_as_versioned'
+    require 'ckeditor-rails'
 
     config.generators do |g|
       g.orm :active_record

@@ -1,10 +1,10 @@
 WebmastersCms::Engine.routes.draw do
+  # mount Ckeditor::Engine => '/ckeditor'
   namespace :admin do
     resources :pages do
       member do
         patch :set_current_version
       end
-      # mount Ckeditor::Engine => '/ckeditor'
 
       collection do
         put :sort
