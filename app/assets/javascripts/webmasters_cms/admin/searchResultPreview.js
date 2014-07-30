@@ -1,6 +1,8 @@
 jQuery(function($) {
 
-  $('div.preview').preventDefault();
+  $('.searchResult').on("click", function() {
+    event.preventDefault();
+  });
 
   $('#page_title').on("keyup", function() {
     var element = $(this);
