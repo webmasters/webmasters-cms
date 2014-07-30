@@ -12,12 +12,12 @@
   font-weight: normal;
 }
 
-.big-link a {
+.big-link span {
   text-decoration: none;
   cursor: pointer;
 }
 
-.big-link a:hover {
+.big-link span:hover {
   text-decoration: underline;
 }
 

@@ -18,6 +18,9 @@
     <br />
     <span id="metaDescLength"><span>0</span> / 155 Letters (max. 300)</span>
   </p>
+  <div class="preview">
+    <%= render partial: 'searchresult_preview' %>
+  </div>
   <p>
     <%= f.label :body %><br>
     <%= f.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>

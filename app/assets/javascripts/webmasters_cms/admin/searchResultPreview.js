@@ -1,12 +1,14 @@
 jQuery(function($) {
 
+  $('div.preview').preventDefault();
+
   $('#page_title').on("keyup", function() {
     var element = $(this);
     var strLength = 55;
     if (element.val().length <= strLength) {
-      $('.big-link a').html(element.val());
+      $('.big-link span').html(element.val());
     } else {
-      $('.big-link a').html(element.val().replace(new RegExp("^(.{" + strLength + "}[^\s]*).*"), "$1") + '&nbsp;...');
+      $('.big-link span').html(element.val().replace(new RegExp("^(.{" + strLength + "}[^\s]*).*"), "$1") + '&nbsp;...');
     }
   });
 
