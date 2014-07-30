@@ -12,10 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require ckeditor-jquery
 //= require jquery-ui
 //= require jquery.mjs.nestedSortable
-//= require_tree ./ckeditor
 //= require_tree .
 
 jQuery(function($) {
