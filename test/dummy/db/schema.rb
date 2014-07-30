@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702160154) do
+ActiveRecord::Schema.define(version: 20140730130511) do
+
+  create_table "webmasters_cms_active_languages", force: true do |t|
+    t.string "name",        null: false
+    t.string "native_name", null: false
+    t.string "code",        null: false
+  end
+
+  add_index "webmasters_cms_active_languages", ["code"], name: "index_webmasters_cms_active_languages_on_code", unique: true, using: :btree
+
+  create_table "webmasters_cms_page_translations", force: true do |t|
+    t.string   "name",             null: false
+    t.string   "local_path",       null: false
+    t.string   "title",            null: false
+    t.string   "meta_description", null: false
+    t.text     "body",             null: false
+    t.string   "language",         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "webmasters_cms_page_translations", ["local_path"], name: "index_webmasters_cms_page_translations_on_local_path", unique: true, using: :btree
+  add_index "webmasters_cms_page_translations", ["name"], name: "index_webmasters_cms_page_translations_on_name", unique: true, using: :btree
 
   create_table "webmasters_cms_page_versions", force: true do |t|
     t.integer  "page_id"
@@ -23,6 +45,7 @@ ActiveRecord::Schema.define(version: 20140702160154) do
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "language"
   end
 
   add_index "webmasters_cms_page_versions", ["page_id"], name: "index_webmasters_cms_page_versions_on_page_id", using: :btree

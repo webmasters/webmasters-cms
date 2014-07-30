@@ -16,7 +16,7 @@ module WebmastersCms
 
       private
       def page
-        @page ||= Page.find(params[:page_id])
+        @page ||= PageTranslation.find(params[:page_id])
       end
 
       def collection

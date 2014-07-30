@@ -15,7 +15,6 @@ module WebmastersCms
       end
 
       def sort
-        Rails.logger.info(params[:page].inspect)
         Page.update_tree(params[:page])
         render :nothing => true
       end
