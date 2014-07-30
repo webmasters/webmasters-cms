@@ -7,6 +7,7 @@ require "webmasters_cms"
 
 module Dummy
   class Application < Rails::Application
+    config.assets.paths << Rails.root.join('public', 'javascripts').to_s 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -20,4 +21,3 @@ module Dummy
     # config.i18n.default_locale = :de
   end
 end
-

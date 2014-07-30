@@ -14,6 +14,11 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.mjs.nestedSortable
+//= require webmasters_cms/jquery.livequery
+//= require webmasters_cms/ckeditor/base_path
+//= require webmasters_cms/ckeditor/ckeditor
+//= require webmasters_cms/ckeditor/config
+//= require webmasters_cms/ckeditor/ckeditor_init 
 //= require_tree .
 
 jQuery(function($) {
