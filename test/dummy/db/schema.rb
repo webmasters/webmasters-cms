@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730130511) do
+ActiveRecord::Schema.define(version: 20140731060907) do
 
   create_table "webmasters_cms_active_languages", force: true do |t|
     t.string "name",        null: false
@@ -26,8 +26,10 @@ ActiveRecord::Schema.define(version: 20140730130511) do
     t.string   "local_path",       null: false
     t.string   "title",            null: false
     t.string   "meta_description", null: false
-    t.text     "body",             null: false
     t.string   "language",         null: false
+    t.text     "body",             null: false
+    t.integer  "version",          null: false
+    t.integer  "page_id",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,12 +1,9 @@
 class CreateWebmastersCmsPageTranslations < ActiveRecord::Migration
   def change
     create_table :webmasters_cms_page_translations do |t|
-      t.string :name, null: false
-      t.string :local_path, null: false
-      t.string :title, null: false
-      t.string :meta_description, null: false
+      t.string :name, :local_path, :title, :meta_description, :language, null: false
       t.text :body, null: false
-      t.string :language, null: false
+      t.integer :version, :page_id, null: false
       
       t.timestamps
 
