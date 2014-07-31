@@ -1,13 +1,14 @@
-<%= form_for resource, url: {action: "create"} do |f| %>
+<%= form_for resource, url: { action: "create" } do |f| %>
 
   <%= render 'messages' %>
 
   <h1><%= t('.create_page') %></h1>
 
   <%= render partial: 'form', locals: {f: f} %>
+
   <%= f.submit t('webmasters_cms.admin.pages.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
 
 <% end %>
 
-<%= render 'back' %>
+<%= render 'webmasters_cms/admin/pages/back' %>
 

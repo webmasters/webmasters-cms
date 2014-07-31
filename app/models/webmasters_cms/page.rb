@@ -1,5 +1,7 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
+    has_many :translations, class_name: :page_translations
+
     acts_as_nested_set
 
     def self.without_page(page)

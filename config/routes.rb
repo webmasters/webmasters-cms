@@ -8,8 +8,8 @@ WebmastersCms::Engine.routes.draw do
         collection do
           put :sort
         end
-
-        resources :page_versions, path: :versions, as: :versions, only: [:index, :show]
+        resources :page_translations, path: :translations, as: :translations
+        resources :page_translation_versions, path: :versions, as: :versions, only: [:index, :show]
       end
     end
 

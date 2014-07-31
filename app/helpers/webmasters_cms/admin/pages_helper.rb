@@ -17,15 +17,16 @@ module WebmastersCms
       end
 
       def create_list_item(page)
+        page_translation = PageTranslation.find_by(page_id: page.id)
         list_item = []
-        list_item << link_to(page.name, admin_page_path(page))
-        list_item << h("(#{t('.title')}: #{page.title})")
-        list_item << render(partial: 'actions', locals: {page: page})
+        list_item << link_to(page_translation.name, admin_page_translations_path(page_translation))
+        list_item << h("(#{t('.title')}: #{page_translation.title})")
+        list_item << render(partial: 'actions', locals: {page: page_translation})
         list_item.join(" ").html_safe
       end
 
       def nested_set_for_select
-        nested_set_options(collection, resource) {|i| "#{'-' * i.level} #{i.name}" }
+        nested_set_options(collection, resource) {|i| "#{'-' * i.level} #{PageTranslation.find_by(page_id: i.id).name}" }
       end
     end
   end

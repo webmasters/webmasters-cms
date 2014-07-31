@@ -1,7 +1,9 @@
 module WebmastersCms
   class PageTranslation < ActiveRecord::Base
-    acts_as_versioned table_name: "webmasters_cms_page_versions",
-      if_changed: [:name, :local_path, :title, :meta_description, :body]
+    belongs_to :page
+
+    acts_as_versioned table_name: "webmasters_cms_page_translation_versions",
+      if_changed: [:name, :local_path, :title, :meta_description, :body, :language]
 
     validates :name, :local_path, uniqueness: true
 
