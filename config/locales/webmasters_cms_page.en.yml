@@ -3,8 +3,8 @@ en:
     active_languages:
       flash:
         success:
-          create: "Language successfully activated!"
-          delete: "Language successfully deactivated!"
+          create: "Language activated!"
+          delete: "Language deactivated!"
     pages:
       flash:
         success:
