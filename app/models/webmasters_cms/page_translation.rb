@@ -17,7 +17,8 @@ module WebmastersCms
 
     validates :local_path, format: { with: /\A[a-zA-Z0-9\-\_]+\z/ }
 
-    validates :language, presence: true
+    validates :language, presence: true, uniqueness: {scope: :page_id}
+    #only active languages can be chosen
 
     def current_version
       versions.where(:version => version).first

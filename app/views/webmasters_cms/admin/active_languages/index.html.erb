@@ -1,0 +1,9 @@
+<h1>Available Languages</h1>
+
+<ul>
+  <% collection.each do |l| %>
+    <li><%= klass::AVAILABLE_LANGUAGES[l.code]['name'] %></li>
+  <% end %>
+</ul>
+
+<%= link_to t('.activate_new_language'), new_admin_active_language_path %>

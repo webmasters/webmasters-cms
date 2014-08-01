@@ -1,0 +1,4 @@
+<%= form_for resource, url: { action: "create" } do |f| %>
+  <%= f.select 'code', klass::AVAILABLE_LANGUAGE_SELECT_OPTIONS %>
+  <%= f.submit t('.activate_language')%>
+<% end %>

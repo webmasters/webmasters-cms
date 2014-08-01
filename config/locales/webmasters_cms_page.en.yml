@@ -1,18 +1,24 @@
 en:
   activerecord:
-    flash:
-      success:
-        create: "Page successfully created!"
-        update: "Page successfully updated!"
-        delete: "Page successfully deleted!"
-      error:
-        not_found: "Page not found!"
-    errors:
-      models:
-        webmasters_cms/page:
-          attributes:
-            local_path:
-              invalid: "can only consist of alphanumeric letters, hyphens and underscores"
+    active_languages:
+      flash:
+        success:
+          create: "Language successfully activated!"
+          delete: "Language successfully deactivated!"
+    pages:
+      flash:
+        success:
+          create: "Page successfully created!"
+          update: "Page successfully updated!"
+          delete: "Page successfully deleted!"
+        error:
+          not_found: "Page not found!"
+      errors:
+        models:
+          webmasters_cms/page:
+            attributes:
+              local_path:
+                invalid: "can only consist of alphanumeric letters, hyphens and underscores"
   webmasters_cms:
     admin:
       pages:
@@ -38,3 +44,6 @@ en:
           title: "Title"
           meta_description: "Meta description"
           body: "Body"
+      active_languages:
+        new:
+          activate_language: "Activate Language"

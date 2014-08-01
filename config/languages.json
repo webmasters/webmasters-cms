@@ -1,8 +1,6 @@
-/**
- * @author Phil Teare
- * using wikipedia data
- */
-isoLangs = {
+// @author Phil Teare
+// using wikipedia data
+{
     "ab":{
         "name":"Abkhaz",
         "nativeName":"аҧсуа"
@@ -381,7 +379,7 @@ isoLangs = {
     },
     "lu":{
         "name":"Luba-Katanga",
-        "nativeName":""
+        "nativeName":"Luba-Katanga"
     },
     "lv":{
         "name":"Latvian",
