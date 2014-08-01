@@ -10,7 +10,7 @@ module WebmastersCms
       end
 
       def sort
-        Page.update_tree(params[:page])
+        klass.update_tree(params[:page])
         render :nothing => true
       end
 
@@ -19,7 +19,7 @@ module WebmastersCms
       end
 
       def new
-        @resource = Page.new
+        @resource = klass.new
       end
 
       def edit
@@ -30,7 +30,7 @@ module WebmastersCms
       end
 
       def create
-        @resource = Page.create(page_params)
+        @resource = klass.create(page_params)
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :pages, :flash, :success]
           redirect_to admin_pages_path
@@ -55,17 +55,22 @@ module WebmastersCms
       end
 
       private
+        def klass
+          Page
+        end
+
         def page_params
-          params.required(:page).permit(:title, :name, :local_path, :meta_description, :body, :language, :parent_id, :rgt, :lft)
+          params.required(:page).permit(:parent_id, :rgt, :lft, 
+            translations_attributes: [:title, :name, :local_path, :meta_description, :body, :language])
         end
 
         def collection
-          @collection ||= Page.all
+          @collection ||= klass.all
         end
 
         def resource
           params[:id] = params[:page_id] unless params[:id]
-          @resource ||= Page.find(params[:id])
+          @resource ||= klass.find(params[:id])
         end
     end
   end

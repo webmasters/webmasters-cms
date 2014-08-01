@@ -1,6 +1,7 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
-    has_many :translations, class_name: :page_translations
+    has_many :translations, class_name: "PageTranslation"
+    accepts_nested_attributes_for :translations
 
     acts_as_nested_set
 

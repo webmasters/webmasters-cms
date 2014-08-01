@@ -1,7 +1,7 @@
 jQuery(function($) {
   if ($('#titleLength').length) {
-    $('#titleLength span').html($('#page_title').val().length);
-    $('#metaDescLength span').html($('#page_meta_description').val().length);
+    $('#titleLength span').html($('#translation_title').val().length);
+    $('#metaDescLength span').html($('#translation_meta_description').val().length);
     if ($('#titleLength').val().length < 56) {
       $('#titleLength').removeClass('warning').addClass('ok');
     } else {
@@ -13,7 +13,7 @@ jQuery(function($) {
       $('#metaDescLength').removeClass('ok').addClass('warning');
     }
 
-    $('#page_title').on('keyup', function() {
+    $('#translation_title').on('keyup', function() {
       var element = $(this);
       $('#titleLength span').html(element.val().length);
       if (element.val().length < 56) {
@@ -23,7 +23,7 @@ jQuery(function($) {
       }  
     });
 
-      $('#page_meta_description').on('keyup', function() {
+      $('#translation_meta_description').on('keyup', function() {
       var element = $(this);
       $('#metaDescLength span').html(element.val().length);
       if (element.val().length < 156) {
