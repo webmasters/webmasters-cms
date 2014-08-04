@@ -1,4 +1,4 @@
-  <%= fields_for :translation, resource.translations.find_by(page_id: resource.id) do |t| %>
+  <%= f.fields_for :translations, resource.translations.find_by(page_id: resource.id) do |t| %>
     <p>
       <%= t.label :language %><br>
       <%= t.select :language, WebmastersCms::ActiveLanguage.all.collect { |l| [ WebmastersCms::ActiveLanguage::AVAILABLE_LANGUAGES[l.code]['nativeName'], l.id ] }, include_blank: "Choose the language for this page" %>
@@ -31,11 +31,12 @@
       <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
     </p>
   <% end %>
+  <% if (resource.translations.any?) %>
   <p>
      <%= f.label :parent_id %><br>
      <%= f.select :parent_id, nested_set_for_select, include_blank: "- No Parent -" %>
   </p>
-
+  <% end %>
   <p>
     <%= f.submit %>
   </p>

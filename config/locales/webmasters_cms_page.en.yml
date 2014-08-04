@@ -47,3 +47,5 @@ en:
       active_languages:
         index:
           activate_new_language: "Activate new Language"
+        new:
+          activate_language: "Activate language"
