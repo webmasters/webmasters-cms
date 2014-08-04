@@ -15,7 +15,7 @@ module WebmastersCms
     end
 
     def preview
-      @resource = PageTranslation.new(page_params)
+      @resource = PageTranslation.new(page_params[:page])
       render action: 'show'
     end
 

@@ -11,12 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731094355) do
+ActiveRecord::Schema.define(version: 20140804081855) do
 
   create_table "webmasters_cms_active_languages", force: true do |t|
-    t.string "name",        null: false
-    t.string "native_name", null: false
-    t.string "code",        null: false
+    t.string "code", null: false
   end
 
   add_index "webmasters_cms_active_languages", ["code"], name: "index_webmasters_cms_active_languages_on_code", unique: true, using: :btree
