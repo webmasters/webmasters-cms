@@ -45,5 +45,5 @@ en:
           meta_description: "Meta description"
           body: "Body"
       active_languages:
-        new:
-          activate_language: "Activate Language"
+        index:
+          activate_new_language: "Activate new Language"
