@@ -10,7 +10,7 @@ jQuery(function($) {
     if (element.val().length <= strLength) {
       $('.big-link span').html(element.val());
     } else {
-      $('.big-link span').html(element.val().replace(new RegExp("^(.{" + strLength + "}[^\s]*).*"), "$1") + '&nbsp;...');
+      $('.big-link span').html(element.val().replace(new RegExp("^(.{" + strLength + "}[\s]*).*"), "$1") + '&nbsp;...');
     }
   });
 
@@ -20,7 +20,7 @@ jQuery(function($) {
     if (element.val().length <= strLength) {
       $('.metadesc').html(element.val());
     } else {
-      $('.metadesc').html(element.val().replace(new RegExp("^(.{" + strLength + "}[^\s]*).*"), "$1") + '&nbsp;...');
+      $('.metadesc').html(element.val().replace(new RegExp("^(.{" + strLength + "}[\s]*).*"), "$1") + '&nbsp;...');
     }
   });
 

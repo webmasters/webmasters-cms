@@ -3,6 +3,7 @@
   font-family: arial,sans-serif;
   width: 512px;
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
 
 .big-link {
