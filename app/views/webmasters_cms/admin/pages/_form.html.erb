@@ -1,7 +1,7 @@
-  <%= f.fields_for :translations, resource.translations.find_by(page_id: resource.id) do |t| %>
+  <%= f.fields_for :translations, @translation do |t| %>
     <p>
       <%= t.label :language %><br>
-      <%= t.select :language, WebmastersCms::ActiveLanguage.all.collect { |l| [ WebmastersCms::ActiveLanguage::AVAILABLE_LANGUAGES[l.code]['nativeName'], l.id ] }, include_blank: "Choose the language for this page" %>
+      <%= t.select :language, WebmastersCms::ActiveLanguage.all.collect { |l| [ WebmastersCms::ActiveLanguage::AVAILABLE_LANGUAGES[l.code]['nativeName'], l.code ] }, include_blank: "Choose the language for this page" %>
     </p>
       <p>
       <%= t.label :name %><br>

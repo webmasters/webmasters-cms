@@ -19,7 +19,7 @@ module WebmastersCms
       def create_list_item(page)
         page_translation = page.translations.find_by(page_id: page.id)
         list_item = []
-        list_item << link_to(page_translation.name, admin_page_path(page_translation.id))
+        list_item << link_to(page_translation.name, admin_page_path(page.id))
         list_item << h("(#{t('.title')}: #{page_translation.title})")
         list_item << render(partial: 'actions', locals: {page: page_translation})
         list_item.join(" ").html_safe

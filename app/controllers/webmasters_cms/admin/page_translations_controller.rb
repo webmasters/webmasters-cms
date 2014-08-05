@@ -26,7 +26,7 @@ module WebmastersCms
       end
 
       def create
-        @resource = Page.translations.create(page_params)
+        @resource = resource.translations.create(page_params)
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :flash, :success]
           redirect_to admin_pages_path

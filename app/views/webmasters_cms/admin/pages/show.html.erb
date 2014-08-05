@@ -3,5 +3,5 @@
 <%= render partial: 'actions', locals: {page: resource} %>
 
 <%= render partial: 'page', locals: {resource: resource} %>
-<% content_for :title, resource.title %>
-<% content_for :meta_description, resource.meta_description %>
+<% content_for :title, resource.translations.find_by(page_id: params[:id]).title %>
+<% content_for :meta_description, resource.translations.find_by(page_id: params[:id]).meta_description %>

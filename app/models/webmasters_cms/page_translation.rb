@@ -1,9 +1,10 @@
 module WebmastersCms
   class PageTranslation < ActiveRecord::Base
-    belongs_to :page, inverse_of: :translations, foreign_key: "page_id"
+    belongs_to :page, inverse_of: :translations
 
     acts_as_versioned table_name: "webmasters_cms_page_translation_versions",
-      if_changed: [:name, :local_path, :title, :meta_description, :body, :language]
+      if_changed: [:name, :local_path, :title, :meta_description, :body, :language],
+      non_versioned_columns: [:page_id]
 
     validates :name, :local_path, uniqueness: true
 

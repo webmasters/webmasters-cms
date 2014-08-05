@@ -21,7 +21,7 @@ module WebmastersCms
 
     private
       def resource
-        @resource ||= PageTranslation.where(:local_path => params[:local_path]).first
+        @resource ||= Page.translations.find_by(local_path: params[:local_path])
       end
 
       def cms_page_layout
