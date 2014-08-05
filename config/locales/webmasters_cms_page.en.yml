@@ -1,10 +1,21 @@
 en:
   activerecord:
+    errors:
+      models:
+        webmasters_cms/active_languages:
+          attributes:
+            code:
+              taken: "Already active!"
     active_languages:
       flash:
         success:
           create: "Language activated!"
           delete: "Language deactivated!"
+        models:
+          webmasters_cms/active_languages:
+            attributes:
+              code:
+                taken: "This language is already active!"
     pages:
       flash:
         success:
@@ -13,7 +24,6 @@ en:
           delete: "Page successfully deleted!"
         error:
           not_found: "Page not found!"
-      errors:
         models:
           webmasters_cms/page:
             attributes:
