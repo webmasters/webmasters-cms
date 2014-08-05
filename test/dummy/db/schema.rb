@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140804081855) do
+ActiveRecord::Schema.define(version: 20140805082858) do
 
   create_table "webmasters_cms_active_languages", force: true do |t|
     t.string "code", null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20140804081855) do
 
   add_index "webmasters_cms_page_translations", ["local_path"], name: "index_webmasters_cms_page_translations_on_local_path", unique: true, using: :btree
   add_index "webmasters_cms_page_translations", ["name"], name: "index_webmasters_cms_page_translations_on_name", unique: true, using: :btree
+  add_index "webmasters_cms_page_translations", ["page_id"], name: "index_webmasters_cms_page_translations_on_page_id", using: :btree
 
   create_table "webmasters_cms_pages", force: true do |t|
     t.datetime "created_at"

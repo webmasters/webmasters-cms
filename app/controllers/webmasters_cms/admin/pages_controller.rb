@@ -20,7 +20,7 @@ module WebmastersCms
 
       def new
         @resource = klass.new
-        resource.translations.build
+        resource.translations.new
       end
 
       def edit
@@ -32,7 +32,7 @@ module WebmastersCms
 
       def create
         @resource = klass.create(page_params)
-        resource.translations_attributes = page_params[:page][:translations]
+        resource.translations.create(page_params)
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :pages, :flash, :success]
           redirect_to admin_pages_path
@@ -63,7 +63,7 @@ module WebmastersCms
 
         def page_params
           params.required(:page).permit(:parent_id, :rgt, :lft,
-            translations_attributes: [:id, :title, :name, :local_path, :meta_description, :body, :language])
+            translations_attributes: [:title, :name, :local_path, :meta_description, :body, :language])
         end
 
         def collection
