@@ -1,6 +1,7 @@
 module WebmastersCms
   class PageTranslation < ActiveRecord::Base
     belongs_to :page, inverse_of: :translations
+    validates :page, presence: true
 
     acts_as_versioned table_name: "webmasters_cms_page_translation_versions",
       if_changed: [:name, :local_path, :title, :meta_description, :body, :language],
@@ -22,7 +23,7 @@ module WebmastersCms
     #only active languages can be chosen
 
     def current_version
-      versions.where(:version => version).first
+      versions.where(version: version).first
     end
   end
 end

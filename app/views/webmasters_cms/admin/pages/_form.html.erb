@@ -1,9 +1,17 @@
-  <%= f.fields_for :translations, @translation do |t| %>
+<p>
+   <%= f.label :parent_id %><br>
+   <%= f.select :parent_id, nested_set_for_select, include_blank: "- No Parent -" %>
+</p>
+<p>
+  <%= label_tag :language %><br>
+  <% languages_array = WebmastersCms::ActiveLanguage.all.collect { |l| [ WebmastersCms::ActiveLanguage::AVAILABLE_LANGUAGES[l.code]['nativeName'], l.code ] } %>
+  <%= select_tag :language, options_for_select(languages_array) %>
+  <br>
+  <%= render partial: 'versions', locals: {resource: resource} unless resource.translations.find_by(language: params[:language]).versions.size <= 1 %>
+</p>
+<% 
+  <%= f.fields_for :translations do |t| %>
     <p>
-      <%= t.label :language %><br>
-      <%= t.select :language, WebmastersCms::ActiveLanguage.all.collect { |l| [ WebmastersCms::ActiveLanguage::AVAILABLE_LANGUAGES[l.code]['nativeName'], l.code ] }, include_blank: "Choose the language for this page" %>
-    </p>
-      <p>
       <%= t.label :name %><br>
       <%= t.text_field :name %>
     </p>
@@ -12,7 +20,7 @@
       <%= t.text_field :local_path %>
     </p>
     <p>
-      <%= t.label :title, "Title Tag" %><br>
+      <%= t.label :title %><br>
       <%= t.text_field :title, size: "60", maxlength: "120" %>
       <br />
       <span id="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
@@ -30,11 +38,12 @@
       <%= t.label :body %><br>
       <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
     </p>
+    <% unless t.object.new_record? %>
+      <%= t.check_box '_destroy' %>
+      <%= t.label '_destroy', t('.delete_translation') %>
+    <% end %>
   <% end %>
-  <p>
-     <%= f.label :parent_id %><br>
-     <%= f.select :parent_id, nested_set_for_select, include_blank: "- No Parent -" %>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
+
+<p>
+  <%= f.submit %>
+</p>

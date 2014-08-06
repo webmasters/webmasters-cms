@@ -17,11 +17,12 @@ module WebmastersCms
       end
 
       def create_list_item(page)
-        page_translation = page.translations.find_by(page_id: page.id)
+        page_translations = page.translations.sort do |a,b| a.language <=> b.language end
         list_item = []
-        list_item << link_to(page_translation.name, admin_page_path(page.id))
-        list_item << h("(#{t('.title')}: #{page_translation.title})")
-        list_item << render(partial: 'actions', locals: {page: page_translation})
+        page_translations.each do |page_translation|
+          list_item << link_to("(#{page_translation.language}) #{page_translation.name}", edit_admin_page_path(page, language: page_translation.language))
+        end
+        list_item << render(partial: 'actions', locals: {page: page})
         list_item.join(" ").html_safe
       end
 

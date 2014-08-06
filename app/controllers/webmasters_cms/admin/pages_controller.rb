@@ -62,7 +62,7 @@ module WebmastersCms
 
         def page_params
           params.required(:page).permit(:parent_id, :rgt, :lft,
-            translations_attributes: [:page_id, :title, :name, :local_path, :meta_description, :body, :language])
+            translations_attributes: [:id ,:page_id, :title, :name, :local_path, :meta_description, :body, :language, :_destroy])
         end
 
         def collection
@@ -71,13 +71,11 @@ module WebmastersCms
 
         def resource
           params[:id] = params[:page_id] unless params[:id]
-          # @resource ||= klass.translations.where(language: '1').find(params[:id])
           @resource ||= klass.find(params[:id])
         end
 
         def translation
-          @translation ||= resource.translations.find_by(language: 1)
-          # @translation ||= resource.translations.find_by(language: ActiveLanguage.find(params[:language]))
+          @translation ||= resource.translations.find_by(language: params[:locale])
         end
     end
   end

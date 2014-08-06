@@ -5,6 +5,8 @@ en:
         code:
           one: "Language"
           other: "Languages"
+      webmasters_cms/page_translation:
+        title: "Title tag"
     errors:
       models:
         webmasters_cms/active_language:
