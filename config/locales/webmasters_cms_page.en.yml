@@ -1,21 +1,25 @@
 en:
   activerecord:
+    attributes:
+      webmasters_cms/active_language:
+        code:
+          one: "Language"
+          other: "Languages"
     errors:
       models:
-        webmasters_cms/active_languages:
+        webmasters_cms/active_language:
           attributes:
             code:
-              taken: "Already active!"
+              taken: "already active!"
+        webmasters_cms/page_translation:
+          attributes:
+            local_path:
+              invalid: "can only consist of alphanumeric letters, hyphens and underscores"
     active_languages:
       flash:
         success:
           create: "Language activated!"
           delete: "Language deactivated!"
-        models:
-          webmasters_cms/active_languages:
-            attributes:
-              code:
-                taken: "This language is already active!"
     pages:
       flash:
         success:
@@ -24,11 +28,7 @@ en:
           delete: "Page successfully deleted!"
         error:
           not_found: "Page not found!"
-        models:
-          webmasters_cms/page:
-            attributes:
-              local_path:
-                invalid: "can only consist of alphanumeric letters, hyphens and underscores"
+
   webmasters_cms:
     admin:
       pages:
