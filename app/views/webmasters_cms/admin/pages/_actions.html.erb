@@ -3,4 +3,5 @@
   method: :delete,
   data: { confirm: 'Are you sure?' } %>
 
-<%= link_to t('.show'), main_app.local_path(page.local_path), target: "_blank" %>
+<%= t('.show') %>:
+<%= select_tag 'showPage', options_from_collection_for_select(page.translations, "local_path", "language") %>

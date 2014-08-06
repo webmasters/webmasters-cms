@@ -57,5 +57,7 @@ en:
       active_languages:
         index:
           activate_new_language: "Activate new Language"
+          deactivate_language: "This deactivates the language and makes all pages with this language unavailable!"
+          deactivate: "Deactivate"
         new:
           activate_language: "Activate language"

@@ -2,7 +2,14 @@
 
 <ul>
   <% collection.each do |l| %>
-    <li><%= klass::AVAILABLE_LANGUAGES[l.code]['name'] %></li>
+    <li>
+      <%= klass::AVAILABLE_LANGUAGES[l.code]['name'] %>
+      <span>
+        <%= link_to t('.deactivate'), admin_active_language_path(l.id),
+          method: :delete,
+          data: { confirm: t('.deactivate_language') } %>
+      </span>
+    </li>
   <% end %>
 </ul>
 
