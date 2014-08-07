@@ -23,21 +23,21 @@
       </p>
       <p>
         <%= t.label :local_path %><br>
-        <%= t.text_field :local_path %>
+        <%= t.text_field :local_path, class: 'local_path_js' %>
       </p>
       <p>
         <%= t.label :title %><br>
-        <%= t.text_field :title, size: "60", maxlength: "120" %>
+        <%= t.text_field :title, size: "60", maxlength: "120", class: 'title_js' %>
         <br />
-        <span id="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
+        <span class="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
       </p>
       <p>
         <%= t.label :meta_description %><br>
-        <%= t.text_area :meta_description, size: "60x4", maxlength: "255" %>
+        <%= t.text_area :meta_description, size: "60x4", maxlength: "255", class: 'meta_desc_js' %>
         <br />
-        <span id="metaDescLength"><span>0</span> / 155 Letters (max. 255)</span>
+        <span class="metaDescLength"><span>0</span> / 155 Letters (max. 255)</span>
       </p>
-      <div class="searchResult_<%= lang[1] %>">
+      <div class="searchResult">
         <%= render partial: 'searchresult_preview' %>
       </div>
       <p>
