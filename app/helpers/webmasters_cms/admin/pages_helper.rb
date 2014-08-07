@@ -3,7 +3,7 @@ module WebmastersCms
     module PagesHelper
       def list_collection_ancestry(pages = collection.roots)
         lines = pages.collect do |page|
-          line_content = []
+          line_content = ["Edit: "]
           line_content << content_tag(:span, create_list_item(page))
 
           unless page.children.empty?
@@ -22,7 +22,7 @@ module WebmastersCms
         page_translations.each do |page_translation|
           list_item << link_to("(#{page_translation.language}) #{page_translation.name}", edit_admin_page_path(page, language: page_translation.language))
         end
-        list_item << render(partial: 'actions', locals: {page: page})
+        list_item << render('actions', page: page)
         list_item.join(" ").html_safe
       end
 

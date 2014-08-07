@@ -3,46 +3,56 @@
    <%= f.select :parent_id, nested_set_for_select, include_blank: "- No Parent -" %>
 </p>
 <p>
-  <%= label_tag :language %><br>
   <% languages_array = WebmastersCms::ActiveLanguage.all.collect { |l| [ WebmastersCms::ActiveLanguage::AVAILABLE_LANGUAGES[l.code]['nativeName'], l.code ] } %>
-  <%= select_tag :language, options_for_select(languages_array) %>
-  <br>
-  <%= render partial: 'versions', locals: {resource: resource} unless resource.translations.find_by(language: params[:language]).versions.size <= 1 %>
-</p>
-<% 
-  <%= f.fields_for :translations do |t| %>
-    <p>
-      <%= t.label :name %><br>
-      <%= t.text_field :name %>
-    </p>
-    <p>
-      <%= t.label :local_path %><br>
-      <%= t.text_field :local_path %>
-    </p>
-    <p>
-      <%= t.label :title %><br>
-      <%= t.text_field :title, size: "60", maxlength: "120" %>
-      <br />
-      <span id="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
-    </p>
-    <p>
-      <%= t.label :meta_description %><br>
-      <%= t.text_area :meta_description, size: "60x4", maxlength: "255" %>
-      <br />
-      <span id="metaDescLength"><span>0</span> / 155 Letters (max. 255)</span>
-    </p>
-    <div class="searchResult">
-      <%= render partial: 'searchresult_preview' %>
-    </div>
-    <p>
-      <%= t.label :body %><br>
-      <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
-    </p>
-    <% unless t.object.new_record? %>
-      <%= t.check_box '_destroy' %>
-      <%= t.label '_destroy', t('.delete_translation') %>
+  <p>
+    <%= t('.available_languages') %>:<br>
+    <% languages_array.each do |lang| %>
+      <%= radio_button_tag :code, lang[1], (lang[1] === params[:language]) %>
+      <%= label_tag "code_#{lang[1]}", lang[0], class: 'radio_label' %>
     <% end %>
-  <% end %>
+  </p>
+</p>
+<% languages_array.each do |lang| %>
+  <fieldset id="form_<%= lang[1] %>">
+    <%= f.fields_for :translations, translation = resource.translations.find_or_initialize_by(language: lang) do |t| %>
+      <%= render 'versions', translation: translation unless translation.versions.size <= 1 %>
+      <%= t.hidden_field :language, value: lang[1] %>
+      <p>
+        <%= t.label :name %><br>
+        <%= t.text_field :name %>
+      </p>
+      <p>
+        <%= t.label :local_path %><br>
+        <%= t.text_field :local_path %>
+      </p>
+      <p>
+        <%= t.label :title %><br>
+        <%= t.text_field :title, size: "60", maxlength: "120" %>
+        <br />
+        <span id="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
+      </p>
+      <p>
+        <%= t.label :meta_description %><br>
+        <%= t.text_area :meta_description, size: "60x4", maxlength: "255" %>
+        <br />
+        <span id="metaDescLength"><span>0</span> / 155 Letters (max. 255)</span>
+      </p>
+      <div class="searchResult_<%= lang[1] %>">
+        <%= render partial: 'searchresult_preview' %>
+      </div>
+      <p>
+        <%= t.label :body %><br>
+        <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
+      </p>
+      <p>
+        <% unless t.object.new_record? %>
+          <%= t.check_box '_destroy' %>
+          <%= t.label '_destroy', t('.delete_translation') %>
+        <% end %>
+      </p>
+    <% end %>
+  </fieldset>
+<% end %>
 
 <p>
   <%= f.submit %>

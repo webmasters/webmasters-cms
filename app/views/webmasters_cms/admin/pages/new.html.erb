@@ -4,7 +4,7 @@
 
   <h1><%= t('.create_page') %></h1>
 
-  <%= render partial: 'form', locals: {f: f} %>
+  <%= render 'form', f: f %>
 
   <%= f.submit t('webmasters_cms.admin.pages.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
 

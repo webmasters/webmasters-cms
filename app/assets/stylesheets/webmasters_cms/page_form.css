@@ -5,3 +5,7 @@
 .warning {
   color: red;
 }
+
+.radio_label {
+  margin-right: 10px;
+}

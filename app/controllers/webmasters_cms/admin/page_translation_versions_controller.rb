@@ -11,7 +11,7 @@ module WebmastersCms
 
       def show
         version = collection.find_by(version: params[:version])
-        render partial: '/webmasters_cms/admin/pages/page', locals: {resource: version}
+        render '/webmasters_cms/admin/pages/page', resource: version
       end
 
       private

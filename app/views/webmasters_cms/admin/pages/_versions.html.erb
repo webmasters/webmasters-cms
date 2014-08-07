@@ -1,2 +1,2 @@
 <%= t '.versions_available' %>:
-<%= link_to(resource.translations.find_by(language: params[:language]).versions.size, admin_page_versions_path(resource)) %>
+<%= link_to(translation.versions.size, admin_page_versions_path(translation)) %>

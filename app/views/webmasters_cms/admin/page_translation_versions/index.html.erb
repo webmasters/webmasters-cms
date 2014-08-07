@@ -8,5 +8,5 @@ Chosen Version:
 </div>
 
 Current Version:
-<%= render partial: 'webmasters_cms/admin/pages/page', locals: {resource: page.current_version} %>
-<%= render partial: 'webmasters_cms/admin/pages/back' %>
+<%= render 'webmasters_cms/admin/pages/page', resource: page.current_version %>
+<%= render 'webmasters_cms/admin/pages/back' %>

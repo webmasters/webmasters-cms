@@ -1,4 +1,4 @@
-.searchResult {
+[class^='searchResult'] {
   font-size: small;
   font-family: arial,sans-serif;
   width: 512px;

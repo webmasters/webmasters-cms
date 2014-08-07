@@ -43,7 +43,7 @@ module WebmastersCms
       def update
         if resource.update(page_params)
           flash[:success] = t :update, scope: [:activerecord, :pages, :flash, :success]
-          redirect_to admin_page_path(resource)
+          redirect_to admin_pages_path
         else
           render 'edit'
         end
