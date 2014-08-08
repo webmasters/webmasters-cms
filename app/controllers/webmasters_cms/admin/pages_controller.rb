@@ -15,7 +15,7 @@ module WebmastersCms
       end
 
       def show
-        redirect_to admin_pages_path unless resource
+        redirect_to admin_pages_path unless translation
       end
 
       def new
@@ -80,11 +80,11 @@ module WebmastersCms
 
         def resource
           params[:id] = params[:page_id] unless params[:id]
-          @resource ||= klass.find(params[:id]) unless params[:_method] == 'patch'
+          @resource ||= klass.find(params[:id])
         end
 
         def translation
-          @translation ||= resource.translations.find_by(language: params[:locale])
+          @translation ||= resource.translations.find_by(language: params[:language])
         end
     end
   end
