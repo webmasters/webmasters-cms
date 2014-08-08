@@ -1,5 +1,5 @@
 jQuery(function($) {
-  if ($('.titleLength')[0]) {
+  if ($('input[type="radio"]:checked')[0] && $('.titleLength')[0]) {
 
     function initPreview() {
       var title = $('.title_js:visible');

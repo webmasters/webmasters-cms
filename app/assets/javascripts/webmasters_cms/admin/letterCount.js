@@ -1,5 +1,6 @@
 jQuery(function($) {
-  if ($('.titleLength')[0]) {
+  var radio = $('input[type="radio"]');
+  if ($('input[type="radio"]:checked')[0] && $('.titleLength')[0]) {
 
     function init_form(title, meta_desc) {
       var title = $('.title_js:visible');

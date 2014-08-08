@@ -17,6 +17,9 @@
     <%= f.fields_for :translations, translation = resource.translations.find_or_initialize_by(language: lang) do |t| %>
       <%= render 'versions', translation: translation unless translation.versions.size <= 1 %>
       <%= t.hidden_field :language, value: lang[1] %>
+      <% if t.object.new_record? %>
+        <%= t('.new_translation') %>
+      <% end %>
       <p>
         <%= t.label :name %><br>
         <%= t.text_field :name %>

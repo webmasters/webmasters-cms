@@ -54,6 +54,7 @@ en:
         back:
           back: "Back"
         form:
+          new_translation: "New translation"
           name: "Name"
           local_path: "Local path"
           title: "Title"
