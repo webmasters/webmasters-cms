@@ -1,6 +1,5 @@
 class CreateConstraintForeignKeyPageId < ActiveRecord::Migration
   def change
-    remove_index :webmasters_cms_page_translations, :page_id
     add_index :webmasters_cms_page_translations, :page_id
 
     reversible do |dir|

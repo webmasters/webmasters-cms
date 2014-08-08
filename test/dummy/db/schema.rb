@@ -48,8 +48,9 @@ ActiveRecord::Schema.define(version: 20140808120730) do
   end
 
   add_index "webmasters_cms_page_translations", ["language", "local_path"], name: "wcms_pt_lang_loc_path_index", unique: true, using: :btree
-  add_index "webmasters_cms_page_translations", ["language", "name"], name: "index_webmasters_cms_page_translations_on_language_and_name", unique: true, using: :btree
   add_index "webmasters_cms_page_translations", ["language", "name"], name: "wcms_pt_lang_name_index", unique: true, using: :btree
+  add_index "webmasters_cms_page_translations", ["local_path"], name: "index_webmasters_cms_page_translations_on_local_path", unique: true, using: :btree
+  add_index "webmasters_cms_page_translations", ["name"], name: "index_webmasters_cms_page_translations_on_name", unique: true, using: :btree
   add_index "webmasters_cms_page_translations", ["page_id"], name: "index_webmasters_cms_page_translations_on_page_id", using: :btree
 
   create_table "webmasters_cms_pages", force: true do |t|
