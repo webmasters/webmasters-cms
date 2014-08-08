@@ -18,7 +18,7 @@ class MovePagesColumnDataToPageTranslations < ActiveRecord::Migration
           body: page.body,
           created_at: page.created_at,
           updated_at: page.updated_at,
-          version: page.version,
+          version: page.version || 0,
           language: "en",
           page_id: page.id
         )
