@@ -1,5 +1,5 @@
-<h1><%= resource.translations.find_by(page_id: params[:id]).name %></h1>
+<h1><%= resource.name %></h1>
 
 <div>
-  <%= raw resource.translations.find_by(page_id: params[:id]).body %>
+  <%= raw resource.body %>
 </div>

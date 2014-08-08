@@ -55,6 +55,15 @@ module WebmastersCms
         redirect_to admin_pages_path
       end
 
+      def set_current_version
+        if PageTranslation.find(params[:id]).revert_to!(params[:page_translation][:version])
+          flash[:success] = t :update, scope: [:activerecord, :flash, :success]
+          redirect_to admin_pages_path
+        else
+          render :index
+        end
+      end
+
       private
         def klass
           Page
@@ -71,7 +80,7 @@ module WebmastersCms
 
         def resource
           params[:id] = params[:page_id] unless params[:id]
-          @resource ||= klass.find(params[:id])
+          @resource ||= klass.find(params[:id]) unless params[:_method] == 'patch'
         end
 
         def translation

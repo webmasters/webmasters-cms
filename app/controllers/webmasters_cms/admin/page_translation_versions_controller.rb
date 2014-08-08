@@ -11,13 +11,13 @@ module WebmastersCms
 
       def show
         version = collection.find_by(version: params[:version])
-        render '/webmasters_cms/admin/pages/page', resource: version
+        render partial: '/webmasters_cms/admin/pages/page', locals: { resource: version }
       end
 
       private
         def page_translation
-          @page_translation ||= Page.find(params[:id]).translations.find_by(language: 1)
-          # TODO params language
+          params[:page_id] = params[:id] unless params[:page_id]
+          @page_translation ||= PageTranslation.find(params[:page_id])
         end
 
         def collection

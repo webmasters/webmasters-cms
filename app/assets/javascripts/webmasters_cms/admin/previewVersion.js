@@ -1,8 +1,8 @@
 jQuery(function($) {
-  if ( $('#page_version')[0] ) {
-    var selectedOption = $('#page_version').val();
+  if ( $('#page_translation_version')[0] ) {
+    var selectedOption = $('#page_translation_version').val();
     $.ajax({
-      data: { version: $('#page_version').val() },
+      data: { version: $('#page_translation_version').val() },
       type: 'GET',
       url: 'versions/show',
       success: function (data, textStatus, jqXHR) {
@@ -10,10 +10,10 @@ jQuery(function($) {
       }
     });
   }
-  $(document).on('change', '#page_version', function(event) {
-    var selectedOption = $('#page_version').val();
+  $(document).on('change', '#page_translation_version', function(event) {
+    var selectedOption = $('#page_translation_version').val();
     $.ajax({
-      data: { version: $('#page_version').val() },
+      data: { version: $('#page_translation_version').val() },
       type: 'GET',
       url: 'versions/show',
       success: function (data, textStatus, jqXHR) {

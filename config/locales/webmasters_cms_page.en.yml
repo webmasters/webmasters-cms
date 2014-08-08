@@ -1,5 +1,8 @@
 en:
   activerecord:
+    flash:
+      success:
+        update: "Successfully updated!"
     attributes:
       webmasters_cms/active_language:
         code:
@@ -63,3 +66,6 @@ en:
           deactivate: "Deactivate"
         new:
           activate_language: "Activate language"
+      page_translation_versions:
+        index:
+          current_version: "Use as current version"

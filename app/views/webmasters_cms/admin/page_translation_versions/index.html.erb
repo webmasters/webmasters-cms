@@ -1,6 +1,6 @@
-<%= form_for page, url: set_current_version_admin_page_path(page) do |f| %>
+<%= form_for page_translation, url: set_current_version_admin_page_path(page_translation) do |f| %>
   <%= f.select :version, page_versions_for_select %>
-  <%= f.submit "Use as current version" %>
+  <%= f.submit t('.current_version') %>
 <% end %>
 
 Chosen Version:
@@ -8,5 +8,5 @@ Chosen Version:
 </div>
 
 Current Version:
-<%= render 'webmasters_cms/admin/pages/page', resource: page.current_version %>
+<%= render partial: 'webmasters_cms/admin/pages/page', locals: { resource: page_translation } %>
 <%= render 'webmasters_cms/admin/pages/back' %>
