@@ -26,6 +26,8 @@ Gem::Specification.new do |s|
   #using this version because of https://github.com/collectiveidea/awesome_nested_set/issues/246
   s.add_dependency "awesome_nested_set", "~> 3.0.0.rc.5"
 
+  s.add_dependency "foreigner"
+
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"
   s.add_development_dependency "capybara"

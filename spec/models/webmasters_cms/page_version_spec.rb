@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module WebmastersCms
-  describe Page::Version do
+  describe PageTranslation::Version do
     before :each do
       @cms_page = FactoryGirl.create(:webmasters_cms_page)
     end
