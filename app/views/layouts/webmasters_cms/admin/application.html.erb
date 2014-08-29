@@ -14,7 +14,9 @@
 <header>
   <nav>
     <%= link_to 'Main', admin_pages_path %>
-    <%= link_to 'New Page', new_admin_page_path %>
+    <% if WebmastersCms::ActiveLanguage.any? %>
+      <%= link_to 'New Page', new_admin_page_path %>
+    <% end %>
     <%= link_to 'Language Settings', admin_active_languages_path %>
   </nav>
 </header>

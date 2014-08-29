@@ -1,6 +1,6 @@
 <div class="tree_notice"></div>
 <h1><%= t('.all_pages') %></h1>
 <% content_for :title, t('.all_pages') %>
-<% if (collection.any?) %>
+<% if (collection.any? && WebmastersCms::ActiveLanguage.any?) %>
   <%= list_collection_ancestry %>
 <% end %>
