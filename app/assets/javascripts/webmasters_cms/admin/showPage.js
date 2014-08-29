@@ -1,6 +1,8 @@
 jQuery(function($) {
   $(document).on('click', '.showPage', function () {
-    var url = 'http://' + location.host + '/' + $('.showPage :selected').html() + '/' + $(this).val();
+    var language_code = $('#' + this.id + ' :selected').html();
+    var local_path = $(this).val();
+    var url = 'http://' + location.host + '/' + language_code + '/' + local_path;
     if (url) {
       window.open(url);
     }
