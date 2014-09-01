@@ -3,7 +3,7 @@ module WebmastersCms
     module PagesHelper
       def list_collection_ancestry(pages = collection.roots)
         lines = pages.collect do |page|
-          line_content = ["Edit: "]
+          line_content = []
           line_content << content_tag(:span, create_list_item(page))
 
           unless page.children.empty?
@@ -23,6 +23,9 @@ module WebmastersCms
           if ActiveLanguage.find_by(code: page_translation.language)
             list_item << link_to("(#{page_translation.language}) #{page_translation.name}", edit_admin_page_path(page, language: page_translation.language))
           end
+        end
+        if list_item.empty?
+          list_item << "Disabled Articles"
         end
         list_item << render('actions', page: page)
         list_item.join(" ").html_safe

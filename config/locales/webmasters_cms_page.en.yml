@@ -41,6 +41,7 @@ en:
         index:
           all_pages: "All Pages"
           title: "Title"
+          no_activated_language: "No active Language found"
         new:
           create_page: "Create a page"
         edit:

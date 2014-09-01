@@ -1,6 +1,8 @@
-<div class="tree_notice"></div>
-<h1><%= t('.all_pages') %></h1>
-<% content_for :title, t('.all_pages') %>
 <% if (collection.any? && WebmastersCms::ActiveLanguage.any?) %>
+  <div class="tree_notice"></div>
+  <h1><%= t('.all_pages') %></h1>
+  <% content_for :title, t('.all_pages') %>
   <%= list_collection_ancestry %>
+<% else %>
+  <h1><%= t('.no_active_language') %></h1>
 <% end %>
