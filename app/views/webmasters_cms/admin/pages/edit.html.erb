@@ -1,11 +1,10 @@
 <%= form_for resource, url: admin_page_path(resource) do |f| %>
 
-<%= render 'messages' %>
+  <%= render 'messages' %>
 
-<h1><%= t('.edit_page') %></h1>
+  <h1><%= t('.edit_page') %></h1>
 
-<%= render 'form', f: f %>
-<%= f.submit t('webmasters_cms.admin.pages.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
+  <%= render 'form', f: f %>
 
 <% end %>
 
