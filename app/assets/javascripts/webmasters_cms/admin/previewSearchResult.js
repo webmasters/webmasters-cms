@@ -1,5 +1,4 @@
 jQuery(function($) {
-  if ($('input[type="radio"]:checked')[0] && $('.titleLength')[0]) {
 
     function initPreview() {
       var title = $('.title_js:visible');
@@ -46,24 +45,25 @@ jQuery(function($) {
       }
     }
 
-    $(document).ready(function() {
-      initPreview();
-    })
+    if ($("form input[name='code'][type='radio']:checked").length) {
+      $(document).on("ready", function(event) {
+        initPreview();
+      });
+    }
 
     $(document).on("change", function(event) {
       initPreview();
     });
 
-    $(document).on("keyup", "form.edit_page .title_js", function(event) {
+    $(document).on("keyup", "form .title_js", function(event) {
       buildPreviewTitle($(this));
     });
 
-    $(document).on("keyup", "form.edit_page .meta_desc_js", function(event) {
+    $(document).on("keyup", "form .meta_desc_js", function(event) {
       buildPreviewMetaDesc($(this));
     });
 
-    $(document).on("keyup", "form.edit_page .local_path_js", function(event) {
+    $(document).on("keyup", "form .local_path_js", function(event) {
       buildPreviewLocalPath($(this));
     });
-  }
 });
