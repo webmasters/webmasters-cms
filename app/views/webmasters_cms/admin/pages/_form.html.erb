@@ -47,12 +47,6 @@
         <%= t.label :body %><br>
         <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
       </p>
-      <p>
-        <% unless t.object.new_record? %>
-          <%= t.check_box '_destroy' %>
-          <%= t.label '_destroy', t('.delete_translation') %>
-        <% end %>
-      </p>
     <% end %>
   </fieldset>
 <% end %>
