@@ -51,8 +51,6 @@ module WebmastersCms
 
       def destroy
         resource.delete_node_keep_children
-        resource.reload
-        resource.destroy
         flash[:success] = t :delete, scope: [:activerecord, :pages, :flash, :success]
         redirect_to admin_pages_path
       end

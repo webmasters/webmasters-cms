@@ -3,6 +3,8 @@ module WebmastersCms
     has_many :translations, class_name: "PageTranslation", inverse_of: :page, dependent: :destroy
     accepts_nested_attributes_for :translations, allow_destroy: true, reject_if: proc { |attr| attr.all? {|k,v| v.blank? || ['language'].include?(k)}}
 
+    after_update :delete_when_without_translations
+
     acts_as_nested_set
 
     def delete_node_keep_children
@@ -11,6 +13,8 @@ module WebmastersCms
       else
         self.move_children_to_root
       end
+      self.reload
+      self.destroy
     end
 
     def move_children_to_immediate_parent
@@ -58,5 +62,12 @@ module WebmastersCms
       Rails.logger.error e.inspect
       false
     end
+
+    protected
+      def delete_when_without_translations
+        if self.translations.empty?
+          delete_node_keep_children
+        end
+      end
   end
 end
