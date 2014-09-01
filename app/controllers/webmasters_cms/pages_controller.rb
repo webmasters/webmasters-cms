@@ -9,7 +9,11 @@ module WebmastersCms
     end
 
     def show
-      unless resource
+      if ActiveLanguage.find_by(code: params[:language])
+        unless resource
+          raise ActiveRecord::RecordNotFound
+        end
+      else
         raise ActiveRecord::RecordNotFound
       end
     end
