@@ -7,6 +7,14 @@ module WebmastersCms
 
     acts_as_nested_set
 
+    def active_translations
+      @active_translations = []
+      self.translations.each do |translation|
+        @active_translations << translation unless not ActiveLanguage.find_by(code: translation.language)
+      end
+      @active_translations
+    end
+
     def delete_node_keep_children
       if self.child?
         self.move_children_to_immediate_parent

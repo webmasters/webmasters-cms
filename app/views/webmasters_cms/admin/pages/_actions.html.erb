@@ -4,4 +4,7 @@
   data: { confirm: 'Are you sure?' } %>
 
 <%= t('.show') %>:
-<%= select_tag "showPage_#{page.id}", options_from_collection_for_select(page.translations, :local_path, :language), class: "showPage" %>
+
+<%= select_tag "showPage_#{page.id}", 
+  options_from_collection_for_select(page.active_translations, :local_path, :language), 
+  class: "showPage" %>
