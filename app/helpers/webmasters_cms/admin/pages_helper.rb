@@ -32,7 +32,9 @@ module WebmastersCms
       end
 
       def nested_set_for_select
-        nested_set_options(collection, resource) {|i| "#{'-' * i.level} #{i.translations.find_by(page_id: i.id).name}" }
+        nested_set_options(collection, resource) do |page| 
+          "#{'-' * page.level} #{page.displayname}"
+        end
       end
     end
   end

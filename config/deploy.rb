@@ -67,7 +67,7 @@ namespace :deploy do
   task :restart do
     on release_roles :all do
       execute :touch, "#{File.join(fetch(:application_path), 'tmp', 'restart.txt')}"
-      execute "sudo /etc/init.d/apache2 reload"
+      execute "sudo service apache2 reload"
     end
   end
 
