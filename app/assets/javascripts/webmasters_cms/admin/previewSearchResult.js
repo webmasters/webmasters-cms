@@ -37,11 +37,11 @@ jQuery(function($) {
 
     function buildPreviewLocalPath(element) {
       var target = element.closest('fieldset').find('cite.url');
-
+      var lang = $('input[name="code"]:checked').val();
       if (element.val().length === 0) {
-        target.html('www.previewurl.com');
+        target.html('www.previewurl.com/' + lang + '/article');
       } else {
-        target.html(location.host + '/' + element.val());
+        target.html(location.host + '/' + lang + '/' + element.val());
       }
     }
 
