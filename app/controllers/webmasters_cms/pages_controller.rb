@@ -19,8 +19,11 @@ module WebmastersCms
     end
 
     def preview
-      @resource = PageTranslation.new(params[:page][:translations_attributes][0])
-      render 'show'
+      transaction do
+        @resource = PageTranslation.new(params[:page][:translations_attributes]["0"].permit!)
+        render 'show'
+        raise ActiveRecord::Rollback
+      end
     end
 
     private
