@@ -6,9 +6,6 @@
 
   <%= render 'form', f: f %>
 
-  <%= f.submit t('webmasters_cms.admin.pages.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
-
 <% end %>
 
 <%= render 'webmasters_cms/admin/pages/back' %>
-

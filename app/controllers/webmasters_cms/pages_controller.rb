@@ -19,8 +19,8 @@ module WebmastersCms
     end
 
     def preview
-      transaction do
-        @resource = PageTranslation.new(params[:page][:translations_attributes]["0"].permit!)
+      Page.connection.transaction do
+        @resource = PageTranslation.new(translation_attributes_from_hash)
         render 'show'
         raise ActiveRecord::Rollback
       end
@@ -37,6 +37,14 @@ module WebmastersCms
 
       def page_params
         params.required(:page).permit(:parent_id)
+      end
+
+      def translation_attributes_from_hash
+        if params["page"] && params["page"]["translations_attributes"]
+          params["page"]["translations_attributes"].values.detect do |attributes| 
+            attributes["language"] == params["code"]
+          end
+        end
       end
   end
 end
