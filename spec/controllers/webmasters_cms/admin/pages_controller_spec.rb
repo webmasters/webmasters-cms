@@ -2,10 +2,10 @@
 require 'spec_helper'
 module WebmastersCms
   module Admin
-    describe PagesController do
+    describe PagesController, type: :controller do
       routes { WebmastersCms::Engine.routes }
 
-      let (:cms_page) { FactoryGirl.create(:webmasters_cms_page) }
+      let (:cms_page) { create(:webmasters_cms_page) }
 
       describe "GET #index" do
         before :each do
@@ -54,26 +54,13 @@ module WebmastersCms
         context "with valid attributes" do
           it "creates a new Page" do
             expect{
-              post :create, page: FactoryGirl.attributes_for(:webmasters_cms_page)
+              post :create, page: attributes_for(:webmasters_cms_page)
             }.to change(Page, :count).by(1)
           end
 
           it "redirects to the Pages overview" do
-            post :create, page: FactoryGirl.attributes_for(:webmasters_cms_page)
+            post :create, page: attributes_for(:webmasters_cms_page)
             expect(response).to redirect_to admin_pages_path
-          end
-        end
-
-        context "with invalid attributes" do
-          it "does not create a new Page" do
-            expect {
-              post :create, page: FactoryGirl.attributes_for(:invalid_webmasters_cms_page)
-            }.to_not change(Page,:count)
-          end
-
-          it "stays in the #new view" do
-            post :create, page: FactoryGirl.attributes_for(:invalid_webmasters_cms_page)
-            expect(response).to render_template :new
           end
         end
       end
@@ -94,14 +81,14 @@ module WebmastersCms
 
         context "with valid attributes" do
           it "located the requested cms_page" do
-            put :update, id: cms_page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
+            put :update, id: cms_page, page: attributes_for(:webmasters_cms_page)
             expect(assigns(:resource)).to eq(cms_page)
           end
 
           it "updates @page" do
             expect {
               put :update, id: cms_page,
-              page: FactoryGirl.attributes_for(
+              page: attributes_for(
                 :webmasters_cms_page,
                 name: "UpdatedName",
                 local_path: "UpdatedLocalpath"
@@ -111,7 +98,7 @@ module WebmastersCms
           end
 
           it "redirects to the Page #show view" do
-            put :update, id: cms_page, page: FactoryGirl.attributes_for(:webmasters_cms_page)
+            put :update, id: cms_page, page: attributes_for(:webmasters_cms_page)
             expect(response).to redirect_to admin_page_path(cms_page)
           end
         end
@@ -120,7 +107,7 @@ module WebmastersCms
           it "does not update the cms_page" do
             expect {
               put :update, id: cms_page,
-              page: FactoryGirl.attributes_for(
+              page: attributes_for(
                 :webmasters_cms_page,
                 local_path: nil
               )
@@ -128,7 +115,7 @@ module WebmastersCms
           end
 
           it "stays on the #edit view" do
-            put :update, id: cms_page, page: FactoryGirl.attributes_for(:invalid_webmasters_cms_page)
+            put :update, id: cms_page, page: attributes_for(:invalid_webmasters_cms_page)
             expect(response).to render_template :edit
           end
         end
@@ -137,7 +124,7 @@ module WebmastersCms
       describe "POST #delete" do
 
         it "deletes the requested Page" do
-          delete_cms_page = FactoryGirl.create(:webmasters_cms_page)
+          delete_cms_page = create(:webmasters_cms_page)
           expect { delete :destroy, id: delete_cms_page }.to change(Page,:count).by(-1)
         end
 
@@ -153,8 +140,8 @@ module WebmastersCms
         end
 
         it "updates the tree" do
-          child_page = FactoryGirl.create(:webmasters_cms_page)
-          parent_page = FactoryGirl.create(:webmasters_cms_page)
+          child_page = create(:webmasters_cms_page)
+          parent_page = create(:webmasters_cms_page)
 
           put :sort, page: {child_page.id => parent_page.id}
           child_page.reload
@@ -166,8 +153,8 @@ module WebmastersCms
 
       describe "PATCH #set_current_version" do
         it "reverts the object to an other version" do
-          cms_page = FactoryGirl.create(:webmasters_cms_page)
-          cms_page_version = FactoryGirl.create(:webmasters_cms_page_version, page_id: cms_page.id, version: cms_page.version + 1)
+          cms_page = create(:webmasters_cms_page)
+          cms_page_version = create(:webmasters_cms_page_version, page_id: cms_page.id, version: cms_page.version + 1)
           patch :set_current_version, id: cms_page.id, page: { version: cms_page_version.version }
           cms_page.reload
           expect(cms_page.version).to eq(cms_page_version.version)
