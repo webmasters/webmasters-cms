@@ -6,7 +6,7 @@
 #   watch('spec/spec_helper.rb')  { "spec" }
 # end
 
-guard :rspec, failed_mode: :keep, all_after_pass: false, cmd: 'bundle exec rspec' do
+guard :rspec, failed_mode: :focus, all_after_pass: false, cmd: 'bundle exec rspec' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }

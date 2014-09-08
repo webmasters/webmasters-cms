@@ -5,7 +5,8 @@ module WebmastersCms
     describe PagesController, type: :controller do
       routes { WebmastersCms::Engine.routes }
 
-      let (:cms_page) { create(:webmasters_cms_page) }
+      let (:page) { create(:webmasters_cms_page) }
+      let (:page_translation) { create(:webmasters_cms_page_translation, page_id: page) }
 
       describe "GET #index" do
         before :each do
@@ -13,7 +14,7 @@ module WebmastersCms
         end
 
         it "shows all available Pages" do
-          expect(assigns(:collection)).to eq([cms_page])
+          expect(assigns(:collection)).to eq([page])
         end
 
         it "renders the #index view" do
@@ -23,12 +24,12 @@ module WebmastersCms
 
       describe "GET #show" do
         it "assigns the requested Page to @resource" do
-          get :show, id: cms_page
-          expect(assigns(:resource)).to eq(cms_page)
+          get :show, id: page
+          expect(assigns(:resource)).to eq(page)
         end
 
         it "renders the #show view" do
-          get :show, id: cms_page
+          get :show, id: page_translation
           expect(response).to render_template :show
         end
 
@@ -63,16 +64,29 @@ module WebmastersCms
             expect(response).to redirect_to admin_pages_path
           end
         end
+
+        context "with invalid attributes" do
+          it "does not create a new PageTranslation" do
+            expect {
+              post :create, page_translation: attributes_for(:invalid_webmasters_cms_page_translation)
+            }.to_not change(page.translations, :count)
+          end
+
+          it "stays in the #new view" do
+            post :create, id: attributes_for(:invalid_webmasters_cms_page_translation)
+            expect(response).to render_template :new
+          end
+        end
       end
 
       describe "GET #edit" do
         it "assigns the requested Page to @page" do
-          get :edit, id: cms_page
-          expect(assigns(:resource)).to eq(cms_page)
+          get :edit, id: page
+          expect(assigns(:resource)).to eq(page)
         end
 
         it "renders the #edit view" do
-          get :edit, id: cms_page
+          get :edit, id: page
           expect(response).to render_template :edit
         end
       end
@@ -80,42 +94,42 @@ module WebmastersCms
       describe "PUT #update" do
 
         context "with valid attributes" do
-          it "located the requested cms_page" do
-            put :update, id: cms_page, page: attributes_for(:webmasters_cms_page)
-            expect(assigns(:resource)).to eq(cms_page)
+          it "located the requested page_translation" do
+            put :update, id: page, page_translation: attributes_for(:webmasters_cms_page_translation)
+            expect(assigns(:resource)).to eq(page_translation)
           end
 
-          it "updates @page" do
+          it "updates @page_translation" do
             expect {
-              put :update, id: cms_page,
-              page: attributes_for(
-                :webmasters_cms_page,
+              put :update, id: page,
+              page_translation: attributes_for(
+                :webmasters_cms_page_translation,
                 name: "UpdatedName",
                 local_path: "UpdatedLocalpath"
               )
-              cms_page.reload
-            }.to change{[cms_page.name, cms_page.local_path]}
+              page_translation.reload
+            }.to change{[page_translation.name, page_translation.local_path]}
           end
 
           it "redirects to the Page #show view" do
-            put :update, id: cms_page, page: attributes_for(:webmasters_cms_page)
-            expect(response).to redirect_to admin_page_path(cms_page)
+            put :update, id: page_translation, page_translation: attributes_for(:webmasters_cms_page_translation)
+            expect(response).to redirect_to admin_page_path(page_translation)
           end
         end
 
         context "with invalid attributes" do
-          it "does not update the cms_page" do
+          it "does not update the page_translation" do
             expect {
-              put :update, id: cms_page,
-              page: attributes_for(
-                :webmasters_cms_page,
+              put :update, id: page_translation,
+              page_translation: attributes_for(
+                :webmasters_cms_page_translation,
                 local_path: nil
               )
-            }.to_not change{cms_page}
+            }.to_not change{page_translation}
           end
 
           it "stays on the #edit view" do
-            put :update, id: cms_page, page: attributes_for(:invalid_webmasters_cms_page)
+            put :update, id: page_translation, page_translation: attributes_for(:invalid_webmasters_cms_page_translation)
             expect(response).to render_template :edit
           end
         end
@@ -129,7 +143,7 @@ module WebmastersCms
         end
 
         it "redirects to the index" do
-          delete :destroy, id: cms_page
+          delete :destroy, id: page
           expect(response).to redirect_to admin_pages_path
         end
       end
@@ -153,11 +167,16 @@ module WebmastersCms
 
       describe "PATCH #set_current_version" do
         it "reverts the object to an other version" do
-          cms_page = create(:webmasters_cms_page)
-          cms_page_version = create(:webmasters_cms_page_version, page_id: cms_page.id, version: cms_page.version + 1)
-          patch :set_current_version, id: cms_page.id, page: { version: cms_page_version.version }
-          cms_page.reload
-          expect(cms_page.version).to eq(cms_page_version.version)
+          page_translation = create(:webmasters_cms_page_translation)
+          page_translation_version =
+            create(:webmasters_cms_page_translation_version,
+              page_translation_id: page_translation.id,
+              version: page_translation.version + 1)
+          patch :set_current_version,
+            id: page_translation.id,
+            page: { version: page_translation_version.version }
+          page_translation.reload
+          expect(page_translation.version).to eq(page_translation_version.version)
         end
       end
     end
