@@ -6,7 +6,7 @@ module WebmastersCms
       routes { WebmastersCms::Engine.routes }
 
       let (:page) { create(:webmasters_cms_page) }
-      let (:page_translation) { create(:webmasters_cms_page_translation, page_id: page) }
+      let (:page_translation) { create(:webmasters_cms_page_translation, page_id: :page) }
 
       describe "GET #index" do
         before :each do
@@ -150,7 +150,7 @@ module WebmastersCms
 
       describe "PUT #sort" do
         it "does not redirect" do
-          expect { put :sort }.to render_template nil
+          expect(put :sort).to_not render_template :index
         end
 
         it "updates the tree" do
