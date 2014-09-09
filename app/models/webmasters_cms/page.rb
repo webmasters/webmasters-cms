@@ -1,7 +1,12 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
-    has_many :translations, class_name: "PageTranslation", inverse_of: :page, dependent: :destroy
-    accepts_nested_attributes_for :translations, allow_destroy: true, reject_if: proc { |attr| attr.all? {|k,v| v.blank? || ['language'].include?(k)}}
+    has_many :translations, 
+      class_name: "PageTranslation", 
+      inverse_of: :page, dependent: :destroy
+      
+    accepts_nested_attributes_for :translations, 
+      allow_destroy: true, 
+      reject_if: proc { |attr| attr.all? {|k,v| v.blank? || ['language'].include?(k)}}
 
     acts_as_nested_set
 

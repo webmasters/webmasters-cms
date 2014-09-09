@@ -1,12 +1,12 @@
-
 require 'spec_helper'
+
 module WebmastersCms
   module Admin
     describe PagesController, type: :controller do
       routes { WebmastersCms::Engine.routes }
 
       let (:page) { create(:webmasters_cms_page) }
-      let (:page_translation) { create(:webmasters_cms_page_translation, page_id: :page) }
+      let (:page_translation) { create(:webmasters_cms_page_translation, page_id: page) }
 
       describe "GET #index" do
         before :each do
@@ -68,7 +68,7 @@ module WebmastersCms
         context "with invalid attributes" do
           it "does not create a new PageTranslation" do
             expect {
-              post :create, page_translation: attributes_for(:invalid_webmasters_cms_page_translation)
+              post :create, page: attributes_for(:invalid_webmasters_cms_page_translation)
             }.to_not change(page.translations, :count)
           end
 
@@ -95,14 +95,14 @@ module WebmastersCms
 
         context "with valid attributes" do
           it "located the requested page_translation" do
-            put :update, id: page, page_translation: attributes_for(:webmasters_cms_page_translation)
+            put :update, id: page, page: attributes_for(:webmasters_cms_page_translation)
             expect(assigns(:resource)).to eq(page_translation)
           end
 
           it "updates @page_translation" do
             expect {
               put :update, id: page,
-              page_translation: attributes_for(
+              page: attributes_for(
                 :webmasters_cms_page_translation,
                 name: "UpdatedName",
                 local_path: "UpdatedLocalpath"
@@ -112,7 +112,7 @@ module WebmastersCms
           end
 
           it "redirects to the Page #show view" do
-            put :update, id: page_translation, page_translation: attributes_for(:webmasters_cms_page_translation)
+            put :update, id: page_translation, page: attributes_for(:webmasters_cms_page_translation)
             expect(response).to redirect_to admin_page_path(page_translation)
           end
         end
@@ -121,7 +121,7 @@ module WebmastersCms
           it "does not update the page_translation" do
             expect {
               put :update, id: page_translation,
-              page_translation: attributes_for(
+              page: attributes_for(
                 :webmasters_cms_page_translation,
                 local_path: nil
               )
@@ -129,7 +129,7 @@ module WebmastersCms
           end
 
           it "stays on the #edit view" do
-            put :update, id: page_translation, page_translation: attributes_for(:invalid_webmasters_cms_page_translation)
+            put :update, id: page_translation, page: attributes_for(:invalid_webmasters_cms_page_translation)
             expect(response).to render_template :edit
           end
         end
