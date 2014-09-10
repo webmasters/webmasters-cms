@@ -2,6 +2,6 @@
 
 <%= render 'actions', page: resource %>
 
-<%= render 'page', resource: resource %>
-<% content_for :title, resource.translations.find_by(page_id: params[:id]).title %>
-<% content_for :meta_description, resource.translations.find_by(page_id: params[:id]).meta_description %>
+<%= render partial: 'page_translation', object: translation %>
+<% content_for :title, translation.title %>
+<% content_for :meta_description, translation.meta_description %>

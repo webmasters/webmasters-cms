@@ -13,5 +13,9 @@ module WebmastersCms
       sum["#{nativename} (#{name})"] = code
       sum
     end
+
+    def self.active?(code)
+      where(code: code).exists?
+    end
   end
 end

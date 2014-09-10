@@ -1,11 +1,9 @@
 module WebmastersCms
-  class ActiveLanguagesValidator < ActiveModel::Validator
+  class ActiveLanguagesValidator < ActiveModel::EachValidator
 
-    def validate(record)
-      active_languages = ActiveLanguage.all
-      
-      if active_languages.find_by(code: record.language).nil?
-        record.errors[:base] << "Language is not active"
+    def validate_each(record, attr_name, value)
+      unless ActiveLanguage.active?(value)
+        record.errors.add(attr_name, :not_active, options)
       end
     end
 

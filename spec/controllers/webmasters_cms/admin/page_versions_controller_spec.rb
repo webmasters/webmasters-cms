@@ -9,10 +9,6 @@ module WebmastersCms
         let(:page_translation) { create(:webmasters_cms_page_translation, page: page) }
         let(:page_translation_version) { page_translation.save_version }
 
-        before do
-          ActiveLanguage.create(code: 'en')
-        end
-
         describe "GET #index" do
           before :each do
             get :index, page_id: page_translation

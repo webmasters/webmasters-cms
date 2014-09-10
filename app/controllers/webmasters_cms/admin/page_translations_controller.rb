@@ -69,7 +69,7 @@ module WebmastersCms
         end
 
         def resource
-          params[:id] = params[:page_id] unless params[:id]
+          # params[:id] = params[:page_id] unless params[:id]
           @resource ||= PageTranslation.find(params[:id])
         end
     end

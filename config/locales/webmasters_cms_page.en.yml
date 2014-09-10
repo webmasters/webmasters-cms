@@ -20,6 +20,8 @@ en:
           attributes:
             local_path:
               invalid: "can only consist of alphanumeric letters, hyphens and underscores"
+      messages:
+        not_active: "is not active"
     active_languages:
       flash:
         success:

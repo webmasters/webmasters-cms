@@ -3,9 +3,15 @@ FactoryGirl.define do
     pt.sequence(:name) {|n| "Name #{n}"}
     pt.sequence(:local_path) {|n| "Local_path-#{n}"}
     pt.sequence(:title) {|n| "Title #{n}"}
-    pt.language "en"
+    pt.language 'en'
     pt.meta_description "Meta Description"
     pt.body "Body"
+
+    pt.after(:build) do |record|
+      unless WebmastersCms::ActiveLanguage.active?(record.language)
+        FactoryGirl.create(:webmasters_cms_active_language, code: record.language)
+      end
+    end
   end
 
   factory :invalid_webmasters_cms_page_translation, parent: :webmasters_cms_page_translation do |pt|

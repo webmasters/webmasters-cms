@@ -31,7 +31,7 @@ module WebmastersCms
       end
 
       def create
-        @resource = klass.create(page_params)
+        @resource = klass.new(page_params)
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :pages, :flash, :success]
           redirect_to admin_pages_path
@@ -79,7 +79,7 @@ module WebmastersCms
         end
 
         def resource
-          params[:id] = params[:page_id] unless params[:id]
+          # params[:id] = params[:page_id] unless params[:id]
           @resource ||= klass.find(params[:id])
         end
 

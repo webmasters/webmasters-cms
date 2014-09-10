@@ -4,9 +4,10 @@ module WebmastersCms
   module Admin
     describe PagesController, type: :controller do
       routes { WebmastersCms::Engine.routes }
+      render_views
 
       let (:page) { create(:webmasters_cms_page) }
-      let (:page_translation) { create(:webmasters_cms_page_translation, page_id: page) }
+      let (:page_translation) { create(:webmasters_cms_page_translation, page: page) }
 
       describe "GET #index" do
         before :each do
@@ -24,12 +25,12 @@ module WebmastersCms
 
       describe "GET #show" do
         it "assigns the requested Page to @resource" do
-          get :show, id: page
+          get :show, id: page, language: page_translation.language
           expect(assigns(:resource)).to eq(page)
         end
 
         it "renders the #show view" do
-          get :show, id: page_translation
+          get :show, id: page, language: page_translation.language
           expect(response).to render_template :show
         end
 
@@ -52,28 +53,62 @@ module WebmastersCms
       end
 
       describe "POST #create" do
+        before :each do 
+          @active_language = FactoryGirl.create(:webmasters_cms_active_language)
+        end
+
         context "with valid attributes" do
           it "creates a new Page" do
-            expect{
-              post :create, page: attributes_for(:webmasters_cms_page)
-            }.to change(Page, :count).by(1)
+            expect do
+              post :create, page: attributes_for(:webmasters_cms_page, 
+                translations_attributes: [
+                  attributes_for(:webmasters_cms_page_translation, 
+                    language: @active_language.code)])
+            end.to change(Page, :count).by(1)
+          end
+
+          it "creates a new PageTranslation" do
+            expect do
+              post :create, page: attributes_for(:webmasters_cms_page, 
+                translations_attributes: [
+                  attributes_for(:webmasters_cms_page_translation, 
+                    language: @active_language.code)])
+            end.to change(PageTranslation, :count).by(1)
           end
 
           it "redirects to the Pages overview" do
-            post :create, page: attributes_for(:webmasters_cms_page)
+            post :create, page: attributes_for(:webmasters_cms_page, 
+              translations_attributes: [
+                attributes_for(:webmasters_cms_page_translation, 
+                  language: @active_language.code)])
+            
             expect(response).to redirect_to admin_pages_path
           end
         end
 
         context "with invalid attributes" do
+          it "does not create a new Page" do
+            expect do
+              post :create, page: attributes_for(:webmasters_cms_page, 
+                translations_attributes: [
+                  attributes_for(:invalid_webmasters_cms_page_translation)])
+            end.to_not change(Page, :count)
+          end
+
           it "does not create a new PageTranslation" do
-            expect {
-              post :create, page: attributes_for(:invalid_webmasters_cms_page_translation)
-            }.to_not change(page.translations, :count)
+            expect do
+              post :create, page: attributes_for(:webmasters_cms_page, 
+                translations_attributes: [
+                  attributes_for(:invalid_webmasters_cms_page_translation)])
+            end.to_not change(PageTranslation, :count)
           end
 
           it "stays in the #new view" do
-            post :create, id: attributes_for(:invalid_webmasters_cms_page_translation)
+            post :create, page: attributes_for(:webmasters_cms_page, 
+              translations_attributes: [
+                attributes_for(:invalid_webmasters_cms_page_translation)])
+
+            expect(response).to be_success
             expect(response).to render_template :new
           end
         end
@@ -94,42 +129,54 @@ module WebmastersCms
       describe "PUT #update" do
 
         context "with valid attributes" do
-          it "located the requested page_translation" do
-            put :update, id: page, page: attributes_for(:webmasters_cms_page_translation)
-            expect(assigns(:resource)).to eq(page_translation)
+          let(:expect_block) do
+            lambda do
+              put :update, id: page_translation.page_id,
+                page: attributes_for(
+                  :webmasters_cms_page,
+                    translations_attributes: [
+                      attributes_for(:webmasters_cms_page_translation,
+                        name: "UpdatedName",
+                        local_path: "UpdatedLocalpath",
+                        id: page_translation.id)
+                    ]
+                )
+             page_translation.reload
+            end
           end
 
           it "updates @page_translation" do
-            expect {
-              put :update, id: page,
-              page: attributes_for(
-                :webmasters_cms_page_translation,
-                name: "UpdatedName",
-                local_path: "UpdatedLocalpath"
-              )
-              page_translation.reload
-            }.to change{[page_translation.name, page_translation.local_path]}
+            expect(expect_block).to change{[page_translation.name, page_translation.local_path]}
           end
 
-          it "redirects to the Page #show view" do
-            put :update, id: page_translation, page: attributes_for(:webmasters_cms_page_translation)
-            expect(response).to redirect_to admin_page_path(page_translation)
+          it "redirects to the Pages overview" do
+            expect_block.call
+            expect(response).to redirect_to admin_pages_path
           end
         end
 
         context "with invalid attributes" do
+          let(:expect_block) do
+            lambda do
+              put :update, id: page_translation.page_id,
+                page: attributes_for(
+                  :webmasters_cms_page,
+                    translations_attributes: [
+                      attributes_for(:invalid_webmasters_cms_page_translation,
+                        name: 'other',
+                        id: page_translation.id)
+                    ]
+                )
+              page_translation.reload
+            end
+          end
+
           it "does not update the page_translation" do
-            expect {
-              put :update, id: page_translation,
-              page: attributes_for(
-                :webmasters_cms_page_translation,
-                local_path: nil
-              )
-            }.to_not change{page_translation}
+            expect(expect_block).to_not change { page_translation.name }
           end
 
           it "stays on the #edit view" do
-            put :update, id: page_translation, page: attributes_for(:invalid_webmasters_cms_page_translation)
+            expect_block.call
             expect(response).to render_template :edit
           end
         end
@@ -167,14 +214,14 @@ module WebmastersCms
 
       describe "PATCH #set_current_version" do
         it "reverts the object to an other version" do
-          page_translation = create(:webmasters_cms_page_translation)
+          page_translation = create(:webmasters_cms_page_translation, page: page)
           page_translation_version =
             create(:webmasters_cms_page_translation_version,
-              page_translation_id: page_translation.id,
+              page_translation: page_translation,
               version: page_translation.version + 1)
           patch :set_current_version,
             id: page_translation.id,
-            page: { version: page_translation_version.version }
+            page_translation: { version: page_translation_version.version }
           page_translation.reload
           expect(page_translation.version).to eq(page_translation_version.version)
         end
