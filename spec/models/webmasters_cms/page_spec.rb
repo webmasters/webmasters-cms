@@ -8,6 +8,7 @@ module WebmastersCms
     let (:child_page1) { FactoryGirl.create(:webmasters_cms_page, parent: page) }
     let (:child_page2) { FactoryGirl.create(:webmasters_cms_page, parent: page) }
 
+
     describe ".without_page(not_persisted_page)" do
       it "returns a collection of all available pages" do
         expect(Page.without_page(Page.new)).to include(page)
@@ -115,16 +116,16 @@ module WebmastersCms
 
     describe ".find_or_initialize_by_language(lang)" do
       it "finds a translation in the database" do
-        page_translation = create(:webmasters_cms_page_translation, page: page, language: 'en')
+        page_translation = page.translations.first
 
-        expect(page.translations.find_or_initialize_by_language('en')).to eq(page_translation) 
+        expect(page.translations.find_or_initialize_by_language(page_translation.language)).to eq(page_translation) 
       end
 
       it "finds a translation in the params" do
         page = build(:webmasters_cms_page)
         page_translation = build(:webmasters_cms_page_translation, page: page)
         page.translations = [page_translation]
-        expect(page.translations.find_or_initialize_by_language('en')).to eq(page_translation)
+        expect(page.translations.find_or_initialize_by_language(page.translations.first.language)).to eq(page_translation)
       end
 
       it "creates a new translation" do

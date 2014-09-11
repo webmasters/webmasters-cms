@@ -3,20 +3,20 @@ require 'spec_helper'
 module WebmastersCms
   describe PageTranslation::Version do
     before :each do
-      @cms_page = FactoryGirl.create(:webmasters_cms_page)
+      page = FactoryGirl.create(:webmasters_cms_page)
     end
 
     it "gets created on Page attribute change" do
       expect{
-        @cms_page.update_attributes(name: "New Name")
-      }.to change(Page::Version, :count).by(1)
+        page.update_attributes!(name: "New Name")
+      }.to change(PageTranslation::Version, :count).by(1)
     end
 
     it "gets not saved on Page tree changes" do
-      neighbor_page = FactoryGirl.create(:webmasters_cms_page)
+      neighbor_page = FactoryGirl.create(:webmasters_cms_page_translation, page: page)
       expect{
-        @cms_page.move_to_child_of(neighbor_page)
-      }.to_not change(Page::Version, :count)
+        page.move_to_child_of(neighbor_page)
+      }.to_not change(PageTranslation::Version, :count)
     end
   end
 end

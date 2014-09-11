@@ -1,9 +1,13 @@
 FactoryGirl.define do
-  factory :webmasters_cms_page_translation, :class => WebmastersCms::PageTranslation do |pt|
+  factory :webmasters_cms_page_translation, class: WebmastersCms::PageTranslation do |pt|
     pt.sequence(:name) {|n| "Name #{n}"}
     pt.sequence(:local_path) {|n| "Local_path-#{n}"}
     pt.sequence(:title) {|n| "Title #{n}"}
-    pt.language 'en'
+    pt.sequence(:language) do |n|
+      languages = ['en', 'de']
+      index = n % languages.size
+      languages[index]
+    end
     pt.meta_description "Meta Description"
     pt.body "Body"
 
