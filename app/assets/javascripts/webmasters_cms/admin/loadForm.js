@@ -7,7 +7,7 @@ jQuery(function($) {
     var chosen_lang = $(radio + ':checked').val();
     $('fieldset').hide();
     $('#form_' + chosen_lang).show();
-    if ($(radio + ':checked')[0] && lastPart !== 'new') {
+    if ($(radio + ':checked')[0] && lastPart !== 'new' && typeof(lastPart) !== 'number') {
       window.history.replaceState("", "", "edit?language=" + chosen_lang);
     }
   };

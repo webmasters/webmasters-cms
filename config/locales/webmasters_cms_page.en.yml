@@ -3,6 +3,7 @@ en:
     flash:
       success:
         update: "Successfully updated!"
+        delete: "Successfully deleted!"
     attributes:
       webmasters_cms/active_language:
         code:
