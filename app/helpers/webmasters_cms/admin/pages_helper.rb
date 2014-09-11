@@ -21,13 +21,18 @@ module WebmastersCms
         list_item = []
         page_translations.each do |page_translation|
           if ActiveLanguage.find_by(code: page_translation.language)
-            list_item << link_to("(#{page_translation.language}) #{page_translation.name}", edit_admin_page_path(page, language: page_translation.language))
+            list_item << "(#{page_translation.language}) #{page_translation.name} "
+            list_item << link_to("Edit", edit_admin_page_path(page, language: page_translation.language))
+            list_item << link_to("Show", "/#{page_translation.language}/#{page_translation.local_path}")
+            list_item << link_to("Delete", admin_page_translation_path(page_id: page_translation.page_id, id: page_translation.id),
+              method: :delete,
+              data: { confirm: 'Are you sure?' })
+            list_item << "|" unless page_translation == page_translations.last
           end
         end
         if list_item.empty?
           list_item << "Disabled Articles"
         end
-        list_item << render('actions', page: page)
         list_item.join(" ").html_safe
       end
 
