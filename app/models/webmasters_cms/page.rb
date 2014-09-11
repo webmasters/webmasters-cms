@@ -6,7 +6,7 @@ module WebmastersCms
       
     accepts_nested_attributes_for :translations, 
       allow_destroy: true, 
-      reject_if: proc { |attr| attr.all? {|k,v| v.blank? || ['language'].include?(k)}}
+      reject_if: proc { |attr| attr.all? { |k,v| v.blank? && ['language'].include?(k) } }
 
     acts_as_nested_set
 

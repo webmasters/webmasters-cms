@@ -21,21 +21,21 @@
         <%= t('.new_translation') %>
       <% end %>
       <p>
-        <%= t.label :name %><br>
+        <%= t.label :name %> *<br>
         <%= t.text_field :name %>
       </p>
       <p>
-        <%= t.label :local_path %><br>
+        <%= t.label :local_path %> *<br>
         <%= t.text_field :local_path, class: 'local_path_js' %>
       </p>
       <p>
-        <%= t.label :title %><br>
+        <%= t.label :title %> *<br>
         <%= t.text_field :title, size: "60", maxlength: "120", class: 'title_js' %>
         <br />
         <span class="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
       </p>
       <p>
-        <%= t.label :meta_description %><br>
+        <%= t.label :meta_description %> *<br>
         <%= t.text_area :meta_description, size: "60x4", maxlength: "255", class: 'meta_desc_js' %>
         <br />
         <span class="metaDescLength"><span>0</span> / 155 Letters (max. 255)</span>
@@ -44,7 +44,7 @@
         <%= render partial: 'searchresult_preview' %>
       </div>
       <p>
-        <%= t.label :body %><br>
+        <%= t.label :body %> *<br>
         <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
       </p>
       <%= t.submit t('webmasters_cms.admin.pages.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
