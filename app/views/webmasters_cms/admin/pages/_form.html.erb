@@ -3,20 +3,20 @@
    <%= f.select :parent_id, nested_set_for_select, include_blank: "- No Parent -" %>
 </p>
 <p>
-  <% languages_array = WebmastersCms::ActiveLanguage.all.collect { |l| [ WebmastersCms::ActiveLanguage::AVAILABLE_LANGUAGES[l.code]['nativeName'], l.code ] } %>
+  <% languages_array = get_languages %>
   <p>
     <%= t('.available_languages') %>:<br>
-    <% languages_array.each do |lang| %>
-      <%= radio_button_tag :code, lang[1], (lang[1] === params[:language]) %>
-      <%= label_tag "code_#{lang[1]}", lang[0], class: 'radio_label' %>
+    <% languages_array.each do |name, lang| %>
+      <%= radio_button_tag :code, lang, (lang === params[:language]) %>
+      <%= label_tag "code_#{lang}", name, class: 'radio_label' %>
     <% end %>
   </p>
 </p>
-<% languages_array.each do |lang| %>
-  <fieldset id="form_<%= lang[1] %>">
-    <%= f.fields_for :translations, translation = resource.translations.find_or_initialize_by(language: lang) do |t| %>
+<% languages_array.each do |name, lang| %>
+  <fieldset id="form_<%= lang %>">
+    <%= f.fields_for :translations, translation = resource.translations.find_or_initialize_by_language(lang) do |t| %>
       <%= render 'versions', translation: translation unless translation.versions.size <= 1 %>
-      <%= t.hidden_field :language, value: lang[1] %>
+      <%= t.hidden_field :language, value: lang %>
       <% if t.object.new_record? %>
         <%= t('.new_translation') %>
       <% end %>

@@ -35,6 +35,8 @@ en:
           delete: "Page successfully deleted!"
         error:
           not_found: "Page not found!"
+          update: "Updating failed!"
+          create: "Creating failed!"
 
   webmasters_cms:
     admin:

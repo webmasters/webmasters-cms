@@ -17,5 +17,9 @@ module WebmastersCms
     def self.active?(code)
       where(code: code).exists?
     end
+
+    def name
+      AVAILABLE_LANGUAGES[code]['nativeName']
+    end
   end
 end

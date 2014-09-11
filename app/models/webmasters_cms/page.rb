@@ -2,13 +2,26 @@ module WebmastersCms
   class Page < ActiveRecord::Base
     has_many :translations, 
       class_name: "PageTranslation", 
-      inverse_of: :page, dependent: :destroy
+      inverse_of: :page, dependent: :destroy do
+
+      def find_or_initialize_by_language(language)
+        detect do |translation|
+          translation.language == language
+        end || find_or_initialize_by(language: language)
+      end
+    end
       
     accepts_nested_attributes_for :translations, 
       allow_destroy: true, 
-      reject_if: proc { |attr| attr.all? { |k,v| v.blank? && ['language'].include?(k) } }
+      reject_if: proc { |attr| attr.all? { |k,v| v.blank? || ['language'].include?(k) } }
 
     acts_as_nested_set
+
+    validates :count_of_translations, numericality: { only_integer: true, greater_than: 0 }
+
+    def count_of_translations
+      translations.size
+    end
 
     def active_translations
       languages = ActiveLanguage.all.collect(&:code)

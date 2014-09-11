@@ -4,7 +4,7 @@ module WebmastersCms
   module Admin
     class PagesController < ApplicationController
       layout "webmasters_cms/admin/application"
-      helper_method :collection, :available_parent_pages, :resource, :translation
+      helper_method :collection, :available_parent_pages, :resource, :translation, :get_languages
 
       def index
       end
@@ -36,7 +36,8 @@ module WebmastersCms
           flash[:success] = t :create, scope: [:activerecord, :pages, :flash, :success]
           redirect_to admin_pages_path
         else
-          render 'new'
+          flash[:error] = t :create, scope: [:activerecord, :pages, :flash, :error]
+          render action: 'new'
         end
       end
 
@@ -45,7 +46,8 @@ module WebmastersCms
           flash[:success] = t :update, scope: [:activerecord, :pages, :flash, :success]
           redirect_to admin_pages_path
         else
-          render 'edit'
+          flash[:error] = t :update, scope: [:activerecord, :pages, :flash, :error]
+          render action: 'edit'
         end
       end
 
@@ -85,6 +87,10 @@ module WebmastersCms
 
         def translation
           @translation ||= resource.translations.find_by(language: params[:language])
+        end
+
+        def get_languages
+          WebmastersCms::ActiveLanguage.all.collect { |l| [ l.name, l.code ] }
         end
     end
   end

@@ -16,7 +16,7 @@ module WebmastersCms
 
       private
         def page_translation
-          params[:page_id] = params[:id] unless params[:page_id]
+          # params[:page_id] = params[:id] unless params[:page_id]
           @page_translation ||= PageTranslation.find(params[:page_id])
         end
 

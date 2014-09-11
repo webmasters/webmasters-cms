@@ -15,7 +15,7 @@ module WebmastersCms
       end
 
       def new
-        @resource = PageTranslation.new
+        @resource = PageTranslation.new(page_params)
       end
 
       def edit
