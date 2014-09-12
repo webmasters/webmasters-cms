@@ -10,7 +10,9 @@ module WebmastersCms
     validates :name, uniqueness: {:scope => :page_id}
     validates :local_path, uniqueness: {:scope => :page_id}
 
-    validates :name, :title, :local_path, :meta_description,
+    validates :local_path, length: { maximum: 255 }
+
+    validates :name, :title, :meta_description,
       length: { maximum: 255 },
       presence: true
 
@@ -18,7 +20,7 @@ module WebmastersCms
       length: { maximum: 65535 },
       presence: true
 
-    validates :local_path, format: { with: /\A[a-zA-Z0-9\-\_]+\z/ }
+    validates :local_path, format: { with: /(?:\A[a-zA-Z0-9\-\_]+\z)?/ }
 
     validates :language, presence: true, active_languages: true, uniqueness: {scope: :page_id}
 
