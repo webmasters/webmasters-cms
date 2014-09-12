@@ -8,6 +8,56 @@ module WebmastersCms
     let (:child_page1) { FactoryGirl.create(:webmasters_cms_page, parent: page) }
     let (:child_page2) { FactoryGirl.create(:webmasters_cms_page, parent: page) }
 
+    describe ".create_dummy_page_for_language(language)" do
+      before(:each) do
+        language = build(:webmasters_cms_active_language, code: 'en')
+        allow(language).to receive(:create_index_page_if_first_page).and_return(true)
+        language.save!
+      end
+
+      context "no root exists" do
+
+        it "creates a new Page when there is no root" do
+          expect do
+            Page.create_dummy_page_for_language('en')
+          end.to change(Page, :count).by(1)
+        end
+
+        it "creates a new PageTranslation when there is no root" do
+          expect do
+            Page.create_dummy_page_for_language('en')
+          end.to change(PageTranslation, :count).by(1)
+        end
+
+        it "creates a new PageTranslation with the given language" do
+          expect(Page.create_dummy_page_for_language('en').translations.first.language).to eq('en')
+        end
+      end
+
+      context "there is a root" do
+        before(:each) do
+          page = build(:webmasters_cms_page_without_translation)
+          page.translations << build(:webmasters_cms_page_translation, language: 'de', page: page)
+          page.save!
+        end
+
+        it "creates no new Page" do
+          expect do
+            Page.create_dummy_page_for_language('en')
+          end.to_not change(Page, :count)
+        end
+
+        it "creates a new PageTranslation" do
+          expect do
+            Page.create_dummy_page_for_language('en')
+          end.to change(PageTranslation, :count).by(1)
+        end
+
+        it "creates a new PageTranslation with the given language" do
+          expect(Page.create_dummy_page_for_language('en').language).to eq('en')
+        end
+      end
+    end
 
     describe ".without_page(not_persisted_page)" do
       it "returns a collection of all available pages" do

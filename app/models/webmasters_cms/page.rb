@@ -19,6 +19,15 @@ module WebmastersCms
 
     validates :count_of_translations, numericality: { only_integer: true, greater_than: 0 }
 
+    def self.create_dummy_page_for_language(language)
+      page_params = {name: "Index", local_path: "", meta_description: "Change me", body: "Change me", title: "First Page", language: language}
+      if roots.empty?
+        create!(translations_attributes: [page_params])
+      elsif not root.translations.find_by(language: language)
+        root.translations.create!(page_params)
+      end
+    end
+
     def count_of_translations
       translations.size
     end

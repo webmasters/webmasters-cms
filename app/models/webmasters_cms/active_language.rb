@@ -16,11 +16,8 @@ module WebmastersCms
     after_create :create_index_page_if_first_page
 
     def create_index_page_if_first_page
-      unless Page.any? || Page.translations.where(language: self.code)
-        page_params = {name: "Index", local_path: "", meta_description: "Change me", body: "Change me", title: "First Page", language: language}
-        page = Page.new
-        page.translations.create(page_params)
-      end
+      Page.create_dummy_page_for_language(code)
+      true
     end
 
     def self.active?(code)
@@ -29,6 +26,10 @@ module WebmastersCms
 
     def name
       AVAILABLE_LANGUAGES[code]['nativeName']
+    end
+
+    def english_name
+      AVAILABLE_LANGUAGES[code]['name']
     end
   end
 end

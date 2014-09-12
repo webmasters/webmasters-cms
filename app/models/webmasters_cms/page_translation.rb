@@ -7,8 +7,7 @@ module WebmastersCms
       if_changed: [:name, :local_path, :title, :meta_description, :body, :language],
       non_versioned_columns: [:page_id]
 
-    validates :name, uniqueness: {:scope => :page_id}
-    validates :local_path, uniqueness: {:scope => :page_id}
+    validates :name, :local_path, uniqueness: {:scope => [:page_id, :language]}
 
     validates :local_path, length: { maximum: 255 }
 
@@ -20,7 +19,7 @@ module WebmastersCms
       length: { maximum: 65535 },
       presence: true
 
-    validates :local_path, format: { with: /(?:\A[a-zA-Z0-9\-\_]+\z)?/ }
+    validates :local_path, format: { with: /\A[a-zA-Z0-9\-\_]+\z/, allow_blank: true }
 
     validates :language, presence: true, active_languages: true, uniqueness: {scope: :page_id}
 

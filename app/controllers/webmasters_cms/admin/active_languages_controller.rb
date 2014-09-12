@@ -14,7 +14,7 @@ module WebmastersCms
       end
 
       def create
-        @resource = klass.create(language_params)
+        @resource = klass.new(language_params)
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :active_languages, :flash, :success]
           redirect_to action: 'index'

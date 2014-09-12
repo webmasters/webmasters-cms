@@ -32,6 +32,7 @@ module WebmastersCms
         end
         if list_item.empty?
           list_item << "Disabled Articles"
+          list_item << link_to("New Translation", edit_admin_page_path(page))
           list_item << link_to("Delete this node", admin_page_path(id: page.id),
               method: :delete,
               data: { confirm: 'Are you sure?' })

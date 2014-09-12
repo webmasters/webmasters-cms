@@ -13,7 +13,7 @@ module WebmastersCms
 
       describe "#name" do
         it "is invalid without an unique name" do
-          translation = FactoryGirl.build(:webmasters_cms_page_translation, name: page_translation.name, page: page)
+          translation = FactoryGirl.build(:webmasters_cms_page_translation, name: page_translation.name, page: page, language: page_translation.language)
           expect(translation).to_not be_valid
           expect(translation.errors[:name]).to_not be_blank
         end
@@ -25,7 +25,7 @@ module WebmastersCms
         end
 
         it "is invalid with a too long name" do
-          translation = FactoryGirl.build(:webmasters_cms_page_translation, name: "A"*256, page: page)
+          translation = FactoryGirl.build(:webmasters_cms_page_translation, name: "A"*256, page: page, language: page_translation.language)
           expect(translation).to_not be_valid
           expect(translation.errors[:name]).to_not be_blank
         end

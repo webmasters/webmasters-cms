@@ -6,4 +6,7 @@ FactoryGirl.define do
       [build(:webmasters_cms_page_translation).attributes]
     end
   end
+
+  factory :webmasters_cms_page_without_translation, class: WebmastersCms::Page do |f|
+  end
 end
