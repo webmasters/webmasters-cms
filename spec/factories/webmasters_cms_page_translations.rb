@@ -16,9 +16,15 @@ FactoryGirl.define do
         FactoryGirl.create(:webmasters_cms_active_language, code: record.language)
       end
     end
-  end
+    
+    trait :index do
+      local_path nil
+    end
 
-  factory :invalid_webmasters_cms_page_translation, parent: :webmasters_cms_page_translation do |pt|
-    pt.local_path nil
+    trait :invalid do
+      local_path nil
+      name nil
+      body nil
+    end
   end
 end

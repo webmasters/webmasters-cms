@@ -91,7 +91,7 @@ module WebmastersCms
             expect do
               post :create, page: attributes_for(:webmasters_cms_page, 
                 translations_attributes: [
-                  attributes_for(:invalid_webmasters_cms_page_translation)])
+                  attributes_for(:webmasters_cms_page_translation, :invalid)])
             end.to_not change(Page, :count)
           end
 
@@ -99,14 +99,14 @@ module WebmastersCms
             expect do
               post :create, page: attributes_for(:webmasters_cms_page, 
                 translations_attributes: [
-                  attributes_for(:invalid_webmasters_cms_page_translation)])
+                  attributes_for(:webmasters_cms_page_translation, :invalid)])
             end.to_not change(PageTranslation, :count)
           end
 
           it "stays in the #new view" do
             post :create, page: attributes_for(:webmasters_cms_page, 
               translations_attributes: [
-                attributes_for(:invalid_webmasters_cms_page_translation)])
+                attributes_for(:webmasters_cms_page_translation, :invalid)])
 
             expect(response).to be_success
             expect(response).to render_template :new
@@ -131,27 +131,34 @@ module WebmastersCms
         context "with valid attributes" do
           let(:expect_block) do
             lambda do
-              put :update, id: page_translation.page_id,
-                page: attributes_for(
+              params = attributes_for(
                   :webmasters_cms_page,
                     translations_attributes: [
                       attributes_for(:webmasters_cms_page_translation,
                         name: "UpdatedName",
                         local_path: "UpdatedLocalpath",
-                        id: page_translation.id)
+                        id: page_translation.id,
+                        language: page_translation.language
+                      )
                     ]
-                )
+              )
+              put :update, id: page_translation.page_id,
+                page: params
              page_translation.reload
             end
           end
 
-          it "updates @page_translation" do
+          it "updates page_translation" do
             expect(expect_block).to change{[page_translation.name, page_translation.local_path]}
           end
 
           it "redirects to the Pages overview" do
             expect_block.call
             expect(response).to redirect_to admin_pages_path
+          end
+
+          it "has no error messages" do
+            expect(page_translation.errors.full_messages).to be_blank
           end
         end
 
@@ -162,9 +169,10 @@ module WebmastersCms
                 page: attributes_for(
                   :webmasters_cms_page,
                     translations_attributes: [
-                      attributes_for(:invalid_webmasters_cms_page_translation,
+                      attributes_for(:webmasters_cms_page_translation, :invalid,
                         name: 'other',
-                        id: page_translation.id)
+                        id: page_translation.id,
+                        language: page_translation.language)
                     ]
                 )
               page_translation.reload
@@ -214,16 +222,20 @@ module WebmastersCms
 
       describe "PATCH #set_current_version" do
         it "reverts the object to an other version" do
-          page_translation = create(:webmasters_cms_page_translation, page: page)
-          page_translation_version =
+          translation = create(:webmasters_cms_page_translation, page: page, language: 'xx')
+          translation_version =
             create(:webmasters_cms_page_translation_version,
-              page_translation: page_translation,
-              version: page_translation.version + 1)
+              page_translation: translation,
+              version: translation.version)
+          translation_version2 =
+            create(:webmasters_cms_page_translation_version,
+              page_translation: translation,
+              version: translation.version + 1)
           patch :set_current_version,
-            id: page_translation.id,
-            page_translation: { version: page_translation_version.version }
-          page_translation.reload
-          expect(page_translation.version).to eq(page_translation_version.version)
+            id: translation.id,
+            page_translation: { version: translation_version.version }
+          translation.reload
+          expect(translation.version).to eq(translation_version.version)
         end
       end
     end
