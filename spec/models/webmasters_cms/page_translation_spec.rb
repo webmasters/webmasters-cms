@@ -46,6 +46,12 @@ module WebmastersCms
           expect(translation).to be_valid
         end
 
+        it "is valid without an local_path" do
+          translation = build(:webmasters_cms_page_translation, :index, page: page)
+          expect(translation.errors[:local_path]).to be_blank
+          expect(translation).to be_valid
+        end
+
         it "is invalid without an unique local_path" do
           translation = FactoryGirl.create(:webmasters_cms_page_translation, local_path: 'test', page: page, language: 'xx')
           translation2 = FactoryGirl.build(:webmasters_cms_page_translation, local_path: translation.local_path, page: page, language: translation.language)
