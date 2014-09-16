@@ -10,7 +10,7 @@ WebmastersCms::Engine.routes.draw do
         end
         resources :page_translations, path: :translations, as: :translations, only: [:destroy]
         resources :page_translation_versions, path: :versions, as: :versions, only: [:index, :show]
-        
+
       end
       resources :active_languages, only: [:index, :new, :create, :destroy]
     end
