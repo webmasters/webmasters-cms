@@ -1,7 +1,7 @@
 module WebmastersCms
   class Page < ActiveRecord::Base
-    has_many :translations, 
-      class_name: "PageTranslation", 
+    has_many :translations,
+      class_name: "PageTranslation",
       inverse_of: :page, dependent: :destroy do
 
       def find_or_initialize_by_language(language)
@@ -10,14 +10,18 @@ module WebmastersCms
         end || find_or_initialize_by(language: language)
       end
     end
-      
-    accepts_nested_attributes_for :translations, 
-      allow_destroy: true, 
+
+    accepts_nested_attributes_for :translations,
+      allow_destroy: true,
       reject_if: proc { |attr| attr.all? { |k,v| v.blank? || ['language'].include?(k) } }
 
     acts_as_nested_set
 
     validates :count_of_translations, numericality: { only_integer: true, greater_than: 0 }
+
+    def self.parent_translation(translation)
+      find(translation.page_id).parent.translations.find_by(language: translation.language)
+    end
 
     def self.create_dummy_page_for_language(language)
       page_params = {name: "Index", local_path: "", meta_description: "Change me", body: "Change me", title: "First Page", language: language}

@@ -19,12 +19,20 @@ module WebmastersCms
       length: { maximum: 65535 },
       presence: true
 
-    validates :local_path, format: { with: /\A[a-zA-Z0-9\-\_]+\z/, allow_blank: true }
+    validates :local_path, format: { with: /\A[a-zA-Z0-9\-\_\/\.]+\z/, allow_blank: true }
 
     validates :language, presence: true, active_languages: true, uniqueness: {scope: :page_id}
 
     def current_version
       versions.where(version: version).first
+    end
+
+    def build_local_path
+      if Page.find(page_id).root? || local_path
+        local_path
+      else
+        "#{Page.parent_translation(self).local_path}/#{local_path}"
+      end
     end
   end
 end

@@ -41,7 +41,7 @@ module WebmastersCms
       end
 
       def nested_set_for_select
-        nested_set_options(collection, resource) do |page| 
+        nested_set_options(collection, resource) do |page|
           "#{'-' * page.level} #{page.displayname}"
         end
       end

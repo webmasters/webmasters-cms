@@ -10,7 +10,7 @@ jQuery(function($) {
 
     count_title.html(title.val().length);
     count_meta.html(meta_desc.val().length);
-    
+
     title.val().length < 56 ?
       target_title.removeClass('warning').addClass('ok') :
       target_title.removeClass('ok').addClass('warning');
@@ -33,7 +33,7 @@ jQuery(function($) {
   $(document).on('keyup', 'form .title_js', function() {
     var element = $(this);
     var target = element.closest('fieldset').find('.titleLength');
-    var count = element.closest('fieldset').find('.titleLength span')
+    var count = element.closest('fieldset').find('.titleLength span');
     count.html(element.val().length);
     if (element.val().length < 56) {
       target.removeClass('warning').addClass('ok');
