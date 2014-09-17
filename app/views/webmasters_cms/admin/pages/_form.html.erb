@@ -11,7 +11,7 @@
   <% end %>
 </p>
 <% languages_array.each do |name, lang| %>
-  <fieldset id="form_<%= lang %>">
+  <fieldset id="form_<%= lang %>" class="hidden">
     <%= f.fields_for :translations, translation = resource.translations.find_or_initialize_by_language(lang) do |t| %>
       <%= render 'versions', translation: translation unless translation.versions.size <= 1 %>
       <%= t.hidden_field :language, value: lang %>
