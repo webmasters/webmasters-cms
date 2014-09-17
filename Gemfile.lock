@@ -8,7 +8,7 @@ PATH
   remote: .
   specs:
     webmasters_cms (0.0.1)
-      awesome_nested_set (~> 3.0.0.rc.5)
+      awesome_nested_set
       foreigner
       jquery-mjs-nestedSortable-rails
       jquery-rails (~> 2.1)

@@ -26,13 +26,5 @@ module WebmastersCms
     def current_version
       versions.where(version: version).first
     end
-
-    def build_local_path
-      if Page.find(page_id).root? || local_path
-        local_path
-      else
-        "#{Page.parent_translation(self).local_path}/#{local_path}"
-      end
-    end
   end
 end

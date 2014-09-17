@@ -1,16 +1,14 @@
 <p>
    <%= f.label :parent_id %><br>
-   <%= f.select :parent_id, nested_set_for_select, include_blank: "- No Parent -" %>
+   <%= f.select :parent_id, nested_set_for_select, {include_blank: "- No Parent -"}%>
 </p>
 <p>
   <% languages_array = get_languages %>
-  <p>
-    <%= t('.available_languages') %>:<br>
-    <% languages_array.each do |name, lang| %>
-      <%= radio_button_tag :code, lang, (lang === params[:language]) %>
-      <%= label_tag "code_#{lang}", name, class: 'radio_label' %>
-    <% end %>
-  </p>
+  <%= t('.available_languages') %>:<br>
+  <% languages_array.each do |name, lang| %>
+    <%= radio_button_tag :code, lang, (lang === params[:language]) %>
+    <%= label_tag "code_#{lang}", name, class: 'radio_label' %>
+  <% end %>
 </p>
 <% languages_array.each do |name, lang| %>
   <fieldset id="form_<%= lang %>">
@@ -22,11 +20,13 @@
       <% end %>
       <p>
         <%= t.label :name %> *<br>
-        <%= t.text_field :name %>
+        <%= t.text_field :name, class: 'name_js' %>
       </p>
       <p>
         <%= t.label :local_path %><br>
         <%= t.text_field :local_path, class: 'local_path_js' %>
+        <%= button_tag '<<', type: 'button', class: 'use_suggestion_button' %>
+        <span class="suggestion_<%= lang %>"></span>
       </p>
       <p>
         <%= t.label :title %> *<br>

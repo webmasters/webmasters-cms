@@ -19,10 +19,6 @@ module WebmastersCms
 
     validates :count_of_translations, numericality: { only_integer: true, greater_than: 0 }
 
-    def self.parent_translation(translation)
-      find(translation.page_id).parent.translations.find_by(language: translation.language)
-    end
-
     def self.create_dummy_page_for_language(language)
       page_params = {name: "Index", local_path: "", meta_description: "Change me", body: "Change me", title: "First Page", language: language}
       if roots.empty?
@@ -43,6 +39,13 @@ module WebmastersCms
 
     def displayname
       translations.first.name
+    end
+
+    def translated_local_paths
+      translations.inject({}) do |sum, translation|
+        sum["#{translation.language}_local_path"] = translation.local_path
+        sum
+      end
     end
 
     def delete_node_keep_children

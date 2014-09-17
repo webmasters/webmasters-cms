@@ -9,3 +9,7 @@
 .radio_label {
   margin-right: 10px;
 }
+
+fieldset {
+  display: none;
+}

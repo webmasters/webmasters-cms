@@ -22,28 +22,51 @@ module WebmastersCms
         page_translations.each do |page_translation|
           if ActiveLanguage.find_by(code: page_translation.language)
             list_item << "(#{page_translation.language}) #{page_translation.name} "
-            list_item << link_to("Edit", edit_admin_page_path(page, language: page_translation.language))
-            list_item << link_to("Show", "/#{page_translation.language}/#{page_translation.local_path}")
-            list_item << link_to("Delete", admin_page_translation_path(page_id: page_translation.page_id, id: page_translation.id),
+            list_item << link_to(t(".edit"), edit_admin_page_path(page, language: page_translation.language))
+            list_item << link_to(t(".show"), "/#{page_translation.language}/#{page_translation.local_path}")
+            list_item << link_to(t(".delete"), admin_page_translation_path(page_id: page_translation.page_id, id: page_translation.id),
               method: :delete,
-              data: { confirm: 'Are you sure?' })
+              data: { confirm: "#{t('.alert_sure')}" })
             list_item << "|" unless page_translation == page_translations.last
           end
         end
         if list_item.empty?
-          list_item << "Disabled Articles"
-          list_item << link_to("New Translation", edit_admin_page_path(page))
-          list_item << link_to("Delete this node", admin_page_path(id: page.id),
+          list_item << t(".disabled_articles")
+          list_item << link_to(t('.new_translation'), edit_admin_page_path(page))
+          list_item << link_to(t('.delete_node'), admin_page_path(id: page.id),
               method: :delete,
-              data: { confirm: 'Are you sure?' })
+              data: { confirm: "#{t('.alert_sure')}" })
         end
         list_item.join(" ").html_safe
       end
 
       def nested_set_for_select
-        nested_set_options(collection, resource) do |page|
+        nested_set_options(collection, resource, :translated_local_paths) do |page|
           "#{'-' * page.level} #{page.displayname}"
         end
+      end
+
+      def nested_set_options(class_or_item, mover=nil, data_attribute_method=nil)
+        if class_or_item.is_a? Array
+          items = class_or_item.reject { |e| !e.root? }
+        else
+          class_or_item = class_or_item.roots if class_or_item.respond_to?(:scope)
+          items = Array(class_or_item)
+        end
+        result = []
+        items.each do |root|
+          result += root.class.associate_parents(root.self_and_descendants).map do |i|
+            if mover.nil? || mover.new_record? || mover.move_possible?(i)
+              options = if data_attribute_method
+                {data: i.send(data_attribute_method)}
+              else
+                {}
+              end
+              [yield(i), i.primary_id, options]
+            end
+          end.compact
+        end
+        result
       end
     end
   end

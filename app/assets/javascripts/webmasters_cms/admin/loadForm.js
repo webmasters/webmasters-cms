@@ -1,5 +1,5 @@
 jQuery(function($) {
-  var form = '[id^="page_translations_attributes"]';
+  var fieldset = '[id^="page_translations_attributes"]';
   var radio = 'input[type="radio"][id^="code_"]';
   var lastPart = document.URL.split("/").pop();
 
@@ -12,7 +12,7 @@ jQuery(function($) {
     }
   };
 
-  if ( $( form ) ) {
+  if ( $( fieldset ) ) {
     showSelectedFieldset();
     $(document).on("change", radio, function(event) {
       showSelectedFieldset();
