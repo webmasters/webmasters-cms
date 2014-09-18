@@ -4,17 +4,24 @@ module WebmastersCms
   describe "Pages" do
     describe "Manage pages" do
 
-      let (:cms_page) { FactoryGirl.create(:webmasters_cms_page) }
+      let (:cms_page) { create(:webmasters_cms_page) }
+      let (:page_translation) { page.translations.first }
 
-      it "creates a new page and displays it with a success notice" do
+      before(:each) do
+        create(:webmasters_cms_active_language)
+      end
+
+      it "creates a new page and displays it with a success notice", js: true do
         visit new_admin_page_path
+
+        find(:css, 'input[type="radio"][id^="code_"]').click
 
         expect{
           fill_in 'Name', :with => "Name"
           fill_in 'Local path', :with => "Local_path"
           fill_in 'Title', :with => "Title"
           fill_in 'Meta description', :with => "Meta Description"
-          fill_in 'Body', :with => "Body"
+          fill_in_ckeditor 'Body', :with => "Body"
           click_button 'Create Page'
         }.to change(Page,:count).by(1)
 
@@ -29,11 +36,13 @@ module WebmastersCms
       it "shows an error when created with invalid attributes" do
         visit new_admin_page_path
 
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in "Title", with: ""
         fill_in "Name", with: ""
         fill_in "Local path", with: ""
         fill_in "Meta description", with: ""
-        fill_in "Body", with: ""
+        fill_in_ckeditor "Body", with: ""
         click_button "Create Page"
 
         expect(page).to have_css "#error_explanation"
@@ -47,11 +56,13 @@ module WebmastersCms
       it "edits a page successfully and displays a success notice" do
         visit edit_admin_page_path(cms_page)
 
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in "Title", with: "Updated Title"
         fill_in "Name", with: "Updated Name"
         fill_in "Local path", with: "Updated_Local_Path"
         fill_in "Meta description", with: "Updated Meta Description"
-        fill_in "Body", with: "Updated Body"
+        fill_in_ckeditor "Body", with: "Updated Body"
         click_button "Update Page"
 
         expect(current_path).to eq(admin_page_path(cms_page))
@@ -68,11 +79,13 @@ module WebmastersCms
       it "shows an error when edited with invalid attributes" do
         visit edit_admin_page_path(cms_page)
 
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in "Title", with: ""
         fill_in "Name", with: ""
         fill_in "Local path", with: ",.IN&V@L1D.,"
         fill_in "Meta description", with: ""
-        fill_in "Body", with: ""
+        fill_in_ckeditor "Body", with: ""
         click_button "Update Page"
 
         expect(page).to have_css "#error_explanation"
@@ -84,16 +97,15 @@ module WebmastersCms
       end
 
       it "shows a page" do
-        cms_page = FactoryGirl.create(:webmasters_cms_page, meta_description: "Jap")
-        visit admin_page_path(Page.last)
+        visit admin_page_path(PageTranslation.last)
 
-        expect(page).to have_title "#{cms_page.title}"
-        expect(page).to have_css "meta[name='description'][content='#{cms_page.meta_description}']", visible: false
-        expect(page).to have_content "#{cms_page.name}"
-        expect(page).to have_content "#{cms_page.body}"
+        expect(page).to have_title "#{page_translation.title}"
+        expect(page).to have_css "meta[name='description'][content='#{page_translation.meta_description}']", visible: false
+        expect(page).to have_content "#{page_translation.name}"
+        expect(page).to have_content "#{page_translation.body}"
       end
 
-      it "deletes a page and displays a success notice", js: true do
+      it "deletes a page and displays a success notice" do
         DatabaseCleaner.clean
         cms_page = FactoryGirl.create(:webmasters_cms_page, name: "DeleteMe", title: "DeleteMe")
 
@@ -132,37 +144,43 @@ module WebmastersCms
       it "nestes a child page under a child page" do
         child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
         child_page2 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(child_page1)
+        page_translation2 = child_page2.translations.first
 
         visit admin_pages_path
 
         within "body > ul > li > ul > li > ul > li > span" do
-          expect(page).to have_content child_page2.name
+          expect(page).to have_content page_translation2.name
         end
       end
 
-      it "nestes a child page under a root page in parent selection" do
-        child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
-
-        visit new_admin_page_path
-      end
+      it "nestes a child page under a root page in parent selection" 
 
       it "previews a page from the edit page", js: true do
         visit edit_admin_page_path(cms_page)
+
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         click_button "Preview"
+
         page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
-          expect(page).to have_content cms_page.name
-          expect(page).to have_content cms_page.body
+          expect(page).to have_content page_translation.name
+          expect(page).to have_content page_translation.body
         end
       end
 
       it "previews a page from the create new page", js: true do
         visit new_admin_page_path
+
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in 'Name', :with => "Name"
         fill_in 'Local path', :with => "Local_path"
         fill_in 'Title', :with => "Title"
         fill_in 'Meta description', :with => "Meta Description"
-        fill_in 'Body', :with => "Body"
+        fill_in_ckeditor 'Body', :with => "Body"
+
         click_button "Preview"
+
         page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
           expect(page).to have_content "Name"
           expect(page).to have_content "Body"
@@ -171,33 +189,45 @@ module WebmastersCms
 
       it "adds cssclass ok to title length counter with good length", js: true do
         visit new_admin_page_path
+
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in 'Title', :with => "A"*20
 
-        expect(page).to have_selector "#titleLength.ok"
+        expect(page).to have_selector "span.titleLength.ok"
         expect(page).to have_content "20 / 55"
       end
 
       it "adds cssclass ok to meta desc length counter with good length", js: true do
         visit new_admin_page_path
+
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in 'Meta description', :with => "A"*55
 
-        expect(page).to have_css "#metaDescLength.ok"
+        expect(page).to have_css "span.metaDescLength.ok"
         expect(page).to have_content "55 / 155"
       end
 
       it "adds cssclass warning to title length counter with long length", js: true do
         visit new_admin_page_path
+
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in 'Title', :with => "A"*120
 
-        expect(page).to have_css "#titleLength.warning"
+        expect(page).to have_css "span.titleLength.warning"
         expect(page).to have_content "120 / 55"
       end
 
       it "adds cssclass warning to meta desc length counter with long length", js: true do
         visit new_admin_page_path
+
+        find(:css, 'input[type="radio"][id^="code_"]').click
+
         fill_in 'Meta description', :with => "A"*170
 
-        expect(page).to have_css "#metaDescLength.warning"
+        expect(page).to have_css "span.metaDescLength.warning"
         expect(page).to have_content "170 / 155"
       end
 

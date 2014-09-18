@@ -18,10 +18,6 @@ module WebmastersCms
             expect(assigns(:page_translation)).to eq(page_translation)
           end
 
-          # it "routes to the right path" do
-          #   expect(get("/index")).to route_to("webmasters_cms/admin/page_translation_versions#index")
-          # end
-
           it "renders the #index view" do
             expect(response).to render_template :index
           end
@@ -36,12 +32,8 @@ module WebmastersCms
             expect(assigns(:collection)).to eq(page_translation.versions)
           end
 
-          # it "routes to the right path" do
-          #   expect(response).to route_to("webmasters_cms/admin/page_translation_versions#show")
-          # end
-
           it "renders the #show view" do
-            expect(response).to render_template(partial: "_page")
+            expect(response).to render_template(partial: "_page_translation")
           end
         end
       end
