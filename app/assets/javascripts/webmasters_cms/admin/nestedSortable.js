@@ -1,9 +1,9 @@
 jQuery(function($) {
   if ( $('ul.pages_tree')[0] ) {
-    var $sortableList = $('.pages_tree').first();
-    var $noticeField = $('.tree_notice');
+    var sortableList = $('.pages_tree').first();
+    var noticeField = $('.tree_notice');
 
-    $sortableList.nestedSortable({
+    sortableList.nestedSortable({
       protectRoot: true,
       listType: 'ul',
       handle: 'span',
@@ -12,25 +12,25 @@ jQuery(function($) {
       cursor: 'crosshair',
       opacity: 0.7,
       update: function() {
-        $('.tree_notice').text("");
+        noticeField.text("");
         $.ajax({
-          data: $sortableList.nestedSortable('serialize'),
+          data: sortableList.nestedSortable('serialize'),
           type: 'put',
           dataType: 'script',
           url: 'pages/sort',
           success: function (data, textStatus, jqXHR) {
-            $noticeField.text("Tree successfully saved!").hide();
-            $noticeField.slideDown();
+            noticeField.text("Tree successfully saved!").hide();
+            noticeField.slideDown();
           },
           error: function (jqXHR, error, errorThrown) {
             if (jqXHR.status && jqXHR.status == 400) {
-              $noticeField.text(jQuery.parseJSON(jqXHR.responseText)).hide();
+              noticeField.text(jQuery.parseJSON(jqXHR.responseText)).hide();
             } else {
-              $noticeField.text("Something went wrong.").hide();
+              noticeField.text("Something went wrong.").hide();
             }
-            $noticeField.slideDown();
+            noticeField.slideDown();
           }
-        })
+        });
       }
     });
   }

@@ -81,7 +81,6 @@ module WebmastersCms
         end
 
         def resource
-          # params[:id] = params[:page_id] unless params[:id]
           @resource ||= klass.find(params[:id])
         end
 

@@ -4,18 +4,19 @@ jQuery(function($) {
   var lastPart = document.URL.split("/").pop();
 
   function showSelectedFieldset() {
-    var chosen_lang = $(radio + ':checked').val();
-    $('fieldset').hide();
-    $('#form_' + chosen_lang).show();
-    if ($(radio + ':checked')[0] && lastPart !== 'new' && typeof(lastPart) !== 'number') {
-      window.history.replaceState("", "", "edit?language=" + chosen_lang);
+    if ($(radio + ':checked').length) {
+      var chosen_lang = $(radio + ':checked').val();
+      $('fieldset').hide();
+      $('#form_' + chosen_lang).show();
+      if ($(radio + ':checked')[0] && lastPart !== 'new' && typeof(lastPart) !== 'number') {
+        window.history.replaceState("", "", "edit?language=" + chosen_lang);
+      }
     }
   };
 
-  if ( $( fieldset ) ) {
+  $(document).on("change", radio, function(event) {
     showSelectedFieldset();
-    $(document).on("change", radio, function(event) {
-      showSelectedFieldset();
-    });
-  }
+  });
+
+  showSelectedFieldset();
 });

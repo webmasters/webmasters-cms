@@ -47,6 +47,10 @@ en:
           all_pages: "All Pages"
           title: "Title"
           no_activated_language: "No active Language found"
+          edit: "Edit"
+          show: "Show"
+          delete: "Delete"
+          alert_sure: "Are you sure?\nThis deletes the translation and all it's versions."
         new:
           create_page: "Create a page"
         edit:
