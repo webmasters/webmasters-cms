@@ -7,7 +7,7 @@ module WebmastersCms
       render_views
 
       let (:page) { create(:webmasters_cms_page) }
-      let (:page_translation) { create(:webmasters_cms_page_translation, page: page) }
+      let (:page_translation) { page.translations.first }
 
       describe "GET #index" do
         before :each do

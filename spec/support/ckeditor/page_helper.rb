@@ -11,7 +11,3 @@ def fill_in_ckeditor(locator, params = {})
       ckeditor.updateElement()
   SCRIPT
 end
-
-RSpec.configure do |c|
-  c.include PageHelper, type: :feature
-end
