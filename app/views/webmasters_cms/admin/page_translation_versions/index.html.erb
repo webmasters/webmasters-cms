@@ -8,7 +8,7 @@
     </div>
     <div id="chosen_version" class="float-left clearfix">
         <div class="float-right">
-          <%= t '.version' %>: <%= f.select :version, page_versions_for_select %>
+          <%= t '.version' %>: <%= f.select :version, options_for_select(page_versions_in_array, page_versions_in_array.size) %>
         </div>
       <h2><%= t '.chosen_version' %>:</h2>
       <article id="chosen" class="page">
