@@ -6,7 +6,7 @@
   <% languages_array = get_languages %>
   <%= t('.available_languages') %>:<br>
   <% languages_array.each do |name, lang| %>
-    <%= radio_button_tag :code, lang, (lang === params[:language]) %>
+    <%= radio_button_tag :code, lang, (lang === params[:language] || lang === params[:code]) %>
     <%= label_tag "code_#{lang}", name, class: 'radio_label' %>
   <% end %>
 </p>

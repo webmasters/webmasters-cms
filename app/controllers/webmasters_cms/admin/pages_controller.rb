@@ -26,7 +26,7 @@ module WebmastersCms
       def edit
         unless resource
           flash[:error] = t :not_found, scope: [:activerecord, :pages, :flash, :error]
-          redirect_to admin_pages_path
+          render action: 'edit'
         end
       end
 
@@ -47,7 +47,7 @@ module WebmastersCms
           redirect_to admin_pages_path
         else
           flash[:error] = t :update, scope: [:activerecord, :pages, :flash, :error]
-          render action: 'edit'
+          render action: "edit"
         end
       end
 
