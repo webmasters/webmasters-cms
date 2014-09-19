@@ -19,33 +19,36 @@
         <%= t('.new_translation') %>
       <% end %>
       <p>
-        <%= t.label :name %> *<br>
-        <%= t.text_field :name, class: 'name_js' %>
+        <%= t.label :name, class: "required" %><br>
+        <%= t.text_field :name, class: 'name_js' %><br>
+        <%= errors_for(:name, t.object) %>
       </p>
       <p>
         <%= t.label :local_path %><br>
         <%= t.text_field :local_path, class: 'local_path_js' %>
         <%= button_tag '<<', type: 'button', class: 'use_suggestion_button' %>
-        <span class="suggestion_<%= lang %>"></span>
+        <span class="suggestion_<%= lang %>"></span><br>
+        <%= errors_for(:local_path, t.object) %>
       </p>
       <p>
-        <%= t.label :title_tag %> *<br>
-        <%= t.text_field :title, size: "60", maxlength: "120", class: 'title_js' %>
-        <br />
+        <%= t.label :title_tag, class: "required" %><br>
+        <%= t.text_field :title, size: "60", maxlength: "120", class: 'title_js' %><br>
+        <%= errors_for(:title, t.object) %>
         <span class="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
       </p>
       <p>
-        <%= t.label :meta_description %> *<br>
-        <%= t.text_area :meta_description, size: "60x4", maxlength: "255", class: 'meta_desc_js' %>
-        <br />
+        <%= t.label :meta_description, class: "required" %><br>
+        <%= t.text_area :meta_description, size: "60x4", maxlength: "255", class: 'meta_desc_js' %><br>
+        <%= errors_for(:meta_description, t.object) %>
         <span class="metaDescLength"><span>0</span> / 155 Letters (max. 255)</span>
       </p>
       <div class="searchResult">
         <%= render partial: 'searchresult_preview' %>
       </div>
       <p>
-        <%= t.label :body %> *<br>
-        <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
+        <%= t.label :body, class: "required" %><br>
+        <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %><br>
+        <%= errors_for(:body, t.object) %>
       </p>
       <%= t.submit t('.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
     <% end %>

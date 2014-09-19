@@ -24,3 +24,15 @@
 .float-left { float: left; }
 .page { margin: 0.2em; }
 .bold { font-weight: bold; }
+.required:after { 
+  font-size: 0.9em;
+  content: ' *'; 
+}
+.field_error {
+  font-size: 0.9em;
+  color: red;
+}
+.field_with_errors { display: inline-block; }
+.field_with_errors input, .field_with_errors textarea {
+  border: 1px solid red;
+}
