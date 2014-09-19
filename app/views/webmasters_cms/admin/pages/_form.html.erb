@@ -29,7 +29,7 @@
         <span class="suggestion_<%= lang %>"></span>
       </p>
       <p>
-        <%= t.label :title %> *<br>
+        <%= t.label :title_tag %> *<br>
         <%= t.text_field :title, size: "60", maxlength: "120", class: 'title_js' %>
         <br />
         <span class="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
@@ -47,7 +47,7 @@
         <%= t.label :body %> *<br>
         <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %>
       </p>
-      <%= t.submit t('webmasters_cms.admin.pages.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
+      <%= t.submit t('.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
     <% end %>
   </fieldset>
 <% end %>

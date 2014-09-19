@@ -3,7 +3,7 @@ module WebmastersCms
     module PageVersionsHelper
       def page_versions_for_select
         collection_without_current_version.collect do |r|
-          [ r.name + ' v.' + r.version.to_s, r.version ]
+          [ r.version.to_s, r.version ]
         end
       end
     end

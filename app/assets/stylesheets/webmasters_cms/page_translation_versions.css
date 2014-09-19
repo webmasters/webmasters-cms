@@ -1,0 +1,26 @@
+#chosen_version, #current_version {
+  width: 40em;
+}
+
+#chosen_version {
+  background-color: #dfdfdf;
+}
+
+#current_version {
+  
+}
+
+.small-details {
+  font-size: 0.8em;
+  color: #555;
+  margin: 0 0 5px 0;
+}
+
+
+
+/* outsource to a common css classes file */
+
+.float-right { float: right; }
+.float-left { float: left; }
+.page { margin: 0.2em; }
+.bold { font-weight: bold; }

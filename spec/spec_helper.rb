@@ -18,7 +18,6 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include WebmastersCms::Engine.routes.url_helpers
   config.include Capybara::DSL
-  config.include 'support/ckeditor/pagehelper', type: :feature
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)

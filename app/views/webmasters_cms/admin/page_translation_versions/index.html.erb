@@ -1,12 +1,20 @@
 <%= form_for page_translation, url: set_current_version_admin_page_path(page_translation) do |f| %>
-  <%= f.select :version, page_versions_for_select %>
-  <%= f.submit t('.current_version') %>
+  <div class="centered clearfix">
+    <div id="current_version" class="float-left clearfix">
+      <h2><%= t '.current_version' %>:</h2>
+      <article class="page">
+        <%= render partial: 'webmasters_cms/admin/page_translation_versions/page_translation_version_w_details', locals: { page_translation: page_translation } %>
+      </article>
+    </div>
+    <div id="chosen_version" class="float-left clearfix">
+        <div class="float-right">
+          <%= t '.version' %>: <%= f.select :version, page_versions_for_select %>
+        </div>
+      <h2><%= t '.chosen_version' %>:</h2>
+      <article id="chosen" class="page">
+      </article>
+      <%= f.submit t('.current_version') %> or
+      <%= render 'webmasters_cms/admin/pages/back' %>
+    </div>
+  </div>
 <% end %>
-
-Chosen Version:
-<div id="chosen">
-</div>
-
-Current Version:
-<%= render partial: 'webmasters_cms/admin/pages/page_translation', locals: { page_translation: page_translation } %>
-<%= render 'webmasters_cms/admin/pages/back' %>

@@ -1,16 +1,18 @@
 en:
+  name: "Name"
+  title_tag: "Title tag"
+  meta_description: "Meta description"
+  local_path: "Local path"
+  body: "Body"
+  code:
+    one: "Language"
+    other: "Languages"
+
   activerecord:
     flash:
       success:
         update: "Successfully updated!"
         delete: "Successfully deleted!"
-    attributes:
-      webmasters_cms/active_language:
-        code:
-          one: "Language"
-          other: "Languages"
-      webmasters_cms/page_translation:
-        title: "Title tag"
     errors:
       models:
         webmasters_cms/active_language:
@@ -64,12 +66,8 @@ en:
         back:
           back: "Back"
         form:
+          preview_button: "Preview"
           new_translation: "New translation"
-          name: "Name"
-          local_path: "Local path"
-          title: "Title"
-          meta_description: "Meta description"
-          body: "Body"
           available_languages: "Available Languages"
       active_languages:
         index:
@@ -80,4 +78,6 @@ en:
           activate_language: "Activate language"
       page_translation_versions:
         index:
-          current_version: "Use as current version"
+          current_version: "Save as current version"
+        details:
+          version_from: "Version from"
