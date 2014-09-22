@@ -1,0 +1,33 @@
+.pages_tree {
+  list-style-type: none;
+  padding-left: 15px;
+}
+.pages_tree li {
+  position: relative;
+  border-left: 3px solid #73716D;
+  line-height: 2;
+  padding-left: 1em;
+}
+.pages_tree li:before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 0em;
+  display: inline-block;
+  width: 15px;
+  height: 3px;
+  background-color: #73716D;
+}
+.pages_tree > li > ul {
+  position: relative;
+  margin-left: 20px;
+}
+.pages_tree > li > ul:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  width: 3px;
+  height: 14px;
+  background-color: white;
+}

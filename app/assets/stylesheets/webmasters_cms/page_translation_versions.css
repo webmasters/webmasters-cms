@@ -6,33 +6,8 @@
   background-color: #dfdfdf;
 }
 
-#current_version {
-  
-}
-
 .small-details {
   font-size: 0.8em;
   color: #555;
   margin: 0 0 5px 0;
-}
-
-
-
-/* outsource to a common css classes file */
-
-.float-right { float: right; }
-.float-left { float: left; }
-.page { margin: 0.2em; }
-.bold { font-weight: bold; }
-.required:after { 
-  font-size: 0.9em;
-  content: ' *'; 
-}
-.field_error {
-  font-size: 0.9em;
-  color: red;
-}
-.field_with_errors { display: inline-block; }
-.field_with_errors input, .field_with_errors textarea {
-  border: 1px solid red;
 }
