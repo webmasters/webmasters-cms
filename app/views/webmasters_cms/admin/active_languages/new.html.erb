@@ -1,4 +1,7 @@
 <%= render 'webmasters_cms/admin/pages/messages' %>
+
+<h1><%= t '.choose_language' %></h1>
+
 <%= form_for resource, url: { action: "create" } do |f| %>
   <%= f.select 'code', klass::AVAILABLE_LANGUAGE_SELECT_OPTIONS %>
   <%= f.submit t('.activate_language')%>

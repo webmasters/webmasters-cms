@@ -1,0 +1,19 @@
+nav.main {
+  background-color: #737373;
+  color: #ecf0f1;
+  height: 3em;
+  padding: 0;
+}
+
+nav.main a {
+  color: #ecf0f1;
+  text-decoration: none;
+  line-height: 3em;
+  padding: 1em;
+  border-right: 1px solid #ecf0f1;
+}
+
+nav.main a:hover {
+  text-decoration: underline;
+  color: #ecf0f1;
+}

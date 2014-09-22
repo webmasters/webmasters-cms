@@ -1,0 +1,9 @@
+<header>
+  <nav class="main">
+    <%= link_to t('.main'), admin_pages_path %>
+    <% if WebmastersCms::ActiveLanguage.any? %>
+      <%= link_to t('.new_page'), new_admin_page_path %>
+    <% end %>
+    <%= link_to t('.language_settings'), admin_active_languages_path %>
+  </nav>
+</header>

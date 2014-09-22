@@ -75,9 +75,13 @@ en:
           deactivate_language: "Deactivating makes all pages with this language unavailable!"
           deactivate: "Deactivate"
         new:
-          activate_language: "Activate language"
+          activate_language:
+            one: "Activated language"
+            other: "Activated languages"
+          choose_language: "Choose language"
       page_translation_versions:
         index:
-          current_version: "Save as current version"
+          current_version: "Current version"
+          translation_revision: "Translation revision"
         details:
           version_from: "Version from"

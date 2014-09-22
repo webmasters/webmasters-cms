@@ -19,16 +19,16 @@ jQuery(function($) {
           dataType: 'script',
           url: 'pages/sort',
           success: function (data, textStatus, jqXHR) {
-            noticeField.text("Tree successfully saved!").hide();
-            noticeField.slideDown();
+            noticeField.text("Tree successfully saved!").addClass("success");
+            noticeField.slideDown().delay(2500).slideUp();
           },
           error: function (jqXHR, error, errorThrown) {
             if (jqXHR.status && jqXHR.status == 400) {
-              noticeField.text(jQuery.parseJSON(jqXHR.responseText)).hide();
+              noticeField.text(jQuery.parseJSON(jqXHR.responseText)).addClass("error");
             } else {
-              noticeField.text("Something went wrong.").hide();
+              noticeField.text("Something went wrong.").addClass("error");
             }
-            noticeField.slideDown();
+            noticeField.slideDown().delay(2500).slideUp();
           }
         });
       }

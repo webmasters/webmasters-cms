@@ -1,4 +1,9 @@
- body { font-family: sans-serif; }
+ body {
+  font-family: sans-serif;
+  background-color: white;
+  padding: 0;
+  margin: 0;
+}
 
 .float-right { float: right; }
 .float-left { float: left; }
@@ -15,4 +20,16 @@
 .field_with_errors { display: inline-block; }
 .field_with_errors input, .field_with_errors textarea {
   border: 1px solid red;
+}
+.notice, .tree_notice {
+  padding: 0.3em;
+  display: none;
+  text-align: center;
+}
+
+.success {
+  background-color: #0f0;
+}
+.error {
+  background-color: #f00;
 }

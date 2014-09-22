@@ -3,6 +3,7 @@ require_dependency "webmasters_cms/application_controller"
 module WebmastersCms
   module Admin
     class PageTranslationVersionsController < ApplicationController
+      layout "webmasters_cms/admin/application"
       helper_method :page_translation, :collection, :collection_without_current_version
 
       def index
