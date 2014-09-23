@@ -15,6 +15,7 @@ module WebmastersCms
         list_item = []
         list_item << "(#{translation.language}) #{translation.name} "
         list_item << link_to(t(".show"), "/#{translation.language}/#{translation.local_path}", target: "_blank")
+        list_item << link_to(t(".edit"), edit_admin_page_path(id: translation.page_id, language: translation.language))
         list_item << link_to(t(".undelete"), undelete_admin_page_translation_path(page_id: translation.page_id, id: translation.id),
           method: :patch,
           data: { confirm: "#{t('.info_undelete')}" })
