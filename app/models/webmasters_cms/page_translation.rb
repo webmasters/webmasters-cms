@@ -29,5 +29,9 @@ module WebmastersCms
     def current_version
       versions.where(version: version).first
     end
+
+    def deleted?
+      soft_deleted
+    end
   end
 end

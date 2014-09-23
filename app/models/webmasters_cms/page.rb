@@ -37,6 +37,10 @@ module WebmastersCms
       translations.where(language: languages).order('language')
     end
 
+    def not_deleted_translations
+      translations.where(soft_deleted: false)
+    end
+
     def displayname
       translations.first.name
     end

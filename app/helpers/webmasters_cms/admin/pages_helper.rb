@@ -20,7 +20,7 @@ module WebmastersCms
         page_translations = page.translations.sort do |a,b| a.language <=> b.language end
         list_item = []
         page_translations.each do |page_translation|
-          if ActiveLanguage.find_by(code: page_translation.language)
+          if ActiveLanguage.find_by(code: page_translation.language) && !page_translation.deleted?
             list_item << "(#{page_translation.language}) #{page_translation.name} "
             list_item << link_to(t(".edit"), edit_admin_page_path(page, language: page_translation.language))
             list_item << link_to(t(".show"), "/#{page_translation.language}/#{page_translation.local_path}", target: "_blank")
