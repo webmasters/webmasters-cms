@@ -5,6 +5,11 @@
   margin: 0;
 }
 
+div { 
+  margin: 10px;
+}
+
+.small { font-size: 0.8em; }
 .content { margin: 0 1em; }
 .float-right { float: right; }
 .float-left { float: left; }

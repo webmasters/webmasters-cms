@@ -1,60 +1,69 @@
-<p>
+<div>
    <%= f.label :parent_id %><br>
    <%= f.select :parent_id, nested_set_for_select, {include_blank: "- No Parent -"}%>
-</p>
+</div>
 <p class="available_languages">
   <% languages_array = get_languages %>
-  <%= t('.available_languages') %>:<br>
+  <%= t '.available_languages' %>:<br>
   <% languages_array.each do |name, lang| %>
     <%= radio_button_tag :code, lang, (lang === params[:language] || lang === params[:code]) %>
     <%= label_tag "code_#{lang}", name, class: 'radio_label' %>
   <% end %>
-</p>
+</div>
 <% languages_array.each do |name, lang| %>
   <fieldset id="form_<%= lang %>" class="hidden">
     <%= f.fields_for :translations, translation = resource.translations.find_or_initialize_by_language(lang) do |t| %>
+      <% if t.object.new_record? %>
+        <%= t '.new_translation' %>
+      <% end %>
       <%= render 'versions', translation: translation unless translation.versions.size <= 1 %>
       <%= t.hidden_field :language, value: lang %>
-      <% if t.object.new_record? %>
-        <%= t('.new_translation') %>
-      <% end %>
-      <p>
+      <div class="page_options">
+        <b class="small"><%= t '.page_options' %></b>
+        <div class="options hidden">
+          <%= label_tag :skip_top_level %>
+          <%= check_box_tag :skip_top_level %><br>
+          <%= label_tag :show_page_translation %>
+          <%= check_box_tag :show_page_translation %>
+        </div>
+      </div>
+      <div>
         <%= t.label :name, class: "required" %><br>
         <%= t.text_field :name, class: 'name_js' %><br>
         <%= errors_for(:name, t.object) %>
-      </p>
-      <p>
+      </div>
+      <div>
         <%= t.label :local_path %><br>
         <%= t.text_field :local_path, class: 'local_path_js' %>
         <%= button_tag '<<', type: 'button', class: 'use_suggestion_button' %>
         <span class="suggestion_<%= lang %>"></span><br>
         <%= errors_for(:local_path, t.object) %>
-      </p>
-      <p>
+      </div>
+      <div>
         <%= t.label :title_tag, class: "required" %><br>
         <%= t.text_field :title, size: "60", maxlength: "120", class: 'title_js' %><br>
         <%= errors_for(:title, t.object) %>
         <span class="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
-      </p>
-      <p>
+      </div>
+      <div>
         <%= t.label :meta_description, class: "required" %><br>
         <%= t.text_area :meta_description, size: "60x4", maxlength: "255", class: 'meta_desc_js' %><br>
         <%= errors_for(:meta_description, t.object) %>
         <span class="metaDescLength"><span>0</span> / 155 Letters (max. 255)</span>
-      </p>
+      </div>
       <div class="searchResult">
         <%= render partial: 'searchresult_preview' %>
       </div>
-      <p>
+      <div>
         <%= t.label :body, class: "required" %><br>
         <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %><br>
         <%= errors_for(:body, t.object) %>
-      </p>
+      </div>
       <%= t.submit t('.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
     <% end %>
   </fieldset>
 <% end %>
 
-<p>
+<div>
   <%= f.submit %>
-</p>
+</div>
