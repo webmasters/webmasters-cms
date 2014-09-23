@@ -4,10 +4,14 @@ module WebmastersCms
   module Admin
     class PageTranslationsController < ApplicationController
       layout "webmasters_cms/admin/application"
-      helper_method :collection, :available_parent_pages, :resource
+      helper_method :collection, :collection_of_deleted_translations, :available_parent_pages, :resource
 
       def index
         collection
+      end
+
+      def deleted_translations
+        collection_of_deleted_translations
       end
 
       def show
@@ -46,12 +50,18 @@ module WebmastersCms
 
       def soft_delete
         resource.update(soft_deleted: true)
-        flash[:success] = t :soft_delete, scope: [:activerecord, :flash, :success]
+        flash[:success] = t :delete, scope: [:activerecord, :flash, :success]
+        redirect_to admin_pages_path
+      end
+
+      def undelete
+        deleted_resource.update(soft_deleted: false)
+        flash[:success] = t :undelete, scope: [:activerecord, :flash, :success]
         redirect_to admin_pages_path
       end
 
       def destroy
-        resource.destroy
+        deleted_resource.destroy
         flash[:success] = t :delete, scope: [:activerecord, :flash, :success]
         redirect_to admin_pages_path
       end
@@ -67,15 +77,23 @@ module WebmastersCms
 
       private
         def page_params
-          params.required(:page).permit(:title, :name, :local_path, :meta_description, :body, :language, :soft_deleted)
+          params.required(:page).permit(:title, :name, :local_path, :meta_description, :body, :language)
         end
 
         def collection
           @collection ||= Page.all
         end
 
+        def collection_of_deleted_translations
+          @collection ||= PageTranslation.all.where(soft_deleted: true)
+        end
+
         def resource
-          @resource ||= PageTranslation.find(params[:id])
+          @resource ||= PageTranslation.find_by(id: params[:id], soft_deleted: false)
+        end
+
+        def deleted_resource
+          @deleted_resource ||= PageTranslation.find_by(id: params[:id], soft_deleted: true)
         end
     end
   end

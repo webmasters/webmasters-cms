@@ -1,0 +1,6 @@
+<% if collection_of_deleted_translations.any? %>
+  <h1><%= t '.deleted_translations' %></h1>
+  <%= list_deleted_translations %>
+<% else %>
+  <h1><%= t '.no_deleted_translations' %></h1>
+<% end %>

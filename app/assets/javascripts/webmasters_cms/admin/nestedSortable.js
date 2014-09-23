@@ -1,4 +1,8 @@
 jQuery(function($) {
+  $('.tree_notice').on('click', function(event) {
+    $('.tree_notice').hide();
+  });
+  
   if ( $('ul.pages_tree')[0] ) {
     var sortableList = $('.pages_tree').first();
     var noticeField = $('.tree_notice');

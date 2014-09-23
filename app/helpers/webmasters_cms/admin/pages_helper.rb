@@ -4,7 +4,7 @@ module WebmastersCms
       def list_collection_ancestry(pages = collection.roots)
         lines = pages.collect do |page|
           line_content = []
-          line_content << content_tag(:span, create_list_item(page))
+          line_content << content_tag(:span, create_list_item_page(page))
 
           unless page.children.empty?
             line_content << list_collection_ancestry(page.children)
@@ -16,7 +16,7 @@ module WebmastersCms
         content_tag :ul, lines.join("\n").html_safe, class: "pages_tree"
       end
 
-      def create_list_item(page)
+      def create_list_item_page(page)
         page_translations = page.translations.sort do |a,b| a.language <=> b.language end
         list_item = []
         page_translations.each do |page_translation|

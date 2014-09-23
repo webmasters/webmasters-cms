@@ -13,6 +13,7 @@ en:
       success:
         update: "Successfully updated!"
         delete: "Successfully deleted!"
+        undelete: "Successfully restored!"
     errors:
       models:
         webmasters_cms/active_language:
@@ -48,12 +49,16 @@ en:
         index:
           all_pages: "All Pages"
           title: "Title"
-          no_activated_language: "No active Language found"
           edit: "Edit"
           show: "Show"
           delete: "Delete"
-          alert_sure: "Are you sure?\nThis deletes the translation and all it's versions."
-          alert_soft_delete: "Are you sure?\nThis soft deletes the translation."
+          soft_delete: "Delete"
+          alert_sure: "Are you sure?\nThis deletes the translation and all it's versions.\nNo Refunds!"
+          alert_soft_delete: "Are you sure?\nThis soft deletes the translation.\nYou can revert this any time."
+          no_activated_language: "No active Language found"
+          disabled_articles: "Disabled articles"
+          new_translation: "New translation"
+          delete_node: "Delete node"
         new:
           create_page: "Create a page"
         edit:
@@ -80,6 +85,15 @@ en:
             one: "Activated language"
             other: "Activated languages"
           choose_language: "Choose language"
+      page_translations:
+        deleted_translations:
+          deleted_translations: "Deleted translations"
+          no_deleted_translations: "No restorable translations"
+          show: "Show"
+          delete: "Delete"
+          undelete: "Restore"
+          info_undelete: "This reactivates the translation and restores it to the point before the deletion."
+          alert_delete: "This deletes the translation and all it's versions!\nNo Refunds!"
       page_translation_versions:
         index:
           current_version: "Current version"

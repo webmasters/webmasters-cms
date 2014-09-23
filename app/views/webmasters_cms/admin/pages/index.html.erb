@@ -3,6 +3,7 @@
   <h1><%= t '.all_pages' %></h1>
   <% content_for :title, t('.all_pages') %>
   <%= list_collection_ancestry %>
+  <%= link_to t('.deleted_translations'), deleted_admin_translations_path %>
 <% else %>
   <h1><%= t '.no_active_articles' %></h1>
 <% end %>
