@@ -44,6 +44,12 @@ module WebmastersCms
         end
       end
 
+      def soft_delete
+        resource.update(soft_deleted: true)
+        flash[:success] = t :soft_delete, scope: [:activerecord, :flash, :success]
+        redirect_to admin_pages_path
+      end
+
       def destroy
         resource.destroy
         flash[:success] = t :delete, scope: [:activerecord, :flash, :success]
@@ -61,7 +67,7 @@ module WebmastersCms
 
       private
         def page_params
-          params.required(:page).permit(:title, :name, :local_path, :meta_description, :body, :language)
+          params.required(:page).permit(:title, :name, :local_path, :meta_description, :body, :language, :soft_deleted)
         end
 
         def collection
@@ -69,7 +75,6 @@ module WebmastersCms
         end
 
         def resource
-          # params[:id] = params[:page_id] unless params[:id]
           @resource ||= PageTranslation.find(params[:id])
         end
     end

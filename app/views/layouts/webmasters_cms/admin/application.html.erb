@@ -13,7 +13,9 @@
 <%= render 'webmasters_cms/admin/pages/navigation' %>
 <%= render 'webmasters_cms/admin/pages/notice' %>
 
-<%= yield %>
+<div class="content">
+  <%= yield %>
+</div>
 
 <%= javascript_include_tag "webmasters_cms/application" %>
 </body>

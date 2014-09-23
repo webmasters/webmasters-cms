@@ -8,7 +8,12 @@ WebmastersCms::Engine.routes.draw do
         collection do
           put :sort
         end
-        resources :page_translations, path: :translations, as: :translations, only: [:destroy]
+        resources :page_translations, path: :translations, as: :translations, only: [] do
+          member do
+            delete :destroy
+            patch :soft_delete
+          end
+        end
         resources :page_translation_versions, path: :versions, as: :versions, only: [:index, :show]
 
       end

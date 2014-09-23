@@ -53,6 +53,7 @@ en:
           show: "Show"
           delete: "Delete"
           alert_sure: "Are you sure?\nThis deletes the translation and all it's versions."
+          alert_soft_delete: "Are you sure?\nThis soft deletes the translation."
         new:
           create_page: "Create a page"
         edit:
