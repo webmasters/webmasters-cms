@@ -59,7 +59,7 @@ module WebmastersCms
 
       def redirected_resource
         translation = PageTranslation.find_by(language: params[:language], local_path: params[:local_path])
-        if translation.redirect_to
+        if translation.redirect_to.present?
           PageTranslation.find_by(language: translation.language, local_path: translation.redirect_to)
         elsif translation.redirect_to_child
           child_page = Page.first_child_of_page(translation.page_id)
