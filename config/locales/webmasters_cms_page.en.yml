@@ -57,6 +57,7 @@ en:
           alert_soft_delete: "Are you sure?\nThis soft deletes the translation.\nYou can revert this any time."
           no_activated_language: "No active Language found"
           disabled_articles: "Disabled articles"
+          deleted_translations: "Deleted translations"
           new_translation: "New translation"
           delete_node: "Delete node"
         new:
