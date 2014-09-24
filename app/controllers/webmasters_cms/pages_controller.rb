@@ -28,7 +28,7 @@ module WebmastersCms
 
     private
       def resource
-        if redirected_resource?
+        if active_redirect?
           @resource = redirected_resource
         else
           @resource ||= PageTranslation.where(language: params[:language]).find_by(local_path: params[:local_path] || "")
@@ -51,7 +51,7 @@ module WebmastersCms
         end
       end
 
-      def redirected_resource?
+      def active_redirect?
         params[:local_path] ||= ""
         translation = PageTranslation.find_by(language: params[:language], local_path: params[:local_path])
         translation.redirect_to.present? || translation.redirect_to_child
