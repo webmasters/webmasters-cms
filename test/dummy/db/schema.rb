@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923064340) do
+ActiveRecord::Schema.define(version: 20140924081810) do
 
   create_table "webmasters_cms_active_languages", force: true do |t|
     t.string "code", null: false
@@ -35,17 +35,20 @@ ActiveRecord::Schema.define(version: 20140923064340) do
   add_index "webmasters_cms_page_translation_versions", ["page_translation_id"], name: "index_page_versions_on_page_translation_id", using: :btree
 
   create_table "webmasters_cms_page_translations", force: true do |t|
-    t.string   "name",                             null: false
-    t.string   "local_path",                       null: false
-    t.string   "title",                            null: false
-    t.string   "meta_description",                 null: false
-    t.string   "language",                         null: false
-    t.text     "body",                             null: false
-    t.integer  "version",                          null: false
-    t.integer  "page_id",                          null: false
+    t.string   "name",                               null: false
+    t.string   "local_path",                         null: false
+    t.string   "title",                              null: false
+    t.string   "meta_description",                   null: false
+    t.string   "language",                           null: false
+    t.text     "body",                               null: false
+    t.integer  "version",                            null: false
+    t.integer  "page_id",                            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "soft_deleted",     default: false
+    t.boolean  "soft_deleted",       default: false
+    t.boolean  "redirect_to_child",  default: false
+    t.boolean  "show_in_navigation", default: true
+    t.string   "redirect_to"
   end
 
   add_index "webmasters_cms_page_translations", ["language", "local_path"], name: "wcms_pt_lang_loc_path_index", unique: true, using: :btree

@@ -77,7 +77,7 @@ module WebmastersCms
 
       private
         def page_params
-          params.required(:page).permit(:title, :name, :local_path, :meta_description, :body, :language)
+          params.required(:page).permit(:title, :name, :local_path, :meta_description, :body, :language, :show_in_navigation, :redirect_to_child, :redirect_to)
         end
 
         def collection

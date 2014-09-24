@@ -5,12 +5,12 @@ module WebmastersCms
 
     acts_as_versioned table_name: "webmasters_cms_page_translation_versions",
       if_changed: [:name, :local_path, :title, :meta_description, :body, :language],
-      non_versioned_columns: [:page_id, :soft_deleted]
+      non_versioned_columns: [:page_id, :soft_deleted, :show_in_navigation, :redirect_to_child, :redirect_to]
 
     validates :name, :local_path, uniqueness: {scope: [:page_id, :language]}
     validates :name, :local_path, uniqueness: {scope: :language}
 
-    validates :local_path, length: { maximum: 255 }
+    validates :local_path, :redirect_to, length: { maximum: 255 }
 
     validates :name, :title, :meta_description,
       length: { maximum: 255 },
@@ -24,7 +24,7 @@ module WebmastersCms
 
     validates :language, presence: true, active_languages: true, uniqueness: {scope: :page_id }
 
-    validates :soft_deleted, inclusion: [true, false]
+    validates :soft_deleted, :show_in_navigation, :redirect_to_child, inclusion: [true, false]
 
     def current_version
       versions.where(version: version).first

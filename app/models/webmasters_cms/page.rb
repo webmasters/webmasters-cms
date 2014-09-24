@@ -13,7 +13,7 @@ module WebmastersCms
 
     accepts_nested_attributes_for :translations,
       allow_destroy: true,
-      reject_if: proc { |attr| attr.all? { |k,v| v.blank? || ['language'].include?(k) } }
+      reject_if: proc { |attr| attr[:title].blank? && attr[:name].blank? && attr[:local_path].blank? && attr[:meta_description].blank? && attr[:body].blank? }
 
     acts_as_nested_set
 

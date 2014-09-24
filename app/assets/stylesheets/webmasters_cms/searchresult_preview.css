@@ -6,44 +6,48 @@
   word-wrap: break-word;
 }
 
-.big-link {
+.searchResult div {
+  margin: 0;
+}
+
+.searchResult .big-link {
   color: #1a0dab;
   font-size: 18px;
   margin: 0;
   font-weight: normal;
 }
 
-.big-link span {
+.searchResult .big-link span {
   text-decoration: none;
   cursor: pointer;
 }
 
-.big-link span:hover {
+.searchResult .big-link span:hover {
   text-decoration: underline;
 }
 
-.big-link a:visited {
+.searchResult .big-link a:visited {
   color: #609;
 }
 
-.bold {
+.searchResult .bold {
   font-weight: bold;
 }
 
-.info {
+.searchResult .info {
   line-height: 18px;
 }
 
-.url {
+.searchResult .url {
   font-size: 13px;
   line-height: 16px;
 }
 
-.green {
+.searchResult .green {
   color: #006621;
   font-style: normal;
 }
 
-.metadesc {
+.searchResult .metadesc {
   color: #545454;
 }
