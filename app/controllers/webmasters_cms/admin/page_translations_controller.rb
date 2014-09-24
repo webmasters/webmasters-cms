@@ -3,7 +3,7 @@ require_dependency "webmasters_cms/application_controller"
 module WebmastersCms
   module Admin
     class PageTranslationsController < ApplicationController
-      layout "webmasters_cms/admin/application"
+      layout :cms_page_layout
       helper_method :collection, :collection_of_deleted_translations, :available_parent_pages, :resource
 
       def index
@@ -94,6 +94,10 @@ module WebmastersCms
 
         def deleted_resource
           @deleted_resource ||= PageTranslation.find_by(id: params[:id], soft_deleted: true)
+        end
+
+        def cms_page_layout
+          "webmasters_cms/admin/application"
         end
     end
   end

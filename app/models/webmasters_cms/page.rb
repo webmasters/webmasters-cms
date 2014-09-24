@@ -19,15 +19,6 @@ module WebmastersCms
 
     validates :count_of_translations, numericality: { only_integer: true, greater_than: 0 }
 
-    def self.create_dummy_page_for_language(language)
-      page_params = {name: "Index", local_path: "", meta_description: "Change me", body: "Change me", title: "First Page", language: language, soft_deleted: false}
-      if roots.empty?
-        create!(translations_attributes: [page_params])
-      elsif not root.translations.find_by(language: language)
-        root.translations.create!(page_params)
-      end
-    end
-
     def count_of_translations
       translations.size
     end
@@ -79,6 +70,10 @@ module WebmastersCms
       end
     end
 
+    def self.first_child_of_page(id)
+      find(id).children.first
+    end
+
     def self.without_page(page)
       if page.persisted?
         where.not(id: page.id)
@@ -106,6 +101,15 @@ module WebmastersCms
       # p e.inspect if Rails.env.test?
       Rails.logger.error e.inspect
       false
+    end
+
+    def self.create_dummy_page_for_language(language)
+      page_params = {name: "Index", local_path: "", meta_description: "Change me", body: "Change me", title: "First Page", language: language, soft_deleted: false}
+      if roots.empty?
+        create!(translations_attributes: [page_params])
+      elsif not root.translations.find_by(language: language)
+        root.translations.create!(page_params)
+      end
     end
   end
 end

@@ -3,7 +3,7 @@ require_dependency "webmasters_cms/application_controller"
 module WebmastersCms
   module Admin
     class PagesController < ApplicationController
-      layout "webmasters_cms/admin/application"
+      layout :cms_page_layout
       helper_method :collection, :available_parent_pages, :resource, :translation, :get_languages
 
       def index
@@ -90,6 +90,10 @@ module WebmastersCms
 
         def get_languages
           WebmastersCms::ActiveLanguage.all.collect { |l| [ l.name, l.code ] }
+        end
+
+        def cms_page_layout
+          "webmasters_cms/admin/application"
         end
     end
   end

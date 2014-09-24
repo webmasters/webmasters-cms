@@ -28,7 +28,11 @@ module WebmastersCms
 
     private
       def resource
-        @resource ||= PageTranslation.where(language: params[:language]).find_by(local_path: params[:local_path] || "")
+        if redirected_resource?
+          @resource = redirected_resource
+        else
+          @resource ||= PageTranslation.where(language: params[:language]).find_by(local_path: params[:local_path] || "")
+        end
       end
 
       def cms_page_layout
@@ -44,6 +48,22 @@ module WebmastersCms
           params["page"]["translations_attributes"].values.detect do |attributes| 
             attributes["language"] == params["code"]
           end
+        end
+      end
+
+      def redirected_resource?
+        params[:local_path] ||= ""
+        translation = PageTranslation.find_by(language: params[:language], local_path: params[:local_path])
+        translation.redirect_to.present? || translation.redirect_to_child
+      end
+
+      def redirected_resource
+        translation = PageTranslation.find_by(language: params[:language], local_path: params[:local_path])
+        if translation.redirect_to
+          PageTranslation.find_by(language: translation.language, local_path: translation.redirect_to)
+        elsif translation.redirect_to_child
+          child_page = Page.first_child_of_page(translation.page_id)
+          PageTranslation.find_by(page_id: child_page.id, language: translation.language)
         end
       end
   end

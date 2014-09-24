@@ -3,7 +3,7 @@ require_dependency "webmasters_cms/application_controller"
 module WebmastersCms
   module Admin
     class PageTranslationVersionsController < ApplicationController
-      layout "webmasters_cms/admin/application"
+      layout :cms_page_layout
       helper_method :page_translation, :collection, :collection_without_current_version
 
       def index
@@ -26,6 +26,10 @@ module WebmastersCms
 
         def collection_without_current_version
           collection.where.not(version: page_translation.version)
+        end
+
+        def cms_page_layout
+          "webmasters_cms/admin/application"
         end
     end
   end

@@ -13,7 +13,7 @@ jQuery(function($) {
       handle: 'span',
       items: 'li',
       toleranceElement: '> span',
-      cursor: 'crosshair',
+      cursor: 'move',
       opacity: 0.7,
       update: function() {
         noticeField.text("");

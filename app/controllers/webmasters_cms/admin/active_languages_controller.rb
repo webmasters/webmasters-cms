@@ -3,7 +3,7 @@ require_dependency "webmasters_cms/application_controller"
 module WebmastersCms
   module Admin
     class ActiveLanguagesController < ApplicationController
-      layout "webmasters_cms/admin/application"
+      layout :cms_page_layout
       helper_method :resource, :collection, :klass
 
       def index
@@ -44,6 +44,10 @@ module WebmastersCms
 
         def collection
           @collection ||= klass.all
+        end
+
+        def cms_page_layout
+          "webmasters_cms/admin/application"
         end
     end
   end
