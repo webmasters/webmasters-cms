@@ -33,7 +33,7 @@ module WebmastersCms
           end
 
           it "renders the #show view" do
-            expect(response).to render_template(partial: "_page_translation")
+            expect(response).to render_template(partial: "_page_translation_version_w_details")
           end
         end
       end

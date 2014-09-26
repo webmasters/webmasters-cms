@@ -30,5 +30,9 @@ FactoryGirl.define do
       name nil
       body nil
     end
+
+    trait :not_shown do
+      show_in_navigation false
+    end
   end
 end

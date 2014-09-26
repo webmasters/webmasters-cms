@@ -26,7 +26,7 @@ module WebmastersCms
             list_item << link_to(t(".show"), "/#{page_translation.language}/#{page_translation.local_path}", target: "_blank")
             list_item << link_to(t(".soft_delete"), soft_delete_admin_page_translation_path(page_id: page_translation.page_id, id: page_translation.id),
               method: :patch,
-              data: { confirm: "#{t('.alert_soft_delete')}" })
+              data: { confirm: "#{t('.alert_soft_delete')}" }, name: "delete_#{page_translation.id}")
             list_item << "|" unless page_translation == page_translations.last
           end
         end

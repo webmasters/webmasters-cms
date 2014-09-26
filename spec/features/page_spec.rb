@@ -5,7 +5,7 @@ module WebmastersCms
     describe "Manage pages" do
 
       let (:cms_page) { create(:webmasters_cms_page) }
-      let (:page_translation) { page.translations.first }
+      let (:page_translation) { cms_page.translations.first }
 
       before(:each) do
         create(:webmasters_cms_active_language)
@@ -14,151 +14,130 @@ module WebmastersCms
       it "creates a new page and displays it with a success notice", js: true do
         visit new_admin_page_path
 
-        find(:css, 'input[type="radio"][id^="code_"]').click
+        find(:css, 'input[type="radio"][id="code_en"]').click
 
         expect{
-          fill_in 'Name', :with => "Name"
-          fill_in 'Local path', :with => "Local_path"
-          fill_in 'Title', :with => "Title"
-          fill_in 'Meta description', :with => "Meta Description"
-          fill_in_ckeditor 'Body', :with => "Body"
+          fill_in 'Name', with: "Name"
+          fill_in 'Local path', with: "Local_path"
+          fill_in 'Title', with: "Title"
+          fill_in 'Meta description', with: "Meta Description"
+          fill_in_ckeditor 'cke_body', with: "Body"
           click_button 'Create Page'
-        }.to change(Page,:count).by(1)
+        }.to change(Page, :count).by(1)
 
-        within '.success' do
-          expect(page).to have_content 'Page successfully created'
+        within '.notice' do
+          expect(page).to have_content 'Page successfully created!'
         end
 
-        expect(page).to have_content "Title"
         expect(page).to have_content "Name"
       end
 
-      it "shows an error when created with invalid attributes" do
+      it "shows an error when created with invalid attributes", js: true do
         visit new_admin_page_path
 
-        find(:css, 'input[type="radio"][id^="code_"]').click
+        find(:css, 'input[type="radio"][id="code_en"]').click
 
-        fill_in "Title", with: ""
+        fill_in "Title", with: "Title"
         fill_in "Name", with: ""
-        fill_in "Local path", with: ""
+        fill_in "Local path", with: "*@%#{}"
         fill_in "Meta description", with: ""
-        fill_in_ckeditor "Body", with: ""
+        fill_in_ckeditor 'cke_body', with: ""
         click_button "Create Page"
 
-        expect(page).to have_css "#error_explanation"
-        expect(page).to have_selector('.field_with_errors #page_title')
-        expect(page).to have_selector('.field_with_errors #page_local_path')
-        expect(page).to have_selector('.field_with_errors #page_name')
-        expect(page).to have_selector('.field_with_errors #page_meta_description')
-        expect(page).to have_selector('.field_with_errors #page_body')
+        expect(page).to have_selector('.field_with_errors')
+        expect(page).to have_selector('.field_error')
+        expect(page).to have_content("Name can't be blank")
+        expect(page).to have_content("Meta description can't be blank")
+        expect(page).to have_content("Body can't be blank")
+        expect(page).to have_content("Local path can only consist of alphanumeric letters, hyphens and underscores")
       end
 
-      it "edits a page successfully and displays a success notice" do
-        visit edit_admin_page_path(cms_page)
-
-        find(:css, 'input[type="radio"][id^="code_"]').click
+      it "edits a page successfully and displays a success notice", js: true do
+        DatabaseCleaner.clean
+        visit edit_admin_page_path(cms_page, language: page_translation.language)
 
         fill_in "Title", with: "Updated Title"
         fill_in "Name", with: "Updated Name"
         fill_in "Local path", with: "Updated_Local_Path"
         fill_in "Meta description", with: "Updated Meta Description"
-        fill_in_ckeditor "Body", with: "Updated Body"
+        fill_in_ckeditor "cke_body", with: "Updated Body"
         click_button "Update Page"
-
-        expect(current_path).to eq(admin_page_path(cms_page))
-        expect(page).to have_css 'meta[name="description"][content="Updated Meta Description"]', :visible => false
-        expect(page).to have_title "Updated Title"
-        expect(page).to have_content "Updated Name"
-        expect(page).to have_content "Updated Body"
 
         within ".success" do
           expect(page).to have_content "Page successfully updated"
         end
+        expect(page).to have_content "Updated Name"
       end
 
-      it "shows an error when edited with invalid attributes" do
-        visit edit_admin_page_path(cms_page)
-
-        find(:css, 'input[type="radio"][id^="code_"]').click
+      it "shows an error when edited with invalid attributes", js: true do
+        visit edit_admin_page_path(cms_page, language: page_translation.language)
 
         fill_in "Title", with: ""
         fill_in "Name", with: ""
         fill_in "Local path", with: ",.IN&V@L1D.,"
         fill_in "Meta description", with: ""
-        fill_in_ckeditor "Body", with: ""
+        # fill_in_ckeditor "cke_body", with: nil
         click_button "Update Page"
 
-        expect(page).to have_css "#error_explanation"
-        expect(page).to have_selector('.field_with_errors #page_title')
-        expect(page).to have_selector('.field_with_errors #page_local_path')
-        expect(page).to have_selector('.field_with_errors #page_name')
-        expect(page).to have_selector('.field_with_errors #page_meta_description')
-        expect(page).to have_selector('.field_with_errors #page_body')
+        expect(page).to have_selector('.field_with_errors')
+        expect(page).to have_selector('.field_error')
+        expect(page).to have_content("Title can't be blank")
+        expect(page).to have_content("Name can't be blank")
+        expect(page).to have_content("Meta description can't be blank")
+        # expect(page).to have_content("Body can't be blank")
+        expect(page).to have_content("Local path can only consist of alphanumeric letters, hyphens and underscores")
       end
 
-      it "shows a page" do
-        visit admin_page_path(PageTranslation.last)
-
-        expect(page).to have_title "#{page_translation.title}"
-        expect(page).to have_css "meta[name='description'][content='#{page_translation.meta_description}']", visible: false
-        expect(page).to have_content "#{page_translation.name}"
-        expect(page).to have_content "#{page_translation.body}"
-      end
-
-      it "deletes a page and displays a success notice" do
+      it "deletes a page and displays a success notice", js: true do
         DatabaseCleaner.clean
-        cms_page = FactoryGirl.create(:webmasters_cms_page, name: "DeleteMe", title: "DeleteMe")
+        cms_page_delete = FactoryGirl.create(:webmasters_cms_page)
+        page_translation_delete = cms_page_delete.translations.first
 
         visit admin_pages_path
 
         expect{
-          within "ul li" do
-            click_link "Delete"
-          end
+          find(:css, "[name='delete_#{page_translation_delete.id}']").click
           page.driver.browser.switch_to.alert.accept
 
           expect(current_path).to eq(admin_pages_path)
-        }.to change(Page,:count).by(-1)
+        }.to change(PageTranslation, :count).by(0)
 
-        within '.success' do
-          expect(page).to have_content "Page successfully deleted"
+        within '.notice' do
+          expect(page).to have_content "Successfully deleted!"
         end
-
-        expect(page).to_not have_content "DeleteMe"
+        expect(page).to_not have_content(page_translation_delete.name)
       end
 
       it "nestes a child page under a root page" do
         child_page = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
+        child_translation = child_page.translations.first
 
         visit admin_pages_path
 
-        within "body > ul > li > span" do
-          expect(page).to have_content cms_page.name
+        within "div > ul > #page_#{page_translation.id} > span" do
+          expect(page).to have_content page_translation.name
         end
 
-        within "body > ul > li > ul > li > span" do
-          expect(page).to have_content child_page.name
+        within "#page_#{page_translation.id} > ul > #page_#{child_translation.id} > span" do
+          expect(page).to have_content child_translation.name
         end
       end
 
       it "nestes a child page under a child page" do
         child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
+        child_translation1 = child_page1.translations.first
         child_page2 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(child_page1)
-        page_translation2 = child_page2.translations.first
+        child_translation2 = child_page2.translations.first
 
         visit admin_pages_path
 
-        within "body > ul > li > ul > li > ul > li > span" do
-          expect(page).to have_content page_translation2.name
+        within "div > ul > #page_#{page_translation.id} > ul > #page_#{child_translation1.id} > ul > #page_#{child_translation2.id} > span" do
+          expect(page).to have_content child_translation2.name
         end
       end
 
-      it "nestes a child page under a root page in parent selection" 
-
       it "previews a page from the edit page", js: true do
-        visit edit_admin_page_path(cms_page)
-
-        find(:css, 'input[type="radio"][id^="code_"]').click
+        visit edit_admin_page_path(cms_page, language: page_translation.language)
 
         click_button "Preview"
 
@@ -173,11 +152,11 @@ module WebmastersCms
 
         find(:css, 'input[type="radio"][id^="code_"]').click
 
-        fill_in 'Name', :with => "Name"
-        fill_in 'Local path', :with => "Local_path"
-        fill_in 'Title', :with => "Title"
-        fill_in 'Meta description', :with => "Meta Description"
-        fill_in_ckeditor 'Body', :with => "Body"
+        fill_in 'Name', with: "Name"
+        fill_in 'Local path', with: "Local_path"
+        fill_in 'Title', with: "Title"
+        fill_in 'Meta description', with: "Meta Description"
+        fill_in_ckeditor 'cke_body', with: "Body"
 
         click_button "Preview"
 
@@ -230,7 +209,43 @@ module WebmastersCms
         expect(page).to have_css "span.metaDescLength.warning"
         expect(page).to have_content "170 / 155"
       end
-
     end
+
+    def wait_until(default_wait_time=Capybara.default_wait_time, &block)
+      start = Time.now
+      end_time = start + default_wait_time.seconds
+
+      while true
+        timeout = Time.now > end_time
+        begin
+          result = yield
+          break if result || timeout
+        rescue Exception => e
+          raise e if timeout
+        end
+        sleep 0.3
+      end
+    end
+
+    def fill_in_ckeditor(locator, opts)
+      content = opts.fetch(:with)
+      ckeditor_instance = "CKEDITOR.instances[jQuery('[data-locator=\"#{locator}\"]').attr('id')]"
+
+      wait_until do
+        result = page.evaluate_script <<-SCRIPT
+          CKEDITOR && (#{ckeditor_instance}) && (#{ckeditor_instance}.ui != undefined) && typeof(#{ckeditor_instance}.getData()) == 'string'
+        SCRIPT
+        expect result
+        result 
+      end
+
+      wait_until do
+        page.execute_script <<-SCRIPT
+          #{ckeditor_instance}.insertText("#{content}");
+        SCRIPT
+
+        page.evaluate_script("#{ckeditor_instance}.getData()").include?(content)
+      end
+    end 
   end
 end

@@ -53,7 +53,7 @@ module WebmastersCms
 
       def active_redirect?
         params[:local_path] ||= ""
-        translation = PageTranslation.find_by(language: params[:language], local_path: params[:local_path])
+        translation = PageTranslation.find_or_initialize_by(language: params[:language], local_path: params[:local_path])
         translation.redirect_to.present? || translation.redirect_to_child
       end
 

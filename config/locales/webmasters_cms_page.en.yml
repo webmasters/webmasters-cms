@@ -1,6 +1,6 @@
 en:
   name: "Name"
-  title_tag: "Title tag"
+  title: "Title tag"
   meta_description: "Meta description"
   local_path: "Local path"
   body: "Body"
@@ -48,7 +48,7 @@ en:
         preview_button: "Preview"
         index:
           all_pages: "All Pages"
-          title: "Title"
+          title: "Title tag"
           edit: "Edit"
           show: "Show"
           delete: "Delete"

@@ -48,7 +48,7 @@
       </div>
 
       <div>
-        <%= t.label :title_tag, class: "required" %><br>
+        <%= t.label :title, class: "required" %><br>
         <%= t.text_field :title, size: "60", maxlength: "120", class: 'title_js' %><br>
         <%= errors_for(:title, t.object) %>
         <span class="titleLength"><span>0</span> / 55 Letters (max. 120)</span>
@@ -67,7 +67,7 @@
 
       <div>
         <%= t.label :body, class: "required" %><br>
-        <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json} %><br>
+        <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json, locator: 'cke_body'} %><br>
         <%= errors_for(:body, t.object) %>
       </div>
 
