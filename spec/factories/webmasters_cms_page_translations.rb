@@ -20,7 +20,7 @@ FactoryGirl.define do
         language.save!
       end
     end
-    
+
     trait :index do
       local_path nil
     end
@@ -31,8 +31,8 @@ FactoryGirl.define do
       body nil
     end
 
-    trait :not_shown do
-      show_in_navigation false
+    trait :deleted do
+      soft_deleted true
     end
   end
 end
