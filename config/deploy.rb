@@ -6,7 +6,7 @@ set :rails_env, "production"
 set :use_sudo, false
 set :user, 'webmasters_cms'
 
-set :repo_url, 'git@github.com:cgallitz/webmasters-cms.git'
+set :repo_url, 'git@github.com:webmasters/webmasters-cms.git'
 set :branch, 'release'
 set :scm, :git
 
