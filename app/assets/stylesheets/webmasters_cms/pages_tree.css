@@ -1,8 +1,8 @@
 .pages_tree {
-  list-style-type: none;
   padding-left: 15px;
 }
 .pages_tree li {
+  list-style-type: none;
   position: relative;
   border-left: 3px solid #73716D;
   line-height: 2;

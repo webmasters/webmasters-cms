@@ -46,6 +46,7 @@ input[type="submit"] {
 .warning { color: red; }
 .radio_label { margin-right: 10px; }
 .hidden { display: none; }
+
 .page_options b { cursor: pointer;}
 .open:after { content: " + "; }
 .close:after { content: " - "; }

@@ -6,7 +6,6 @@ class RemoveColumnsFromWebmastersCmsPages < ActiveRecord::Migration
       t.remove :title
       t.remove :meta_description
       t.remove :body
-      t.remove :version
     end
   end
 end

@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20140930075316) do
     t.string   "meta_description",                             null: false
     t.string   "language",           limit: 2,                 null: false
     t.text     "body",                                         null: false
-    t.integer  "version",                                      null: false
-    t.integer  "page_id",                                      null: false
+    t.integer  "version",                      default: 0,     null: false
+    t.integer  "page_id",                      default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "soft_deleted",                 default: false, null: false
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20140930075316) do
   add_index "webmasters_cms_page_translations", ["language", "local_path"], name: "wcms_pt_lang_loc_path_index", unique: true, using: :btree
   add_index "webmasters_cms_page_translations", ["language", "name"], name: "wcms_pt_lang_name_index", unique: true, using: :btree
   add_index "webmasters_cms_page_translations", ["language"], name: "wcms_pt_lang_index", using: :btree
-  add_index "webmasters_cms_page_translations", ["page_id"], name: "index_webmasters_cms_page_translations_on_page_id", using: :btree
+  add_index "webmasters_cms_page_translations", ["page_id"], name: "wcms_pt_page_id_index", using: :btree
   add_index "webmasters_cms_page_translations", ["soft_deleted"], name: "wcms_pt_soft_del_index", using: :btree
 
   create_table "webmasters_cms_pages", force: true do |t|
