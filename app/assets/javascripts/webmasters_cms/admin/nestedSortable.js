@@ -1,5 +1,5 @@
 jQuery(function($) {
-  $('.tree_notice').on('click', function(event) {
+  $(document).on('click', '.tree_notice', function(event) {
     $('.tree_notice').hide();
   });
   

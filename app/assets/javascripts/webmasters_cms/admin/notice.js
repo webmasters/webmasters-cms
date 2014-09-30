@@ -3,7 +3,7 @@ jQuery(function($) {
     $('.notice').slideDown().delay(2500).slideUp();
   }
 
-  $('.notice').on('click', function(event) {
+  $(document).on('click', '.notice', function(event) {
     $('.notice').hide();
   });
 });
