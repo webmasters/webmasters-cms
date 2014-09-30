@@ -104,7 +104,9 @@ module WebmastersCms
     end
 
     def self.create_dummy_page_for_language(language)
-      page_params = {name: "Index", local_path: "", meta_description: "Change me", body: "Change me", title: "First Page", language: language, soft_deleted: false}
+      page_params = {name: "Index", local_path: "", 
+        meta_description: "Change me", body: "Change me", 
+        title: "First Page", language: language, soft_deleted: false}
       if roots.empty?
         create!(translations_attributes: [page_params])
       elsif not root.translations.find_by(language: language)
