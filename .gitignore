@@ -9,3 +9,10 @@ test/dummy/.sass-cache
 test/dummy/public/assets
 tmp/
 test/dummy/config/secrets.yml
+
+# Editor
+*.swp
+*.un~
+tags
+
+.rake_tasks~
