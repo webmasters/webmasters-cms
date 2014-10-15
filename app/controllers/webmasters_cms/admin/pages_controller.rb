@@ -72,7 +72,7 @@ module WebmastersCms
         end
 
         def page_params
-          params.required(:page).permit(:parent_id, :rgt, :lft,
+          params.required(:page).permit(:parent_id, :rgt, :lft, :meta,
             translations_attributes: [:id ,:page_id, :title, :name, :local_path, :meta_description, :body, :language, :show_in_navigation, :redirect_to_child, :redirect_to])
         end
 

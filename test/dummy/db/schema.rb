@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141014085614) do
+ActiveRecord::Schema.define(version: 20141014085620) do
 
   create_table "webmasters_cms_active_languages", force: true do |t|
     t.string "code", null: false
@@ -64,15 +64,16 @@ ActiveRecord::Schema.define(version: 20141014085614) do
     t.integer  "rgt"
     t.integer  "lft"
     t.integer  "parent_id"
+    t.boolean  "is_meta",    default: false, null: false
   end
 
+  add_index "webmasters_cms_pages", ["is_meta"], name: "index_webmasters_cms_pages_on_is_meta", using: :btree
   add_index "webmasters_cms_pages", ["lft"], name: "index_webmasters_cms_pages_on_lft", using: :btree
   add_index "webmasters_cms_pages", ["parent_id"], name: "index_webmasters_cms_pages_on_parent_id", using: :btree
   add_index "webmasters_cms_pages", ["rgt"], name: "index_webmasters_cms_pages_on_rgt", using: :btree
 
   add_foreign_key "webmasters_cms_page_translation_versions", "webmasters_cms_page_translations", name: "webmasters_cms_page_translation_versions_page_translation_id_fk", column: "page_translation_id"
 
-  add_foreign_key "webmasters_cms_page_translations", "webmasters_cms_pages", name: "fk_page_page_translations", column: "page_id"
   add_foreign_key "webmasters_cms_page_translations", "webmasters_cms_pages", name: "webmasters_cms_page_translations_page_id_fk", column: "page_id"
 
   add_foreign_key "webmasters_cms_pages", "webmasters_cms_pages", name: "webmasters_cms_pages_parent_id_fk", column: "parent_id"

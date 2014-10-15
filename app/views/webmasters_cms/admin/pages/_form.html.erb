@@ -1,5 +1,8 @@
-<%= f.label :parent_id %><br>
-<%= f.select :parent_id, nested_set_for_select, {include_blank: "- No Parent -"}%>
+<p><%= f.label :parent_id %><br>
+<%= f.select :parent_id, nested_set_for_select, {include_blank: "- No Parent -"}%></p>
+
+<p><%= f.label :is_meta %><br>
+<%= f.check_box :is_meta %></p>
 
 <p class="available_languages">
   <% languages_array = get_languages %>
