@@ -1,15 +1,18 @@
 class CreateVersionsForPagesWithoutVersion < ActiveRecord::Migration
-  class WebmastersCms::PageTranslation < ActiveRecord::Base
+  class WebmastersCmsPageTranslation < ActiveRecord::Base
     self.record_timestamps = false
   end
 
-  class WebmastersCms::PageTranslation::Version < ActiveRecord::Base
+  class WebmastersCmsPageTranslation::Version < ActiveRecord::Base
     self.record_timestamps = false
   end
 
   def up
     transaction do
-      WebmastersCms::PageTranslation.where(version: 0).each do |page_translation|
+      WebmastersCmsPageTranslation.reset_column_information
+      WebmastersCmsPageTranslationVersion.reset_column_information
+
+      WebmastersCmsPageTranslation.where(version: 0).each do |page_translation|
         page_translation.update_attributes! version: 1
 
         WebmastersCms::PageTranslation::Version.create! page_translation_id: page_translation.id,

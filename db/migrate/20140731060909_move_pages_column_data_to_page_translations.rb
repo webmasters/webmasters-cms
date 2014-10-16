@@ -1,15 +1,18 @@
 class MovePagesColumnDataToPageTranslations < ActiveRecord::Migration
-  class WebmastersCms::PageTranslation < ActiveRecord::Base
+  class WebmastersCmsPageTranslation < ActiveRecord::Base
     self.record_timestamps = false
   end
 
-  class WebmastersCms::Page < ActiveRecord::Base
-    has_many :translations, class_name: WebmastersCms::PageTranslation.to_s
+  class WebmastersCmsPage < ActiveRecord::Base
+    has_many :translations, class_name: WebmastersCmsPageTranslation.to_s
   end
   
   def up
     transaction do
-      WebmastersCms::Page.all.each do |page|
+      WebmastersCmsPage.reset_column_information
+      WebmastersCmsPageTranslation.reset_column_information
+
+      WebmastersCmsPage.all.each do |page|
         page.translations.create!(
           name: page.name,
           local_path: page.local_path,
