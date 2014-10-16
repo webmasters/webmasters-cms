@@ -1,8 +1,8 @@
-require_dependency "webmasters_cms/application_controller"
+require_dependency "webmasters_cms/admin_controller"
 
 module WebmastersCms
   module Admin
-    class ActiveLanguagesController < ApplicationController
+    class ActiveLanguagesController < AdminController
       layout :cms_page_layout
       helper_method :resource, :collection, :klass
 

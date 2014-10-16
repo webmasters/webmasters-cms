@@ -3,7 +3,7 @@ require 'spec_helper'
 module WebmastersCms
   module Admin
     describe PagesController, type: :controller do
-      routes { WebmastersCms::Engine.routes }
+      routes { ::WebmastersCms::Engine.routes }
       render_views
 
       let (:page) { create(:webmasters_cms_page) }

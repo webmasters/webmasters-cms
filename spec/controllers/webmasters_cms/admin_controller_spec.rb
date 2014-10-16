@@ -1,7 +1,7 @@
-require 'rails_helper'
+require 'spec_helper'
 
 module WebmastersCms
-  RSpec.describe AdminController, :type => :controller do
+  describe AdminController, :type => :controller do
 
   end
 end

@@ -1,8 +1,8 @@
-require_dependency "webmasters_cms/application_controller"
+require_dependency "webmasters_cms/admin_controller"
 
 module WebmastersCms
   module Admin
-    class PageTranslationVersionsController < ApplicationController
+    class PageTranslationVersionsController < AdminController
       layout :cms_page_layout
       helper_method :page_translation, :collection, :collection_without_current_version
 

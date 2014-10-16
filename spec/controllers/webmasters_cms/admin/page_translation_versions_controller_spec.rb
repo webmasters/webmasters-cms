@@ -3,7 +3,7 @@ require 'spec_helper'
 module WebmastersCms
   module Admin
       describe PageTranslationVersionsController, type: :controller do
-        routes { WebmastersCms::Engine.routes }
+        routes { ::WebmastersCms::Engine.routes }
 
         let(:page) { create(:webmasters_cms_page) }
         let(:page_translation) { create(:webmasters_cms_page_translation, page: page) }

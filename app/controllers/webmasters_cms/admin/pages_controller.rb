@@ -1,8 +1,8 @@
-require_dependency "webmasters_cms/application_controller"
+require_dependency "webmasters_cms/admin_controller"
 
 module WebmastersCms
   module Admin
-    class PagesController < ApplicationController
+    class PagesController < AdminController
       layout :cms_page_layout
       helper_method :collection, :available_parent_pages, :resource, :translation, :get_languages
 
@@ -89,7 +89,7 @@ module WebmastersCms
         end
 
         def get_languages
-          WebmastersCms::ActiveLanguage.all.collect { |l| [ l.name, l.code ] }
+          ::WebmastersCms::ActiveLanguage.all.collect { |l| [ l.name, l.code ] }
         end
 
         def cms_page_layout
