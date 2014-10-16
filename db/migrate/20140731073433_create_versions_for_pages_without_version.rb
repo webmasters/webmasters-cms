@@ -3,7 +3,7 @@ class CreateVersionsForPagesWithoutVersion < ActiveRecord::Migration
     self.record_timestamps = false
   end
 
-  class WebmastersCmsPageTranslation::Version < ActiveRecord::Base
+  class WebmastersCmsPageTranslationVersion < ActiveRecord::Base
     self.record_timestamps = false
   end
 
@@ -15,7 +15,7 @@ class CreateVersionsForPagesWithoutVersion < ActiveRecord::Migration
       WebmastersCmsPageTranslation.where(version: 0).each do |page_translation|
         page_translation.update_attributes! version: 1
 
-        WebmastersCms::PageTranslation::Version.create! page_translation_id: page_translation.id,
+        WebmastersCmsPageTranslationVersion.create! page_translation_id: page_translation.id,
           name: page_translation.name,
           local_path: page_translation.local_path,
           title: page_translation.title,
