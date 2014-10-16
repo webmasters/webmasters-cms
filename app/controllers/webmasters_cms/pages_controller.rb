@@ -11,7 +11,7 @@ module WebmastersCms
     def show
       if ActiveLanguage.find_by(code: params[:language])
         if resource
-          show_page
+          redirect_or_show_page
         else
           raise ActiveRecord::RecordNotFound
         end
@@ -30,11 +30,7 @@ module WebmastersCms
 
     private
       def resource
-        if active_redirect?
-          @resource = redirected_resource
-        else
-          @resource ||= PageTranslation.where(language: params[:language]).find_by(local_path: params[:local_path] || "")
-        end
+        @resource ||= PageTranslation.where(language: params[:language]).find_by(local_path: params[:local_path] || "")
       end
 
       def cms_page_layout
@@ -53,20 +49,25 @@ module WebmastersCms
         end
       end
 
-      def active_redirect?
-        params[:local_path] ||= ""
-        translation = PageTranslation.find_or_initialize_by(language: params[:language], local_path: params[:local_path])
-        translation.redirect_to.present? || translation.redirect_to_child
+      def redirect_or_show_page
+        cond = resource.redirect_to_child && !resource.page.children.empty? && 
+          !resource.page.children.first.translations.where(:language => resource.language).empty?
+        
+        if cond
+          redirect_to_child
+        elsif resource.redirect_to.present?
+          redirect_to_page
+        else
+          show_page
+        end
       end
 
-      def redirected_resource
-        translation = PageTranslation.find_by(language: params[:language], local_path: params[:local_path])
-        if translation.redirect_to.present?
-          PageTranslation.find_by(language: translation.language, local_path: translation.redirect_to)
-        elsif translation.redirect_to_child
-          child_page = Page.first_child_of_page(translation.page_id)
-          PageTranslation.find_by(page_id: child_page.id, language: translation.language)
-        end
+      def redirect_to_child
+        redirect_to resource.page.children.first.translations.where(:language => resource.language).first.local_path
+      end
+
+      def redirect_to_page
+        redirect_to resource.redirect_to
       end
 
       def show_page
