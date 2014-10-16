@@ -70,7 +70,7 @@ module WebmastersCms
       end
 
       def show_page
-        rander action: 'show'
+        render action: 'show'
       end
   end
 end
