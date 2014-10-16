@@ -10,7 +10,9 @@ module WebmastersCms
 
     def show
       if ActiveLanguage.find_by(code: params[:language])
-        unless resource
+        if resource
+          show_page
+        else
           raise ActiveRecord::RecordNotFound
         end
       else
@@ -19,7 +21,7 @@ module WebmastersCms
     end
 
     def preview
-      Page.connection.transaction do
+      Page.transaction do
         @resource = PageTranslation.new(translation_attributes_from_hash)
         render 'show'
         raise ActiveRecord::Rollback
@@ -65,6 +67,10 @@ module WebmastersCms
           child_page = Page.first_child_of_page(translation.page_id)
           PageTranslation.find_by(page_id: child_page.id, language: translation.language)
         end
+      end
+
+      def show_page
+        rander action: 'show'
       end
   end
 end
