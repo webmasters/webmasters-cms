@@ -1,6 +1,6 @@
 module WebmastersCms
   module Admin
-    module PageVersionsHelper
+    module PageTranslationVersionsHelper
       def page_versions_in_array
         array = []
         collection_without_current_version.collect do |r|
