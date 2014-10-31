@@ -23,7 +23,7 @@ module WebmastersCms
     def preview
       Page.transaction do
         @resource = PageTranslation.new(translation_attributes_from_hash)
-        render 'show'
+        show_page
         raise ActiveRecord::Rollback
       end
     end
