@@ -70,7 +70,7 @@
 
       <div>
         <%= t.label :body, class: "required" %><br>
-        <%= t.text_area :body, size: "60x20", data: {ckeditor_options: {}.to_json, locator: 'cke_body'} %><br>
+        <%= t.text_area :body, options_for_page_translation_body(translation) %><br>
         <%= errors_for(:body, t.object) %>
       </div>
 

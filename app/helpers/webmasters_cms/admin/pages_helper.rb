@@ -68,6 +68,15 @@ module WebmastersCms
         end
         result
       end
+
+      OPTIONS_FOR_PAGE_TRANSLATION_BODY={size: "60x20", 
+        data: {ckeditor_options: {}, locator: 'cke_body'} 
+      }
+      def options_for_page_translation_body(translation, ckeditor_options={}, additional_options={})
+        options = OPTIONS_FOR_PAGE_TRANSLATION_BODY.merge(additional_options)
+        options[:data][:ckeditor_options] = ckeditor_options.to_json
+        options
+      end
     end
   end
 end
