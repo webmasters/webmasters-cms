@@ -77,6 +77,9 @@ en:
           preview_button: "Preview"
           new_translation: "New translation"
           available_languages: "Available Languages"
+        navigation: 
+          main: 'Main'
+          new_page: 'New Page'
       active_languages:
         index:
           activate_new_language: "Activate new Language"
