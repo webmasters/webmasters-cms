@@ -18,14 +18,12 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "spec/factories/**/*" "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", ">= 4.1"
+  s.add_dependency "rails", ">= 4.2.1"
   s.add_dependency "jquery-rails", ">= 2.1"
   s.add_dependency "jquery-ui-rails"
   s.add_dependency "jquery-mjs-nestedSortable-rails"
 
   s.add_dependency "awesome_nested_set"
-
-  s.add_dependency "foreigner"
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"

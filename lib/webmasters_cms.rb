@@ -9,4 +9,3 @@ end
 require 'jquery-rails' unless defined? Jquery::Rails
 require 'jquery-ui-rails' unless defined? Jquery::Ui
 require 'jquery/mjs/nestedSortable/rails' unless defined? Jquery::Mjs::NestedSortable::Rails::Engine
-require 'foreigner' unless defined? Foreigner
