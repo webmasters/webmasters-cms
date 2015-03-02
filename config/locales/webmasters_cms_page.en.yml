@@ -79,7 +79,8 @@ en:
           available_languages: "Available Languages"
         navigation: 
           main: 'Main'
-          new_page: 'New Page'
+          new_page: 'New page'
+          language_settings: 'Language settings'
       active_languages:
         index:
           activate_new_language: "Activate new Language"
