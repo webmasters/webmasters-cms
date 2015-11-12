@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-mjs-nestedSortable-rails"
 
   s.add_dependency "awesome_nested_set"
+  s.add_dependency "activerecord-mysql-unsigned"
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"
