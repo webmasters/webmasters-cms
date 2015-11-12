@@ -2,7 +2,7 @@ class MarkColumnsAsUnsignedForWebmastersCmsPageTranslationVersions < ActiveRecor
   
   def up
     change_table :webmasters_cms_page_translation_versions do |t|
-      t.change :id, :integer, :unsigned => true
+      t.change :id, :integer, :null => false, :auto_increment => true, :unsigned => true
       t.change :page_translation_id, :integer, :unsigned => true
       t.change :version, :integer, :unsigned => true
     end
@@ -10,7 +10,7 @@ class MarkColumnsAsUnsignedForWebmastersCmsPageTranslationVersions < ActiveRecor
   
   def down
     change_table :webmasters_cms_page_translation_versions do |t|
-      t.change :id, :integer, :unsigned => false
+      t.change :id, :integer, :null => false, :auto_increment => true, :unsigned => false
       t.change :page_translation_id, :integer, :unsigned => false
       t.change :version, :integer, :unsigned => false
     end
