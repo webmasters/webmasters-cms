@@ -1,8 +1,8 @@
 class AddVersioningToPage < ActiveRecord::Migration
   def change
-    create_table :webmasters_cms_page_versions do |t|
-      t.integer  :page_id
-      t.integer  :version
+    create_table :webmasters_cms_page_versions, :unsigned => false do |t|
+      t.integer  :page_id, :unsigned => false
+      t.integer  :version, :unsigned => false
       t.string   :name
       t.string   :local_path
       t.string   :title

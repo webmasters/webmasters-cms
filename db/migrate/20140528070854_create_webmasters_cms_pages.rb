@@ -1,6 +1,6 @@
 class CreateWebmastersCmsPages < ActiveRecord::Migration
   def change
-    create_table :webmasters_cms_pages do |t|
+    create_table :webmasters_cms_pages, :unsigned => false do |t|
       t.string :name
       t.string :local_path
       t.string :title
