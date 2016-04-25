@@ -232,9 +232,9 @@ module WebmastersCms
       end
     end
 
-    def wait_until(default_wait_time=Capybara.default_wait_time, &block)
+    def wait_until(default_max_wait_time=Capybara.default_max_wait_time, &block)
       start = Time.now
-      end_time = start + default_wait_time.seconds
+      end_time = start + default_max_wait_time.seconds
 
       while true
         timeout = Time.now > end_time
