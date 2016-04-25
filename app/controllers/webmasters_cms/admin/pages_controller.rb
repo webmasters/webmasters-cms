@@ -75,7 +75,7 @@ module WebmastersCms
           params.required(:page).permit(:parent_id, :rgt, :lft, :is_meta,
             translations_attributes: [:id ,:page_id, :title, :name, :local_path, 
               :meta_description, :body, :language, :show_in_navigation, :redirect_to_child, 
-              :redirect_to])
+              :redirect_to, :menu_icon_css_class])
         end
 
         def collection

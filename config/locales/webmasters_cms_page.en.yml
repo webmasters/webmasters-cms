@@ -41,7 +41,9 @@ en:
           not_found: "Page not found!"
           update: "Updating failed!"
           create: "Creating failed!"
-
+    attributes:
+      webmasters_cms/page_translation:
+        menu_icon_css_class: 'Menu icon - (css class)'
   webmasters_cms:
     admin:
       pages:

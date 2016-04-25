@@ -5,7 +5,8 @@ module WebmastersCms
 
     acts_as_versioned table_name: "webmasters_cms_page_translation_versions",
       if_changed: [:name, :local_path, :title, :meta_description, :body, :language],
-      non_versioned_columns: [:page_id, :soft_deleted, :show_in_navigation, :redirect_to_child, :redirect_to]
+      non_versioned_columns: [:page_id, :soft_deleted, :show_in_navigation, 
+        :redirect_to_child, :redirect_to, :menu_icon_css_class]
 
     validates :name, :local_path, uniqueness: {scope: [:page_id, :language]}
     validates :name, :local_path, uniqueness: {scope: :language}

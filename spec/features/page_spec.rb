@@ -69,6 +69,27 @@ module WebmastersCms
         expect(page).to have_content "Updated Name"
       end
 
+      it "edits a page successfully with menu_icon_css_class and displays a success notice", js: true do
+        DatabaseCleaner.clean
+        visit edit_admin_page_path(cms_page, language: page_translation.language)
+
+        fill_in "Title", with: "Updated Title"
+        fill_in "Name", with: "Updated Name"
+        fill_in "Local path", with: "Updated_Local_Path"
+        fill_in "Meta description", with: "Updated Meta Description"
+        fill_in_ckeditor "cke_body", with: "Updated Body"
+        fill_in "Menu icon - (css class)", with: "menu-icon-class"
+        click_button "Update Page"
+
+        within ".success" do
+          expect(page).to have_content "Page successfully updated"
+        end
+        expect(page).to have_content "Updated Name"
+
+        page_translation.reload
+        expect(page_translation.menu_icon_css_class).to eq 'menu-icon-class'
+      end
+
       it "shows an error when edited with invalid attributes", js: true do
         visit edit_admin_page_path(cms_page, language: page_translation.language)
 

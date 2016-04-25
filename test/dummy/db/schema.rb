@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112081156) do
+ActiveRecord::Schema.define(version: 20160425113213) do
 
   create_table "webmasters_cms_active_languages", force: :cascade do |t|
     t.string "code", limit: 255, null: false
@@ -35,20 +35,21 @@ ActiveRecord::Schema.define(version: 20151112081156) do
   add_index "webmasters_cms_page_translation_versions", ["page_translation_id"], name: "index_page_versions_on_page_translation_id", using: :btree
 
   create_table "webmasters_cms_page_translations", force: :cascade do |t|
-    t.string   "name",               limit: 255,                   null: false
-    t.string   "local_path",         limit: 255,                   null: false
-    t.string   "title",              limit: 255,                   null: false
-    t.string   "meta_description",   limit: 255,                   null: false
-    t.string   "language",           limit: 2,                     null: false
-    t.text     "body",               limit: 65535,                 null: false
-    t.integer  "version",            limit: 4,     default: 0,     null: false
-    t.integer  "page_id",            limit: 4,     default: 0,     null: false
+    t.string   "name",                limit: 255,                   null: false
+    t.string   "local_path",          limit: 255,                   null: false
+    t.string   "title",               limit: 255,                   null: false
+    t.string   "meta_description",    limit: 255,                   null: false
+    t.string   "language",            limit: 2,                     null: false
+    t.text     "body",                limit: 65535,                 null: false
+    t.integer  "version",             limit: 4,     default: 0,     null: false
+    t.integer  "page_id",             limit: 4,     default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "soft_deleted",                     default: false, null: false
-    t.boolean  "redirect_to_child",                default: false, null: false
-    t.boolean  "show_in_navigation",               default: true,  null: false
-    t.string   "redirect_to",        limit: 255
+    t.boolean  "soft_deleted",                      default: false, null: false
+    t.boolean  "redirect_to_child",                 default: false, null: false
+    t.boolean  "show_in_navigation",                default: true,  null: false
+    t.string   "redirect_to",         limit: 255
+    t.string   "menu_icon_css_class", limit: 30
   end
 
   add_index "webmasters_cms_page_translations", ["language", "local_path"], name: "wcms_pt_lang_loc_path_index", unique: true, using: :btree

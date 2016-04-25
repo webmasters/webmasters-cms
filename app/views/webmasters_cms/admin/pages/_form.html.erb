@@ -74,6 +74,12 @@
         <%= errors_for(:body, t.object) %>
       </div>
 
+      <div>
+        <%= t.label :menu_icon_css_class %><br>
+        <%= t.text_field :menu_icon_css_class, size: 60, maxlength: 30 %><br>
+        <%= errors_for(:menu_icon_css_class, t.object) %>
+      </div>
+
       <%= t.submit t('.preview_button'), data: { url: url_for(action: 'preview', controller: '/webmasters_cms/pages')}, class: 'preview' %>
     <% end %>
   </fieldset>
