@@ -11,44 +11,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141014085620) do
+ActiveRecord::Schema.define(version: 20151112081156) do
 
-  create_table "webmasters_cms_active_languages", force: true do |t|
-    t.string "code", null: false
+  create_table "webmasters_cms_active_languages", force: :cascade do |t|
+    t.string "code", limit: 255, null: false
   end
 
   add_index "webmasters_cms_active_languages", ["code"], name: "index_webmasters_cms_active_languages_on_code", unique: true, using: :btree
 
-  create_table "webmasters_cms_page_translation_versions", force: true do |t|
-    t.integer  "page_translation_id"
-    t.integer  "version"
-    t.string   "name"
-    t.string   "local_path"
-    t.string   "title"
-    t.string   "meta_description"
-    t.text     "body"
+  create_table "webmasters_cms_page_translation_versions", force: :cascade do |t|
+    t.integer  "page_translation_id", limit: 4
+    t.integer  "version",             limit: 4
+    t.string   "name",                limit: 255
+    t.string   "local_path",          limit: 255
+    t.string   "title",               limit: 255
+    t.string   "meta_description",    limit: 255
+    t.text     "body",                limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "language"
+    t.string   "language",            limit: 255
   end
 
   add_index "webmasters_cms_page_translation_versions", ["page_translation_id"], name: "index_page_versions_on_page_translation_id", using: :btree
 
-  create_table "webmasters_cms_page_translations", force: true do |t|
-    t.string   "name",                                         null: false
-    t.string   "local_path",                                   null: false
-    t.string   "title",                                        null: false
-    t.string   "meta_description",                             null: false
-    t.string   "language",           limit: 2,                 null: false
-    t.text     "body",                                         null: false
-    t.integer  "version",                      default: 0,     null: false
-    t.integer  "page_id",                      default: 0,     null: false
+  create_table "webmasters_cms_page_translations", force: :cascade do |t|
+    t.string   "name",               limit: 255,                   null: false
+    t.string   "local_path",         limit: 255,                   null: false
+    t.string   "title",              limit: 255,                   null: false
+    t.string   "meta_description",   limit: 255,                   null: false
+    t.string   "language",           limit: 2,                     null: false
+    t.text     "body",               limit: 65535,                 null: false
+    t.integer  "version",            limit: 4,     default: 0,     null: false
+    t.integer  "page_id",            limit: 4,     default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "soft_deleted",                 default: false, null: false
-    t.boolean  "redirect_to_child",            default: false, null: false
-    t.boolean  "show_in_navigation",           default: true,  null: false
-    t.string   "redirect_to"
+    t.boolean  "soft_deleted",                     default: false, null: false
+    t.boolean  "redirect_to_child",                default: false, null: false
+    t.boolean  "show_in_navigation",               default: true,  null: false
+    t.string   "redirect_to",        limit: 255
   end
 
   add_index "webmasters_cms_page_translations", ["language", "local_path"], name: "wcms_pt_lang_loc_path_index", unique: true, using: :btree
@@ -58,13 +58,13 @@ ActiveRecord::Schema.define(version: 20141014085620) do
   add_index "webmasters_cms_page_translations", ["page_id"], name: "wcms_pt_page_id_index", using: :btree
   add_index "webmasters_cms_page_translations", ["soft_deleted"], name: "wcms_pt_soft_del_index", using: :btree
 
-  create_table "webmasters_cms_pages", force: true do |t|
+  create_table "webmasters_cms_pages", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "rgt"
-    t.integer  "lft"
-    t.integer  "parent_id"
-    t.boolean  "is_meta",    default: false, null: false
+    t.integer  "rgt",        limit: 4
+    t.integer  "lft",        limit: 4
+    t.integer  "parent_id",  limit: 4
+    t.boolean  "is_meta",              default: false, null: false
   end
 
   add_index "webmasters_cms_pages", ["is_meta"], name: "index_webmasters_cms_pages_on_is_meta", using: :btree
@@ -72,10 +72,7 @@ ActiveRecord::Schema.define(version: 20141014085620) do
   add_index "webmasters_cms_pages", ["parent_id"], name: "index_webmasters_cms_pages_on_parent_id", using: :btree
   add_index "webmasters_cms_pages", ["rgt"], name: "index_webmasters_cms_pages_on_rgt", using: :btree
 
-  add_foreign_key "webmasters_cms_page_translation_versions", "webmasters_cms_page_translations", name: "webmasters_cms_page_translation_versions_page_translation_id_fk", column: "page_translation_id"
-
-  add_foreign_key "webmasters_cms_page_translations", "webmasters_cms_pages", name: "webmasters_cms_page_translations_page_id_fk", column: "page_id"
-
-  add_foreign_key "webmasters_cms_pages", "webmasters_cms_pages", name: "webmasters_cms_pages_parent_id_fk", column: "parent_id"
-
+  add_foreign_key "webmasters_cms_page_translation_versions", "webmasters_cms_page_translations", column: "page_translation_id", name: "webmasters_cms_page_translation_versions_page_translation_id_fk"
+  add_foreign_key "webmasters_cms_page_translations", "webmasters_cms_pages", column: "page_id", name: "webmasters_cms_page_translations_page_id_fk"
+  add_foreign_key "webmasters_cms_pages", "webmasters_cms_pages", column: "parent_id", name: "webmasters_cms_pages_parent_id_fk"
 end
