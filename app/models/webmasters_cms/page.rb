@@ -25,7 +25,7 @@ module WebmastersCms
 
     def active_translations
       languages = ActiveLanguage.all.collect(&:code)
-      translations.where(language: languages).order('language')
+      translations.where(language: languages, soft_deleted: false).order('language')
     end
 
     def not_deleted_translations
@@ -44,18 +44,18 @@ module WebmastersCms
     end
 
     def delete_node_keep_children
-      if self.child?
-        self.move_children_to_immediate_parent
+      if child?
+        move_children_to_immediate_parent
       else
-        self.move_children_to_root
+        move_children_to_root
       end
-      self.reload
-      self.destroy
+      reload
+      destroy
     end
 
     def move_children_to_immediate_parent
-      immediate_children = self.children
-      immediate_parent = self.parent
+      immediate_children = children
+      immediate_parent = parent
       immediate_children.each do |child|
         child.move_to_child_of(immediate_parent)
         immediate_parent.reload
@@ -63,7 +63,7 @@ module WebmastersCms
     end
 
     def move_children_to_root
-      immediate_children = self.children
+      immediate_children = children
       immediate_children.each do |child|
         child.move_to_root
         child.reload
