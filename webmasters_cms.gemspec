@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "spec/factories/**/*" "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", ">= 4.2.1rc", "<= 4.9"
+  s.add_dependency "rails", ">= 4.2.1rc", "< 5.1"
   s.add_dependency "jquery-rails", ">= 2.1"
   s.add_dependency "jquery-ui-rails"
   s.add_dependency "jquery-mjs-nestedSortable-rails"
