@@ -100,11 +100,11 @@ module WebmastersCms
         params[child_page1.id.to_s] = page1.id.to_s
         params[child_page3.id.to_s] = page1.id.to_s
         page1
-        expect(page1.children(true)).to eq([child_page1, child_page2, child_page3])
+        expect(page1.children.reload).to eq([child_page1, child_page2, child_page3])
 
         Page.update_tree(params)
 
-        expect(page1.children(true)).to eq([child_page2, child_page1, child_page3])
+        expect(page1.children.reload).to eq([child_page2, child_page1, child_page3])
       end
 
       it "saves a new branch when a child_page is placed on a child_page" do
@@ -115,12 +115,12 @@ module WebmastersCms
         params[child_page1.id.to_s] = page1.id.to_s
         params[child_page2.id.to_s] = child_page1.id.to_s
 
-        expect(page1.children(true)).to eq([child_page1, child_page2])
+        expect(page1.children.reload).to eq([child_page1, child_page2])
 
         Page.update_tree(params)
 
-        expect(page1.children(true)).to eq([child_page1])
-        expect(child_page1.children(true)).to eq([child_page2])
+        expect(page1.children.reload).to eq([child_page1])
+        expect(child_page1.children.reload).to eq([child_page2])
       end
 
       it "closes a branch when the last child_page is removed" do
@@ -131,11 +131,11 @@ module WebmastersCms
         params[child_page1.id.to_s] = page1.id.to_s
         params[child_page2.id.to_s] = page1.id.to_s
 
-        expect(page1.children(true)).to eq([child_page1])
-        expect(child_page1.children(true)).to eq([child_page2])
+        expect(page1.children.reload).to eq([child_page1])
+        expect(child_page1.children.reload).to eq([child_page2])
         Page.update_tree(params)
-        expect(page1.children(true)).to eq([child_page1, child_page2])
-        expect(child_page1.children(true)).to be_empty
+        expect(page1.children.reload).to eq([child_page1, child_page2])
+        expect(child_page1.children.reload).to be_empty
       end
 
       it "does not place a root page as a child" do
