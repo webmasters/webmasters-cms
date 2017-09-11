@@ -1,6 +1,7 @@
 jQuery(function($) {
   $(document).on('click', 'form.new_page .preview, form.edit_page .preview', function(event) {
     event.preventDefault();
+    event.stopPropagation();
 
     var button = $(this);
     var form = button.closest('form');
@@ -11,9 +12,14 @@ jQuery(function($) {
     form.attr('target', '_blank');
     form.attr('action', button.data('url'));
 
-    $.when(form.trigger('submit')).done(function() {
+    var resetForm = function() {
       form.attr('target', target);
       form.attr('action', action);
+      console.log('test');
+    }
+
+    $.when(form.trigger('submit')).done(function() {
+      window.setTimeout(resetForm, 50);
     });
   });
 });
