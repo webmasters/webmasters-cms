@@ -1,4 +1,4 @@
-class CreateActiveLanguage < ActiveRecord::Migration
+class CreateActiveLanguage < ActiveRecord::Migration[4.2]
   class WebmastersCms::ActiveLanguage < ActiveRecord::Base
   end
 

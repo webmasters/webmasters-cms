@@ -1,4 +1,4 @@
-class MarkColumnsAsUnsignedForWebmastersCmsActiveLanguages < ActiveRecord::Migration
+class MarkColumnsAsUnsignedForWebmastersCmsActiveLanguages < ActiveRecord::Migration[4.2]
   
   def up
     change_table :webmasters_cms_active_languages do |t|

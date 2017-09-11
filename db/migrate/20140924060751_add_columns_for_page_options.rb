@@ -1,4 +1,4 @@
-class AddColumnsForPageOptions < ActiveRecord::Migration
+class AddColumnsForPageOptions < ActiveRecord::Migration[4.2]
   def change
     transaction do
       add_column :webmasters_cms_page_translations, :redirect_to_child, :boolean, default: false

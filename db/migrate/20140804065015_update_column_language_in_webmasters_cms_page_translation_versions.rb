@@ -1,4 +1,4 @@
-class UpdateColumnLanguageInWebmastersCmsPageTranslationVersions < ActiveRecord::Migration
+class UpdateColumnLanguageInWebmastersCmsPageTranslationVersions < ActiveRecord::Migration[4.2]
   def up
     transaction do
       change_table :webmasters_cms_page_translation_versions do |t|

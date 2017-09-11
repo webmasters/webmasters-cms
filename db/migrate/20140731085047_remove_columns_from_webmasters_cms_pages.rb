@@ -1,4 +1,4 @@
-class RemoveColumnsFromWebmastersCmsPages < ActiveRecord::Migration
+class RemoveColumnsFromWebmastersCmsPages < ActiveRecord::Migration[4.2]
   def change
     change_table :webmasters_cms_pages do |t|
       t.remove :name

@@ -1,4 +1,4 @@
-class RebuildWebmastersCmsPages < ActiveRecord::Migration
+class RebuildWebmastersCmsPages < ActiveRecord::Migration[4.2]
   def up
     WebmastersCms::Page.transaction do
       WebmastersCms::Page.reset_column_information

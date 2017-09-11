@@ -1,4 +1,4 @@
-class AddForeignKeysForWebmastersCmsPageTranslationsForUnsigned < ActiveRecord::Migration
+class AddForeignKeysForWebmastersCmsPageTranslationsForUnsigned < ActiveRecord::Migration[4.2]
   
   def up
     change_table :webmasters_cms_page_translations do |t|

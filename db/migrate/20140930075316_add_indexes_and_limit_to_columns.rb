@@ -1,4 +1,4 @@
-class AddIndexesAndLimitToColumns < ActiveRecord::Migration
+class AddIndexesAndLimitToColumns < ActiveRecord::Migration[4.2]
   def change
     transaction do
       change_column :webmasters_cms_page_translations, :language, :string, limit: 2

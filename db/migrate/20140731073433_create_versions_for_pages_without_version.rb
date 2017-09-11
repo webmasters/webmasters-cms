@@ -1,4 +1,4 @@
-class CreateVersionsForPagesWithoutVersion < ActiveRecord::Migration
+class CreateVersionsForPagesWithoutVersion < ActiveRecord::Migration[4.2]
   class WebmastersCmsPageTranslation < ActiveRecord::Base
     self.record_timestamps = false
   end

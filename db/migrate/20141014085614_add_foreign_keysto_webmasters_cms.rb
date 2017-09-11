@@ -1,4 +1,4 @@
-class AddForeignKeystoWebmastersCms < ActiveRecord::Migration
+class AddForeignKeystoWebmastersCms < ActiveRecord::Migration[4.2]
   def change
     change_table 'webmasters_cms_page_translation_versions' do |t|
       t.foreign_key 'webmasters_cms_page_translations', :column => 'page_translation_id'

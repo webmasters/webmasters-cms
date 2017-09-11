@@ -1,4 +1,4 @@
-class UpdateColumnPageTranslationIdInWebmastersCmsPageTranslationVersions < ActiveRecord::Migration
+class UpdateColumnPageTranslationIdInWebmastersCmsPageTranslationVersions < ActiveRecord::Migration[4.2]
   def up
     transaction do
       execute "UPDATE webmasters_cms_page_translation_versions 

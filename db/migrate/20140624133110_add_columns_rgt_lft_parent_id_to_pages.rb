@@ -1,4 +1,4 @@
-class AddColumnsRgtLftParentIdToPages < ActiveRecord::Migration
+class AddColumnsRgtLftParentIdToPages < ActiveRecord::Migration[4.2]
   def change
     add_column :webmasters_cms_pages, :rgt, :integer
     add_column :webmasters_cms_pages, :lft, :integer

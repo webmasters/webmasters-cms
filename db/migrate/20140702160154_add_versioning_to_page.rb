@@ -1,4 +1,4 @@
-class AddVersioningToPage < ActiveRecord::Migration
+class AddVersioningToPage < ActiveRecord::Migration[4.2]
   def change
     create_table :webmasters_cms_page_versions, :unsigned => false do |t|
       t.integer  :page_id, :unsigned => false
