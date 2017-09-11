@@ -25,17 +25,17 @@ module WebmastersCms
 
       describe "GET #show" do
         it "assigns the requested Page to @resource" do
-          get :show, id: page, language: page_translation.language
+          get :show, params: {id: page, language: page_translation.language}
           expect(assigns(:resource)).to eq(page)
         end
 
         it "renders the #show view" do
-          get :show, id: page, language: page_translation.language
+          get :show, params: {id: page, language: page_translation.language}
           expect(response).to render_template :show
         end
 
         it "renders a 404 given an invalid Id" do
-          expect{get :show, id: ""}.to raise_error(ActiveRecord::RecordNotFound)
+          expect{get :show, params: {id: ""} }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -60,27 +60,33 @@ module WebmastersCms
         context "with valid attributes" do
           it "creates a new Page" do
             expect do
-              post :create, page: attributes_for(:webmasters_cms_page, 
+              page_params = attributes_for :webmasters_cms_page, 
                 translations_attributes: [
                   attributes_for(:webmasters_cms_page_translation, 
-                    language: @active_language.code)])
+                    language: @active_language.code)]
+
+              post :create, params: { page:  page_params}
             end.to change(Page, :count).by(1)
           end
 
           it "creates a new PageTranslation" do
             expect do
-              post :create, page: attributes_for(:webmasters_cms_page, 
+              page_params = attributes_for :webmasters_cms_page, 
                 translations_attributes: [
                   attributes_for(:webmasters_cms_page_translation, 
-                    language: @active_language.code)])
+                    language: @active_language.code)]
+
+              post :create, params: { page:  page_params}
             end.to change(PageTranslation, :count).by(1)
           end
 
           it "redirects to the Pages overview" do
-            post :create, page: attributes_for(:webmasters_cms_page, 
+            page_params = attributes_for :webmasters_cms_page, 
               translations_attributes: [
                 attributes_for(:webmasters_cms_page_translation, 
-                  language: @active_language.code)])
+                  language: @active_language.code)]
+
+            post :create, params: {page: page_params}
             
             expect(response).to redirect_to admin_pages_path
           end
@@ -89,24 +95,30 @@ module WebmastersCms
         context "with invalid attributes" do
           it "does not create a new Page" do
             expect do
-              post :create, page: attributes_for(:webmasters_cms_page, 
+              page_params = attributes_for :webmasters_cms_page, 
                 translations_attributes: [
-                  attributes_for(:webmasters_cms_page_translation, :invalid)])
+                  attributes_for(:webmasters_cms_page_translation, :invalid)]
+
+              post :create, params: { page:  page_params}
             end.to_not change(Page, :count)
           end
 
           it "does not create a new PageTranslation" do
             expect do
-              post :create, page: attributes_for(:webmasters_cms_page, 
+              page_params = attributes_for :webmasters_cms_page, 
                 translations_attributes: [
-                  attributes_for(:webmasters_cms_page_translation, :invalid)])
+                  attributes_for(:webmasters_cms_page_translation, :invalid)]
+
+              post :create, params: { page:  page_params}
             end.to_not change(PageTranslation, :count)
           end
 
           it "stays in the #new view" do
-            post :create, page: attributes_for(:webmasters_cms_page, 
+            page_params = attributes_for :webmasters_cms_page, 
               translations_attributes: [
-                attributes_for(:webmasters_cms_page_translation, :invalid)])
+                attributes_for(:webmasters_cms_page_translation, :invalid)]
+
+            post :create, params: { page:  page_params}
 
             expect(response).to be_success
             expect(response).to render_template :new
@@ -116,12 +128,12 @@ module WebmastersCms
 
       describe "GET #edit" do
         it "assigns the requested Page to @page" do
-          get :edit, id: page
+          get :edit, params: { id: page }
           expect(assigns(:resource)).to eq(page)
         end
 
         it "renders the #edit view" do
-          get :edit, id: page
+          get :edit, params: { id: page }
           expect(response).to render_template :edit
         end
       end
@@ -142,9 +154,9 @@ module WebmastersCms
                       )
                     ]
               )
-              put :update, id: page_translation.page_id,
-                page: params
-             page_translation.reload
+              put :update, params: { id: page_translation.page_id, page: params }
+
+              page_translation.reload
             end
           end
 
@@ -165,16 +177,15 @@ module WebmastersCms
         context "with invalid attributes" do
           let(:expect_block) do
             lambda do
-              put :update, id: page_translation.page_id,
-                page: attributes_for(
-                  :webmasters_cms_page,
-                    translations_attributes: [
-                      attributes_for(:webmasters_cms_page_translation, :invalid,
-                        name: 'other',
-                        id: page_translation.id,
-                        language: page_translation.language)
-                    ]
-                )
+              page_params = attributes_for :webmasters_cms_page,
+                  translations_attributes: [
+                    attributes_for(:webmasters_cms_page_translation, :invalid,
+                      name: 'other',
+                      id: page_translation.id,
+                      language: page_translation.language)]
+
+              put :update, params: { id: page_translation.page_id, page: page_params }
+
               page_translation.reload
             end
           end
@@ -194,11 +205,11 @@ module WebmastersCms
 
         it "deletes the requested Page" do
           delete_cms_page = create(:webmasters_cms_page)
-          expect { delete :destroy, id: delete_cms_page }.to change(Page,:count).by(-1)
+          expect { delete :destroy, params: {id: delete_cms_page} }.to change(Page,:count).by(-1)
         end
 
         it "redirects to the index" do
-          delete :destroy, id: page
+          delete :destroy, params: {id: page}
           expect(response).to redirect_to admin_pages_path
         end
       end
@@ -212,7 +223,7 @@ module WebmastersCms
           child_page = create(:webmasters_cms_page)
           parent_page = create(:webmasters_cms_page)
 
-          put :sort, page: {child_page.id => parent_page.id}
+          put :sort, params: {page: {child_page.id => parent_page.id} }
           child_page.reload
 
           expect(response).to be_success
@@ -231,10 +242,13 @@ module WebmastersCms
             create(:webmasters_cms_page_translation_version,
               page_translation: translation,
               version: translation.version + 1)
+          
           patch :set_current_version,
-            id: translation.id,
-            page_translation: { version: translation_version.version }
+            params: {id: translation.id, 
+              page_translation: { version: translation_version.version } }
+
           translation.reload
+
           expect(translation.version).to eq(translation_version.version)
         end
       end

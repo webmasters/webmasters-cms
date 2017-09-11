@@ -11,7 +11,7 @@ module WebmastersCms
 
         describe "GET #index" do
           before :each do
-            get :index, page_id: page_translation
+            get :index, params: {page_id: page_translation}
           end
 
           it "assigns the requested Page to @page_translation" do
@@ -25,7 +25,7 @@ module WebmastersCms
 
         describe "GET #show" do
           before :each do
-            get :show, page_id: page_translation, id: page_translation.versions.first
+            get :show, params: { page_id: page_translation, id: page_translation.versions.first }
           end
 
           it "assigns all page versions to collection" do

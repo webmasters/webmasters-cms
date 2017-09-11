@@ -9,13 +9,13 @@ module WebmastersCms
       let (:cms_page) { build(:webmasters_cms_page) }
 
       it 'assigns the unsaved PageTranslation to resource' do
-        post :preview, page: cms_page.attributes
+        post :preview, params: {page: cms_page.attributes}
         expect(assigns(:resource)).to be_instance_of(::WebmastersCms::PageTranslation)
         expect(assigns(:resource)).to be_new_record
       end
 
       it "renders the #preview view" do
-        post :preview, page: cms_page.attributes
+        post :preview, params: {page: cms_page.attributes}
         expect(response).to render_template :show
       end
     end
@@ -23,7 +23,7 @@ module WebmastersCms
     describe 'GET #show with not_existing local_path' do
       it "raises ActiveRecord::RecordNotFound" do
         expect do 
-          get :show, :language => 'en', :local_path => 'not_exist'
+          get :show, params: {language: 'en', local_path: 'not_exist'}
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -36,8 +36,8 @@ module WebmastersCms
       end
 
       it "render show page" do
-        get :show, :language => cms_page_translation.language, 
-          :local_path => cms_page_translation.local_path
+        get :show, params: {language: cms_page_translation.language, 
+          local_path: cms_page_translation.local_path}
         
         expect(response).to be_success
         expect(response).to render_template :show
@@ -54,8 +54,8 @@ module WebmastersCms
 
       it "render ActiveRecord::RecordNotFound" do
         expect do 
-          get :show, :language => 'en', 
-            :local_path => cms_page_translation.local_path
+          get :show, params: {language: 'en',
+            local_path: cms_page_translation.local_path}
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -69,8 +69,8 @@ module WebmastersCms
       end
 
       it "redirect_to path" do
-        get :show, :language => cms_page_translation.language, 
-          :local_path => cms_page_translation.local_path
+        get :show, params: {language: cms_page_translation.language, 
+          local_path: cms_page_translation.local_path}
         
         expect(response).to be_redirect
         expect(response).to redirect_to(cms_page_translation.redirect_to)
@@ -86,8 +86,8 @@ module WebmastersCms
       end
 
       it "reder show page" do
-        get :show, :language => cms_page_translation.language, 
-          :local_path => cms_page_translation.local_path
+        get :show, params: {language: cms_page_translation.language, 
+          local_path: cms_page_translation.local_path}
         
         expect(response).to be_success
         expect(response).to render_template :show
@@ -113,8 +113,8 @@ module WebmastersCms
 
       it "redirect_to child_page" do
         cms_page_translation_child
-        get :show, :language => cms_page_translation_parent.language, 
-          :local_path => cms_page_translation_parent.local_path
+        get :show, params: {language: cms_page_translation_parent.language, 
+          local_path: cms_page_translation_parent.local_path}
         
         expect(response).to be_redirect
         expect(response).to redirect_to(cms_page_translation_child.local_path)
@@ -140,8 +140,8 @@ module WebmastersCms
 
       it "render show page" do
         cms_page_translation_child
-        get :show, :language => cms_page_translation_parent.language, 
-          :local_path => cms_page_translation_parent.local_path
+        get :show, params: {language: cms_page_translation_parent.language, 
+          local_path: cms_page_translation_parent.local_path}
         
         expect(response).to be_success
         expect(response).to render_template :show

@@ -45,7 +45,7 @@ module WebmastersCms
         context "with valid attributes" do
           let(:expect_block) do
             lambda do
-              post :create, active_language: { code: 'en' }
+              post :create, params: { active_language: { code: 'en' } }
             end
           end
 
