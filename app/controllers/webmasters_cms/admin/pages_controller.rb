@@ -11,7 +11,7 @@ module WebmastersCms
 
       def sort
         klass.update_tree(params[:page])
-        render :nothing => true
+        render :body => nil
       end
 
       def show
