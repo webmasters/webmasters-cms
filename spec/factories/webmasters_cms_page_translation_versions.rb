@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :webmasters_cms_page_translation_version, class: WebmastersCms::PageTranslation::Version do |v|
     v.sequence(:name) {|n| "VersionName #{n}"}
     v.sequence(:local_path) {|n| "VersionLocal_path-#{n}"}
@@ -9,7 +9,7 @@ FactoryGirl.define do
 
     v.after(:build) do |record|
       unless WebmastersCms::ActiveLanguage.active?(record.language)
-        FactoryGirl.create(:webmasters_cms_active_language, code: record.language)
+        FactoryBot.create(:webmasters_cms_active_language, code: record.language)
       end
     end
   end

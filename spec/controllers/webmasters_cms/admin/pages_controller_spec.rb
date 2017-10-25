@@ -54,7 +54,7 @@ module WebmastersCms
 
       describe "POST #create" do
         before :each do 
-          @active_language = FactoryGirl.create(:webmasters_cms_active_language)
+          @active_language = FactoryBot.create(:webmasters_cms_active_language)
         end
 
         context "with valid attributes" do

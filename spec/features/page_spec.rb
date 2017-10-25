@@ -111,7 +111,7 @@ module WebmastersCms
 
       it "deletes a page and displays a success notice", js: true do
         DatabaseCleaner.clean
-        cms_page_delete = FactoryGirl.create(:webmasters_cms_page)
+        cms_page_delete = FactoryBot.create(:webmasters_cms_page)
         page_translation_delete = cms_page_delete.translations.first
 
         visit admin_pages_path
@@ -130,7 +130,7 @@ module WebmastersCms
       end
 
       it "nestes a child page under a root page" do
-        child_page = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
+        child_page = FactoryBot.create(:webmasters_cms_page).move_to_child_of(cms_page)
         child_translation = child_page.translations.first
 
         visit admin_pages_path
@@ -145,9 +145,9 @@ module WebmastersCms
       end
 
       it "nestes a child page under a child page" do
-        child_page1 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(cms_page)
+        child_page1 = FactoryBot.create(:webmasters_cms_page).move_to_child_of(cms_page)
         child_translation1 = child_page1.translations.first
-        child_page2 = FactoryGirl.create(:webmasters_cms_page).move_to_child_of(child_page1)
+        child_page2 = FactoryBot.create(:webmasters_cms_page).move_to_child_of(child_page1)
         child_translation2 = child_page2.translations.first
 
         visit admin_pages_path

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :webmasters_cms_page_translation, class: WebmastersCms::PageTranslation do |pt|
     pt.sequence(:name) {|n| "Name #{n}"}
     pt.sequence(:local_path) {|n| "Local_path-#{n}"}
@@ -13,7 +13,7 @@ FactoryGirl.define do
 
     pt.after(:build) do |record|
       unless WebmastersCms::ActiveLanguage.active?(record.language)
-        language = FactoryGirl.build(:webmasters_cms_active_language, code: record.language)
+        language = FactoryBot.build(:webmasters_cms_active_language, code: record.language)
         def language.create_index_page_if_first_page
           true
         end

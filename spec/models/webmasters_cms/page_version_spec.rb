@@ -12,7 +12,7 @@ module WebmastersCms
     end
 
     it "gets not saved on Pages tree changes" do
-      neighbor_page = FactoryGirl.create(:webmasters_cms_page)
+      neighbor_page = FactoryBot.create(:webmasters_cms_page)
       expect{
         page.move_to_child_of(neighbor_page)
       }.to_not change(page_translation.versions, :count)

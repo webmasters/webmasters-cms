@@ -3,10 +3,10 @@ require 'spec_helper'
 module WebmastersCms
   describe Page do
 
-    let (:page1) { FactoryGirl.create(:webmasters_cms_page) }
-    let (:child_page1) { FactoryGirl.create(:webmasters_cms_page, parent: page1) }
-    let (:child_page2) { FactoryGirl.create(:webmasters_cms_page, parent: page1) }
-    let (:page2) { FactoryGirl.create(:webmasters_cms_page) }
+    let (:page1) { FactoryBot.create(:webmasters_cms_page) }
+    let (:child_page1) { FactoryBot.create(:webmasters_cms_page, parent: page1) }
+    let (:child_page2) { FactoryBot.create(:webmasters_cms_page, parent: page1) }
+    let (:page2) { FactoryBot.create(:webmasters_cms_page) }
 
     describe ".create_dummy_page_for_language(language)" do
       before(:each) do
@@ -93,7 +93,7 @@ module WebmastersCms
       it "moves a child_page1 to second place and child_page2 to first" do
         child_page1
         child_page2
-        child_page3 = FactoryGirl.create(:webmasters_cms_page, parent: page1)
+        child_page3 = FactoryBot.create(:webmasters_cms_page, parent: page1)
         params = {}
         params[page1.id.to_s] = 'null'
         params[child_page2.id.to_s] = page1.id.to_s
@@ -125,7 +125,7 @@ module WebmastersCms
 
       it "closes a branch when the last child_page is removed" do
         child_page1
-        child_page2 = FactoryGirl.create(:webmasters_cms_page, parent: child_page1)
+        child_page2 = FactoryBot.create(:webmasters_cms_page, parent: child_page1)
         params = {}
         params[page1.id.to_s] = 'null'
         params[child_page1.id.to_s] = page1.id.to_s
@@ -192,7 +192,7 @@ module WebmastersCms
       end
 
       it "returns the amount of translations of a page" do
-        FactoryGirl.create(:webmasters_cms_page_translation, page: page1)
+        FactoryBot.create(:webmasters_cms_page_translation, page: page1)
         expect(page1.count_of_translations).to eq(2)
       end
     end
