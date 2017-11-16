@@ -9,7 +9,9 @@ class CreateWebmastersCmsPages < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-    add_index :webmasters_cms_pages, :name, unique: true
-    add_index :webmasters_cms_pages, :local_path, unique: true
+    add_index :webmasters_cms_pages, :name, unique: true,
+      :name => 'index_webmasters_cms_pages_on_name'
+    add_index :webmasters_cms_pages, :local_path, unique: true,
+      :name => 'index_webmasters_cms_pages_on_local_path'
   end
 end

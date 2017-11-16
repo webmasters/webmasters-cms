@@ -7,8 +7,10 @@ class CreateWebmastersCmsPageTranslations < ActiveRecord::Migration[4.2]
       
       t.timestamps
 
-      t.index :local_path, unique: true
-      t.index :name, unique: true
+      t.index :local_path, unique: true,
+        :name => 'index_webmasters_cms_page_translations_on_local_path'
+      t.index :name, unique: true,
+        :name => 'index_webmasters_cms_page_translations_on_name'
     end
   end
 end
