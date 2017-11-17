@@ -1,13 +1,13 @@
 class ChangeColumnIdToBigintForWebmastersCmsActiveLanguages < ActiveRecord::Migration[5.1]
   def up
     change_table do |t|
-      t.change :id, :bigint, :unsigned => true
+      t.change :id, :bigint, :unsigned => true, :auto_increment => true
     end
   end
 
   def down
     change_table do |t|
-      t.change :id, :integer, :unsigned => true
+      t.change :id, :integer, :unsigned => true, :auto_increment => true
     end
   end
 
