@@ -6,7 +6,7 @@ class RemoveIndexesFromWebmastersCmsPageTranslationsForRenameForRails51 < Active
       t.remove_index :name => "wcms_pt_page_id_index"
       t.remove_index :name => "wcms_pt_lang_index"
       t.remove_index :name => "wcms_pt_soft_del_index"
-      t.remove_index :name => "index_webmasters_cms_page_translations_on_local_path"
+      t.remove_index :name => "index_webmasters_cms_page_translation_versions_on_local_path"
     end
   end
 
@@ -29,7 +29,7 @@ class RemoveIndexesFromWebmastersCmsPageTranslationsForRenameForRails51 < Active
         :name => "wcms_pt_soft_del_index"
       t.index [:local_path],
         :unique => false,
-        :name => "index_webmasters_cms_page_translations_on_local_path"
+        :name => "index_webmasters_cms_page_translation_versions_on_local_path"
     end
   end
 
