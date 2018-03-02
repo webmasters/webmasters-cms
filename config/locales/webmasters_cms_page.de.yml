@@ -1,0 +1,109 @@
+en:
+  name: "Name"
+  title: "Title tag"
+  meta_description: "Meta description"
+  local_path: "Lokaler Pfad"
+  body: "Content"
+  code:
+    one: "Sprache"
+    other: "Sprachen"
+  activerecord:
+    flash:
+      success:
+        update: "Erfolgreich aktualisiert!"
+        delete: "Erfolgreich gelöscht!"
+        undelete: "Erfolgreich wiederhergestellt!"
+    errors:
+      models:
+        webmasters_cms/active_language:
+          attributes:
+            code:
+              taken: "bereits aktiviert!"
+        webmasters_cms/page_translation:
+          attributes:
+            local_path:
+              invalid: "kann nur aus alphanumerischen Buchstaben, Bindestrichen und Unterstrichen bestehen."
+      messages:
+        not_active: "ist nicht aktiv"
+    active_languages:
+      flash:
+        success:
+          create: "Sprache aktiviert!"
+          delete: "Sprache deakiviert!"
+    pages:
+      flash:
+        success:
+          create: "Seite erfolgreich erstellt!"
+          update: "Seite erfolgreich aktualisiert!"
+          delete: "Seite erfolgreich gelöscht!"
+        error:
+          not_found: "Seite nicht gefunden!"
+          update: "Aktualisierung fehlgeschlagen!"
+          create: "Konnte nicht erstellt werden!"
+    attributes:
+      webmasters_cms/page_translation:
+        menu_icon_css_class: 'Menü Icon - (css class)'
+  webmasters_cms:
+    admin:
+      pages:
+        preview_button: "Vorschau"
+        index:
+          all_pages: "Alle Seiten"
+          title: "Title tag"
+          edit: "Bearbeiten"
+          show: "Zeigen"
+          delete: "Löschen"
+          soft_delete: "Löschen"
+          alert_sure: "Sind Sie sicher?\nDies löscht alle übersetzungen und deren Versionen.\nEs gibt kein zurück!"
+          alert_soft_delete: "Sind Sie sicher?\nDies markiert alle Übersetzungen als gelöscht.\nSie können Sie jederzeit zurückholen."
+          no_activated_language: "Keine aktive Sprache gefunden"
+          disabled_articles: "Deaktivierte Artikel"
+          deleted_translations: "Deaktivierte Übersetzungen"
+          new_translation: "Neue Übersetzung"
+          delete_node: "Knoten löschen"
+        new:
+          create_page: "Seite erstellen"
+        edit:
+          edit_page: "Seite editieren"
+        versions:
+          versions_available: 'Versionen verfügbar'
+        actions:
+          edit: "Bearbeiten"
+          delete: "Löschen"
+          show: "Zeigen"
+        back:
+          back: "Zurück"
+        form:
+          page_options: "Optionen"
+          preview_button: "Vorschau"
+          new_translation: "Neue Übersetzung"
+          available_languages: "Verfügbare Sprachen"
+        navigation: 
+          main: 'Main'
+          new_page: 'Neue Seite'
+          language_settings: 'Spracheinstellungen'
+      active_languages:
+        index:
+          activate_new_language: "Neue Sprache aktivieren"
+          deactivate_language: "Das Deaktivieren bewirkt, dass alle Seiten dieser Sprache nicht mehr verfügbar sind!"
+          deactivate: "Deaktivieren"
+        new:
+          activate_language:
+            one: "Aktivierte Sprache"
+            other: "Aktivierte Sprachen"
+          choose_language: "Sprache auswählen"
+      page_translations:
+        deleted_translations:
+          deleted_translations: "Gelöschte Übersetzungen"
+          no_deleted_translations: "Keine Übersetzung zum Wiederherstellen verfügbar"
+          show: "Zeigen"
+          delete: "Löschen"
+          undelete: "Wiederherstellen"
+          info_undelete: "Dies reaktiviert diese Übersetzung and stellt sie wie zum Zeitpunkt vor dem Löschen zur Verfügung."
+          alert_delete: "Dies löscht die Übersetzung inkl. aller Versionen\nEs gibt kein zurück!"
+      page_translation_versions:
+        index:
+          current_version: "Aktuelle Version"
+          translation_revision: "Version der Übersetzung"
+        details:
+          version_from: "Version vom"
