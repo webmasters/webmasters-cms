@@ -9,7 +9,7 @@ module WebmastersCms
     end
 
     def show
-      if ActiveLanguage.find_by(code: params[:language])
+      if ActiveLanguage.find_by(code: language)
         if resource
           redirect_or_show_page
         else
@@ -30,7 +30,11 @@ module WebmastersCms
 
     private
       def resource
-        @resource ||= PageTranslation.where(language: params[:language]).find_by(local_path: params[:local_path] || "")
+        @resource ||= PageTranslation.where(language: language).find_by(local_path: params[:local_path] || "")
+      end
+
+      def language
+        @language ||= params[:language] || I18n.locale
       end
 
       def cms_page_layout
@@ -51,7 +55,7 @@ module WebmastersCms
 
       def redirect_or_show_page
         cond = resource.redirect_to_child && !resource.page.children.empty? && 
-          !resource.page.children.first.translations.where(:language => resource.language).empty?
+          !children_for_language.empty?
         
         if cond
           redirect_to_child
@@ -63,7 +67,11 @@ module WebmastersCms
       end
 
       def redirect_to_child
-        redirect_to resource.page.children.first.translations.where(:language => resource.language).first.local_path
+        redirect_to children_for_language.first.local_path
+      end
+
+      def children_for_language
+        @children_for_language ||= resource.page.children.first.translations.where(:language => resource.language)
       end
 
       def redirect_to_page
