@@ -7,7 +7,6 @@ en:
   code:
     one: "Language"
     other: "Languages"
-
   activerecord:
     flash:
       success:
