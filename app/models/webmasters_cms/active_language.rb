@@ -1,4 +1,4 @@
-module WebmastersCms::ActiveLanguage < WebmastersCms::ApplicationRecord
+class WebmastersCms::ActiveLanguage < WebmastersCms::ApplicationRecord
   validates :code, uniqueness: true, presence: true
 
   AVAILABLE_LANGUAGES = ActiveSupport::JSON.decode(File.read(
