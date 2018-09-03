@@ -8,8 +8,8 @@ FactoryBot.define do
       index = n % languages.size
       languages[index]
     end
-    pt.meta_description "Meta Description"
-    pt.body "Body"
+    pt.meta_description { 'Meta Description' }
+    pt.body { 'Body' }
 
     pt.after(:build) do |record|
       unless WebmastersCms::ActiveLanguage.active?(record.language)
@@ -22,17 +22,17 @@ FactoryBot.define do
     end
 
     trait :index do
-      local_path nil
+      local_path { nil }
     end
 
     trait :invalid do
-      local_path nil
-      name nil
-      body nil
+      local_path { nil }
+      name { nil }
+      body { nil }
     end
 
     trait :deleted do
-      soft_deleted true
+      soft_deleted { true }
     end
   end
 end
