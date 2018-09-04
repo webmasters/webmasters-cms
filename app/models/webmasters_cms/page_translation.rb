@@ -7,7 +7,7 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
     non_versioned_columns: [:page_id, :soft_deleted, :show_in_navigation, 
       :redirect_to_child, :redirect_to, :menu_icon_css_class]
 
-  validates :name, :local_path, uniqueness: {scope: :language}
+  validate :validates_uniqueness_of_name_and_local_path, :if => :page
 
   validates :local_path, :redirect_to, length: { maximum: 255 }
 
@@ -31,5 +31,20 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
 
   def deleted?
     soft_deleted
+  end
+
+  private
+  def validates_uniqueness_of_name_and_local_path
+    relation = self.class
+    relation = relation.joins(:page).where WebmastersCms::Page.table_name => {host_index: page.host_index }
+    relation = relation.where.not :id => id if persisted?
+    
+    if relation.where(:local_path => local_path).exists?
+      errors.add :local_path, :taken, :value => local_path
+    end
+    
+    if relation.where(:name => name).exists?
+      errors.add :name, :taken, :value => name
+    end
   end
 end

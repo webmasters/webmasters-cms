@@ -32,6 +32,27 @@ module WebmastersCms
       it "is valid with a long name with multibyte characters" do
         expect(FactoryBot.build(:webmasters_cms_page_translation, name: "A"*253 + "€", page: page)).to be_valid
       end
+
+      it "is invalid for the same host_index for different pages for the same value" do
+        translation_1 = FactoryBot.create :webmasters_cms_page_translation, page: page
+
+        page_2 = FactoryBot.create :webmasters_cms_page, parent: page
+        translation_2 = FactoryBot.build :webmasters_cms_page_translation, page: page_2,
+          :name => translation_1.name
+        
+        expect(translation_2).to_not be_valid
+        expect(translation_2.errors[:name]).to_not be_blank
+      end
+
+      it "is valid for different host_index for the same value" do
+        translation_1 = FactoryBot.create :webmasters_cms_page_translation, page: page
+
+        page_2 = FactoryBot.create :webmasters_cms_page
+        translation_2 = FactoryBot.build :webmasters_cms_page_translation, page: page_2,
+          :name => translation_1.name
+        
+        expect(translation_2).to be_valid
+      end
     end
 
     describe "#local_path" do
@@ -69,6 +90,27 @@ module WebmastersCms
         translation = FactoryBot.build(:webmasters_cms_page_translation, local_path: ",.\"/?\\|[+={]';!@#$%^&*()'}", page: page)
         expect(translation).to_not be_valid
         expect(translation.errors[:local_path]).to_not be_blank
+      end
+
+      it "is invalid for the same host_index for different pages for the same value" do
+        translation_1 = FactoryBot.create :webmasters_cms_page_translation, page: page
+
+        page_2 = FactoryBot.create :webmasters_cms_page, parent: page
+        translation_2 = FactoryBot.build :webmasters_cms_page_translation, page: page_2,
+          :local_path => translation_1.local_path
+        
+        expect(translation_2).to_not be_valid
+        expect(translation_2.errors[:local_path]).to_not be_blank
+      end
+
+      it "is valid for different host_index for the same value" do
+        translation_1 = FactoryBot.create :webmasters_cms_page_translation, page: page
+
+        page_2 = FactoryBot.create :webmasters_cms_page
+        translation_2 = FactoryBot.build :webmasters_cms_page_translation, page: page_2,
+          :local_path => translation_1.local_path
+        
+        expect(translation_2).to be_valid
       end
     end
 
