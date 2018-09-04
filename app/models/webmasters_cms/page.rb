@@ -21,6 +21,9 @@ class WebmastersCms::Page < WebmastersCms::ApplicationRecord
   
   validates :host_index, numericality: { only_integer: true, greater_than_or_equal_to: 0}
   validates :host_index, numericality: { equal_to: lambda {|r| r.parent.host_index }, if: :parent_id }
+  validates :host_index, uniqueness: { scope: [:parent_id, :host_index], :unless => :parent_id}
+
+  before_validation :set_host_index_from_parent
 
   def count_of_translations
     translations.size
@@ -90,7 +93,9 @@ class WebmastersCms::Page < WebmastersCms::ApplicationRecord
       page_ids_with_parent_ids.each do |page_id, new_parent_id|
         child = find(page_id)
         new_parent_id = nil if new_parent_id == "null"
-        child.update_attributes!(:parent_id => new_parent_id)
+        attributes = {parent_id: new_parent_id}
+        attributes[:host_index] = maximum(:host_index).next if !new_parent_id && child.parent_id.present?
+        child.update_attributes! attributes
       end
 
       page_ids_with_parent_ids.each do |page_id, new_parent_id|
@@ -101,7 +106,7 @@ class WebmastersCms::Page < WebmastersCms::ApplicationRecord
 
     true
   rescue => e
-    # p e.inspect if Rails.env.test?
+#    p e.inspect if Rails.env.test?
     Rails.logger.error e.inspect
     false
   end
@@ -115,5 +120,21 @@ class WebmastersCms::Page < WebmastersCms::ApplicationRecord
     elsif not root.translations.find_by(language: language)
       root.translations.create!(page_params)
     end
+  end
+
+  private
+  def set_host_index_from_parent
+    self.host_index = if parent_id_changed? && parent
+      parent.host_index 
+    elsif new_record? && !parent
+      if host_index_db = self.class.maximum(:host_index)
+        host_index_db.next
+      else
+        self.class.column_for_attribute(:host_index).default
+      end
+    else
+      host_index
+    end
+    true
   end
 end
