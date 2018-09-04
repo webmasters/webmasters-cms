@@ -10,9 +10,10 @@ class WebmastersCms::Page < WebmastersCms::ApplicationRecord
     end
   end
 
+  BLANK_ATTRIBUTES_FOR_TRANSLATIONS = [:title, :meta_description, :name, :local_path, :body]
   accepts_nested_attributes_for :translations,
     allow_destroy: true,
-    reject_if: proc { |attr| attr[:title].blank? && attr[:name].blank? && attr[:local_path].blank? && attr[:meta_description].blank? && attr[:body].blank? }
+    reject_if: lambda {|attr| BLANK_ATTRIBUTES_FOR_TRANSLATIONS.all? {|name| attr[name].blank? } }
 
   acts_as_nested_set
 
