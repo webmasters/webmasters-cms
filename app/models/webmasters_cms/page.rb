@@ -18,6 +18,9 @@ class WebmastersCms::Page < WebmastersCms::ApplicationRecord
   acts_as_nested_set
 
   validates :count_of_translations, numericality: { only_integer: true, greater_than: 0 }
+  
+  validates :host_index, numericality: { only_integer: true, greater_than_or_equal_to: 0}
+  validates :host_index, numericality: { equal_to: lambda {|r| r.parent.host_index }, if: :parent_id }
 
   def count_of_translations
     translations.size

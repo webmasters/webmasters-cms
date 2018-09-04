@@ -30,7 +30,19 @@ module WebmastersCms
 
     private
       def resource
-        @resource ||= PageTranslation.where(language: language).find_by(local_path: params[:local_path] || "")
+        @resource ||= collection_chain.find_by(local_path: local_path)
+      end
+
+      def collection_chain
+        PageTranslation.joins(:page).where(language: language, Page.table_name => {:host_index => host_index})
+      end
+
+      def host_index
+        Page.column_for_attribute(:host_index).default
+      end
+
+      def local_path
+        params[:local_path] || ""
       end
 
       def language
