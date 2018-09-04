@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116222815) do
+ActiveRecord::Schema.define(version: 20180904060404) do
 
   create_table "webmasters_cms_active_languages", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "code", null: false
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20171116222815) do
     t.integer "lft", unsigned: true
     t.bigint "parent_id", unsigned: true
     t.boolean "is_meta", default: false, null: false
+    t.integer "host_index", default: 0, null: false, unsigned: true
     t.index ["is_meta"], name: "index_rails_42711403a23f14dddfa0e74ab1afffc2e5522e658885fffa7b"
     t.index ["lft"], name: "index_rails_ae6c3a836b7590b6aa40729dd26cadfe069994230b7045945a"
     t.index ["parent_id"], name: "index_rails_a2d564f7616879db19d943a1f651b4cd5747505295c0abc2ac"
