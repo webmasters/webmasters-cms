@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180904060404) do
+ActiveRecord::Schema.define(version: 20180904070004) do
 
   create_table "webmasters_cms_active_languages", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "code", null: false
@@ -47,8 +47,6 @@ ActiveRecord::Schema.define(version: 20180904060404) do
     t.boolean "show_in_navigation", default: true, null: false
     t.string "redirect_to"
     t.string "menu_icon_css_class", limit: 30
-    t.index ["language", "local_path"], name: "index_rails_f244e57bf38531e0618a8daca55e425e02f7a9a50f6fcdecda", unique: true
-    t.index ["language", "name"], name: "index_rails_6bcc7f17f93f94d9d9ac700cdd964bb76271f117af256a24ba", unique: true
     t.index ["language"], name: "index_rails_65e51d22ba2ff39d6cda11b1547087c8236643b51b2c40e89e"
     t.index ["local_path"], name: "index_rails_8f8a6dada8e0fbed5e83814872245f667ee34bdb7e73c03323"
     t.index ["page_id"], name: "index_rails_4629fc97ca42721a5046a209a4628166afd9c85b704a33048e"
