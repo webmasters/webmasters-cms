@@ -7,7 +7,6 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
     non_versioned_columns: [:page_id, :soft_deleted, :show_in_navigation, 
       :redirect_to_child, :redirect_to, :menu_icon_css_class]
 
-  validates :name, :local_path, uniqueness: {scope: [:page_id, :language]}
   validates :name, :local_path, uniqueness: {scope: :language}
 
   validates :local_path, :redirect_to, length: { maximum: 255 }
