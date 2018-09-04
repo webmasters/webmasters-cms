@@ -15,7 +15,7 @@ class WebmastersCms::ActiveLanguage < WebmastersCms::ApplicationRecord
   after_create :create_index_page_if_first_page
 
   def create_index_page_if_first_page
-    Page.create_dummy_page_for_language(code)
+    WebmastersCms::Page.create_dummy_page_for_language(code)
     true
   end
 
