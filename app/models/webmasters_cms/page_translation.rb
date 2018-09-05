@@ -37,6 +37,7 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
   def validates_uniqueness_of_name_and_local_path
     relation = self.class
     relation = relation.joins(:page).where WebmastersCms::Page.table_name => {host_index: page.host_index }
+    relation = relation.where :language => language
     relation = relation.where.not :id => id if persisted?
     
     if relation.where(:local_path => local_path).exists?
