@@ -15,8 +15,7 @@ jQuery(function($) {
     var resetForm = function() {
       form.attr('target', target);
       form.attr('action', action);
-      console.log('test');
-    }
+    };
 
     $.when(form.trigger('submit')).done(function() {
       window.setTimeout(resetForm, 50);
