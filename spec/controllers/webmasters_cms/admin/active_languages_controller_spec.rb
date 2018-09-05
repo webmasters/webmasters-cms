@@ -3,7 +3,7 @@ require 'spec_helper'
 module WebmastersCms
   module Admin
     describe ActiveLanguagesController, type: :controller do
-      routes { WebmastersCms::Engine.routes }
+      routes { Engine.routes }
       render_views
 
       describe "GET #index" do
