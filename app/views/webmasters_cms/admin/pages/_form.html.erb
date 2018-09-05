@@ -4,6 +4,8 @@
 <p><%= f.label :is_meta %><br>
 <%= f.check_box :is_meta %></p>
 
+<%= f.hidden_field :host_index %>
+
 <p class="available_languages">
   <% languages_array = get_languages %>
   <%= t '.available_languages' %>:<br>

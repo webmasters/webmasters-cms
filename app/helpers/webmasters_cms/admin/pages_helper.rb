@@ -23,7 +23,7 @@ module WebmastersCms
           if ActiveLanguage.find_by(code: page_translation.language) && !page_translation.deleted?
             list_item << "(#{page_translation.language}) #{page_translation.name} "
             list_item << link_to(t(".edit"), edit_admin_page_path(page, language: page_translation.language))
-            list_item << link_to(t(".show"), "/#{page_translation.language}/#{page_translation.local_path}", target: "_blank")
+            list_item << link_to_preview(page_translation)
             list_item << link_to(t(".soft_delete"), soft_delete_admin_page_translation_path(page_id: page_translation.page_id, id: page_translation.id),
               method: :patch,
               data: { confirm: "#{t('.alert_soft_delete')}" }, name: "delete_#{page_translation.id}")
@@ -38,6 +38,14 @@ module WebmastersCms
               data: { confirm: "#{t('.alert_sure')}" })
         end
         list_item.join(" ").html_safe
+      end
+
+      def link_to_preview(page_translation)
+        link_to t(".show"), preview_url_for(page_translation), target: "_blank"
+      end
+
+      def preview_url_for(page_translation)
+        "/#{page_translation.language}/#{page_translation.local_path}"
       end
 
       def nested_set_for_select

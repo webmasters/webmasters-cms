@@ -22,7 +22,8 @@ module WebmastersCms
 
     def preview
       Page.transaction do
-        @resource = PageTranslation.new(translation_attributes_from_hash)
+        @resource = PageTranslation.new translation_attributes_from_hash
+        @resource.page = Page.new host_index: params[:page][:host_index]
         show_page
         raise ActiveRecord::Rollback
       end
