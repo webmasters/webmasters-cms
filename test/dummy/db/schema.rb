@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180904070004) do
+ActiveRecord::Schema.define(version: 20181025141355) do
 
   create_table "webmasters_cms_active_languages", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "code", null: false
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20180904070004) do
     t.string "name"
     t.string "local_path"
     t.string "title"
-    t.string "meta_description"
+    t.text "meta_description"
     t.text "body"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20180904070004) do
     t.string "name", null: false
     t.string "local_path", null: false
     t.string "title", null: false
-    t.string "meta_description", null: false
+    t.text "meta_description", null: false
     t.string "language", limit: 2, null: false
     t.text "body", null: false
     t.integer "version", default: 0, null: false, unsigned: true
