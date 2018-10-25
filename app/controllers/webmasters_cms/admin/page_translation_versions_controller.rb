@@ -17,7 +17,7 @@ module WebmastersCms
 
       private
         def page_translation
-          @page_translation ||= PageTranslation.find(params[:page_id])
+          @page_translation ||= klass.find(params[:page_id])
         end
 
         def collection
@@ -26,6 +26,10 @@ module WebmastersCms
 
         def collection_without_current_version
           collection.where.not(version: page_translation.version)
+        end
+
+        def klass
+          PageTranslation
         end
 
         def cms_page_layout

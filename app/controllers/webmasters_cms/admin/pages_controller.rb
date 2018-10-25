@@ -58,7 +58,7 @@ module WebmastersCms
       end
 
       def set_current_version
-        if PageTranslation.find(params[:id]).revert_to!(params[:page_translation][:version])
+        if translation_resource.revert_to!(params[:page_translation][:version])
           flash[:success] = t :update, scope: [:activerecord, :flash, :success]
           redirect_to admin_pages_path
         else
@@ -88,6 +88,14 @@ module WebmastersCms
 
         def translation
           @translation ||= resource.translations.find_by(language: params[:language])
+        end
+
+        def translation_resource
+          @translation_resource ||= translation_klass.find(params[:id])
+        end
+
+        def translation_klass
+          PageTranslation
         end
 
         def get_languages

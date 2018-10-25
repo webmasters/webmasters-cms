@@ -81,19 +81,27 @@ module WebmastersCms
         end
 
         def collection
-          @collection ||= Page.all
+          @collection ||= page_klass.all
+        end
+
+        def page_klass
+          Page
         end
 
         def collection_of_deleted_translations
-          @collection ||= PageTranslation.all.where(soft_deleted: true)
+          @collection_of_deleted_translations ||= klass.all.where(soft_deleted: true)
         end
 
         def resource
-          @resource ||= PageTranslation.find_by(id: params[:id], soft_deleted: false)
+          @resource ||= klass.find_by(id: params[:id], soft_deleted: false)
         end
 
         def deleted_resource
-          @deleted_resource ||= PageTranslation.find_by(id: params[:id], soft_deleted: true)
+          @deleted_resource ||= klass.find_by(id: params[:id], soft_deleted: true)
+        end
+
+        def klass
+          PageTranslation
         end
 
         def cms_page_layout
