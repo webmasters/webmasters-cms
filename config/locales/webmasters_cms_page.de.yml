@@ -1,7 +1,4 @@
 de:
-  name: "Name"
-  title: "Title tag"
-  meta_description: "Meta description"
   local_path: "Lokaler Pfad"
   body: "Content"
   code:
@@ -105,5 +102,10 @@ de:
         index:
           current_version: "Aktuelle Version"
           translation_revision: "Version der Übersetzung"
+          version: "Version"
+          chosen_version: "gewählte Version"
         details:
           version_from: "Version vom"
+          name: "Name"
+          title: "Title tag"
+          meta_description: "Meta description"
