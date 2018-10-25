@@ -136,7 +136,7 @@ module WebmastersCms
       end
 
       it "is invalid with a too long meta_description" do
-        translation = FactoryBot.build(:webmasters_cms_page_translation, meta_description: "A"*256, page: page)
+        translation = FactoryBot.build(:webmasters_cms_page_translation, meta_description: "A"*65536, page: page)
         expect(translation).to_not be_valid
         expect(translation.errors[:meta_description]).to_not be_blank
       end

@@ -11,11 +11,11 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
 
   validates :local_path, :redirect_to, length: { maximum: 255 }
 
-  validates :name, :title, :meta_description,
+  validates :name, :title,
     length: { maximum: 255 },
     presence: true
 
-  validates :body,
+  validates :body, :meta_description,
     length: { maximum: 65535 },
     presence: true
 
