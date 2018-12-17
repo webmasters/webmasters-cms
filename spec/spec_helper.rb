@@ -6,6 +6,7 @@ require 'factory_bot_rails'
 require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'database_cleaner'
+require 'puma'
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
@@ -29,15 +30,16 @@ RSpec.configure do |config|
     end
   end
   
-Rails.backtrace_cleaner.remove_silencers!
+  Rails.backtrace_cleaner.remove_silencers!
 
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+  # Requires supporting ruby files with custom matchers and macros, etc,
+  # in spec/support/ and its subdirectories.
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
-# Checks for pending migrations before tests are run.
-# If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.maintain_test_schema!
+  # Checks for pending migrations before tests are run.
+  # If you are not using ActiveRecord, you can remove this line.
+  ActiveRecord::Migration.maintain_test_schema!
 
-Capybara.javascript_driver = :selenium
+  Capybara.javascript_driver = :selenium
+  Capybara.server = :puma, { :Silent => true }
 end

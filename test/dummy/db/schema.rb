@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181025141355) do
+ActiveRecord::Schema.define(version: 2018_10_25_141355) do
 
-  create_table "webmasters_cms_active_languages", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "webmasters_cms_active_languages", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "code", null: false
     t.index ["code"], name: "index_rails_a4fcee5453f5b38d3d44a0e625fefa0d2fb4cc53263b2acdee", unique: true
   end
 
-  create_table "webmasters_cms_page_translation_versions", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "webmasters_cms_page_translation_versions", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "page_translation_id", unsigned: true
     t.integer "version", unsigned: true
     t.string "name"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20181025141355) do
     t.index ["page_translation_id"], name: "index_rails_60125973eb2bb869804dbb6b17e78b1e1f9919ad9ad45831fb"
   end
 
-  create_table "webmasters_cms_page_translations", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "webmasters_cms_page_translations", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "local_path", null: false
     t.string "title", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20181025141355) do
     t.index ["soft_deleted"], name: "index_rails_84406cbb11c1e194c9a3108685e7a364f2d60d3fae9dbf63f5"
   end
 
-  create_table "webmasters_cms_pages", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "webmasters_cms_pages", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "rgt", unsigned: true
