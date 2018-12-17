@@ -24,19 +24,17 @@ jQuery(function($) {
     //var config = $.parseJSON(configJSON);
     var config = element.data('ckeditor-options');
 
-    // config.filebrowserImageBrowseUrl = config.image_browse_url
-
-    // if(config.image_upload_url) {
-    //   var mergeChar = config.image_upload_url.indexOf('?') == -1 ? '?' : '&'
-    //   var uploadUrl = config.image_upload_url + mergeChar + csrf_param + '=' + encodeURIComponent(csrf_token);
-    //   config.filebrowserImageUploadUrl = uploadUrl;
-    // } else {
-    //   config.filebrowserImageUploadUrl = undefined;
-    // }
-
-    // config.filebrowserBrowseUrl = url;
-    // config.filebrowserBrowseUploadUrl = uploadUrl;
-    // config.filebrowserImageUploadUrl = uploadUrl;
+    config.filebrowserImageBrowseUrl = config.image_browse_url
+    
+    if(config.image_upload_url) {
+      var mergeChar = config.image_upload_url.indexOf('?') == -1 ? '?' : '&'
+      var uploadUrl = config.image_upload_url + mergeChar + csrf_param + '=' + encodeURIComponent(csrf_token);
+      config.filebrowserUploadUrl = uploadUrl;
+      //config.filebrowserImageUploadUrl = uploadUrl;
+    } else {
+      config.filebrowserUploadUrl = undefined;
+      //config.filebrowserImageUploadUrl = undefined;
+    }
 
     $.each(element, function(index, e) {
       var elementId = $(e).attr('id');
