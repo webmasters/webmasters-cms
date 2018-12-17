@@ -39,7 +39,7 @@ module WebmastersCms
         get :show, params: {language: cms_page_translation.language, 
           local_path: cms_page_translation.local_path}
         
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template :show
       end
     end
@@ -89,7 +89,7 @@ module WebmastersCms
         get :show, params: {language: cms_page_translation.language, 
           local_path: cms_page_translation.local_path}
         
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template :show
       end
     end
@@ -143,7 +143,7 @@ module WebmastersCms
         get :show, params: {language: cms_page_translation_parent.language, 
           local_path: cms_page_translation_parent.local_path}
         
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template :show
       end
     end

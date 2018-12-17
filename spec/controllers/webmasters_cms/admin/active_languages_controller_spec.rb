@@ -20,7 +20,7 @@ module WebmastersCms
         end
 
         it "results in a success" do
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
 
@@ -37,7 +37,7 @@ module WebmastersCms
         end
 
         it "results in a success" do
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
 

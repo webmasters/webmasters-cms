@@ -14,7 +14,7 @@ module WebmastersCms
 
       it "results in a success" do
         expect_block.call
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "renders no template" do

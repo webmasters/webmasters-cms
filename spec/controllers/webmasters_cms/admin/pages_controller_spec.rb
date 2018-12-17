@@ -120,7 +120,7 @@ module WebmastersCms
 
             post :create, params: { page:  page_params}
 
-            expect(response).to be_success
+            expect(response).to be_successful
             expect(response).to render_template :new
           end
         end
@@ -226,7 +226,7 @@ module WebmastersCms
           put :sort, params: {page: {child_page.id => parent_page.id} }
           child_page.reload
 
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(child_page.parent_id).to eq(parent_page.id)
         end
       end
