@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_141355) do
+ActiveRecord::Schema.define(version: 2018_12_17_072638) do
 
   create_table "webmasters_cms_active_languages", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "code", null: false
     t.index ["code"], name: "index_rails_a4fcee5453f5b38d3d44a0e625fefa0d2fb4cc53263b2acdee", unique: true
+  end
+
+  create_table "webmasters_cms_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "file_file_name"
+    t.string "file_content_type"
+    t.bigint "file_file_size"
+    t.datetime "file_updated_at"
+    t.bigint "uploaded_by_id", unsigned: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uploaded_by_id"], name: "index_webmasters_cms_files_on_uploaded_by_id"
   end
 
   create_table "webmasters_cms_page_translation_versions", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

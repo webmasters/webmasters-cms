@@ -1,0 +1,22 @@
+de:
+  activerecord:
+    attributes:
+      webmasters_cms/file:
+        uploaded_by: 'Hochgeladen von'
+        uploaded_by_id: 'Hochgeladen von'
+        file: Datei
+#    attribute_descriptions:
+#      webmasters_cms/file:
+#        attr: Translation
+    models:
+      webmasters_cms/file:
+        one: Datei
+        other: Dateien
+    errors:
+      models:
+        webmasters_cms/file:
+          attributes:
+            uploaded_by_id:
+              is_not_authorized: 'ist nicht berechtigt'
+            uploaded_by:
+              is_not_authorized: 'ist nicht berechtigt'

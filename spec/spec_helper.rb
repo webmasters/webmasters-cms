@@ -20,8 +20,13 @@ RSpec.configure do |config|
   config.include WebmastersCms::Engine.routes.url_helpers
   config.include Capybara::DSL
   config.before(:suite) do
+    FileUtils.rm_rf Rails.root.join('public/system').to_s
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
+  end
+  
+  config.after(:suite) do
+    FileUtils.rm_rf Rails.root.join('public/system').to_s
   end
 
   config.around(:each) do |example|
