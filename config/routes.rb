@@ -25,9 +25,9 @@ WebmastersCms::Engine.routes.draw do
         end
 
         resources :page_translation_versions, path: :versions, as: :versions, only: [:index, :show]
-
       end
       resources :active_languages, only: [:index, :new, :create, :destroy]
+      resources :files, :only => :create
     end
 
     resources :pages, only: [] do
