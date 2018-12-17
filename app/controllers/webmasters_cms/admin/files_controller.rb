@@ -23,7 +23,7 @@ module WebmastersCms
     end
 
     def resource
-      @resource ||= WebmastersCms::File.new
+      @resource ||= ::WebmastersCms::File.new
     end
   end
 end

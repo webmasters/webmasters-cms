@@ -23,7 +23,7 @@ module WebmastersCms
       end
 
       it "creates a file" do
-        expect(expect_block).to change(WebmastersCms::File, :count).by(1)
+        expect(expect_block).to change(::WebmastersCms::File, :count).by(1)
       end
     end
   end
