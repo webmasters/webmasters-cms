@@ -238,7 +238,7 @@ module WebmastersCms
             create(:webmasters_cms_page_translation_version,
               page_translation: translation,
               version: translation.version)
-          translation_version2 =
+#          translation_version2 =
             create(:webmasters_cms_page_translation_version,
               page_translation: translation,
               version: translation.version + 1)

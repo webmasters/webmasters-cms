@@ -81,7 +81,9 @@ module WebmastersCms
         data: {ckeditor_options: {}, locator: 'cke_body'} 
       }
       def options_for_page_translation_body(translation, ckeditor_options={}, additional_options={})
-        options = OPTIONS_FOR_PAGE_TRANSLATION_BODY.merge(additional_options)
+        options = OPTIONS_FOR_PAGE_TRANSLATION_BODY.deep_dup.merge(additional_options)
+        ckeditor_options = options[:data][:ckeditor_options].merge ckeditor_options
+        ckeditor_options[:image_upload_url] = admin_files_path
         options[:data][:ckeditor_options] = ckeditor_options.to_json
         options
       end
