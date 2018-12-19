@@ -45,11 +45,15 @@
       </div>
 
       <div>
+        <% if t.object.internal_path? -%>
+        <%= t.object.class.human_attribute_name :local_path %><br>
+        <% else -%>
         <%= t.label :local_path %><br>
         <%= t.text_field :local_path, class: 'local_path_js' %>
         <%= button_tag '<<', type: 'button', class: 'use_suggestion_button' %>
         <span class="suggestion_<%= lang %>"></span><br>
         <%= errors_for(:local_path, t.object) %>
+        <% end -%>
       </div>
 
       <div>

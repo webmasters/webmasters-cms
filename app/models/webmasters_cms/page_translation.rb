@@ -26,12 +26,28 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
 
   validates :soft_deleted, :show_in_navigation, :redirect_to_child, inclusion: [true, false]
 
+  def self.internal_paths
+    @internal_paths ||= Rails.application.routes.routes.collect do |r|
+      r.path.spec.to_s.split('(').first
+    end.select do |r|
+      !r.include?(':') && !r.include?('admin') && !r.include?('*')
+    end.sort.uniq
+  end
+
+  def self.internal_path?(path)
+    internal_paths.include? path
+  end
+
   def current_version
     versions.where(version: version).first
   end
 
   def deleted?
     soft_deleted
+  end
+
+  def internal_path?
+    self.class.internal_path? '/' + local_path
   end
 
   private
