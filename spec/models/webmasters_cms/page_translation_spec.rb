@@ -33,8 +33,10 @@ module WebmastersCms
         expect(FactoryBot.build(:webmasters_cms_page_translation, name: "A"*253 + "€", page: page)).to be_valid
       end
 
-      it "is invalid for the same host_index for different pages for the same value" do
-        translation_1 = FactoryBot.create :webmasters_cms_page_translation, page: page
+      it "is invalid for the same host_index for different pages for the same value at the same depth" do
+
+        page_1 = FactoryBot.create :webmasters_cms_page, parent: page
+        translation_1 = FactoryBot.create :webmasters_cms_page_translation, page: page_1
 
         page_2 = FactoryBot.create :webmasters_cms_page, parent: page
         translation_2 = FactoryBot.build :webmasters_cms_page_translation, page: page_2,
@@ -42,6 +44,16 @@ module WebmastersCms
         
         expect(translation_2).to_not be_valid
         expect(translation_2.errors[:name]).to_not be_blank
+      end
+
+      it "is valid for the same host_index for different pages for the same value for different depths" do
+        translation_1 = FactoryBot.create :webmasters_cms_page_translation, page: page
+
+        page_2 = FactoryBot.create :webmasters_cms_page, parent: page
+        translation_2 = FactoryBot.build :webmasters_cms_page_translation, page: page_2,
+          :name => translation_1.name
+        
+        expect(translation_2).to be_valid
       end
 
       it "is valid for different host_index for the same value" do
