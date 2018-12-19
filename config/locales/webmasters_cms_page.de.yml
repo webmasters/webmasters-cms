@@ -75,6 +75,7 @@ de:
           preview_button: "Vorschau"
           new_translation: "Neue Übersetzung"
           available_languages: "Verfügbare Sprachen"
+          not_editable: 'Nicht änderbar - Pfad wird intern von der Applikation verwendet'
         navigation: 
           main: 'Main'
           new_page: 'Neue Seite'

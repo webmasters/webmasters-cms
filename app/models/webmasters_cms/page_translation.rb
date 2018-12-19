@@ -30,7 +30,7 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
     @internal_paths ||= Rails.application.routes.routes.collect do |r|
       r.path.spec.to_s.split('(').first
     end.select do |r|
-      !r.include?(':') && !r.include?('admin') && !r.include?('*')
+      !r.include?(':') && !r.include?('admin') && !r.include?('*') && r != '/'
     end.sort.uniq
   end
 
@@ -47,7 +47,7 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
   end
 
   def internal_path?
-    self.class.internal_path? '/' + local_path
+    self.class.internal_path? "/#{local_path}"
   end
 
   private

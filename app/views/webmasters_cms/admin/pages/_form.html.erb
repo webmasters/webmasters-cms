@@ -47,6 +47,8 @@
       <div>
         <% if t.object.internal_path? -%>
         <%= t.object.class.human_attribute_name :local_path %><br>
+        <i><%= t.object.local_path %></i><br>
+        <b><%= translate '.not_editable' %></b><br>
         <% else -%>
         <%= t.label :local_path %><br>
         <%= t.text_field :local_path, class: 'local_path_js' %>
