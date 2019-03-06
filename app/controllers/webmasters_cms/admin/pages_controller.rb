@@ -35,7 +35,8 @@ module WebmastersCms
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :pages, :flash, :success]
 #          redirect_to admin_pages_path
-          redirect_to action: 'edit', id: resource.id
+          redirect_back fallback_location: { action: 'edit', id: resource.id },
+            allow_other_host: false
         else
           flash[:error] = t :create, scope: [:activerecord, :pages, :flash, :error]
           render action: 'new'
@@ -46,7 +47,8 @@ module WebmastersCms
         if resource.update(page_params)
           flash[:success] = t :update, scope: [:activerecord, :pages, :flash, :success]
 #          redirect_to admin_pages_path
-          redirect_to action: 'edit', id: resource.id
+          redirect_back fallback_location: { action: 'edit', id: resource.id },
+            allow_other_host: false
         else
           flash[:error] = t :update, scope: [:activerecord, :pages, :flash, :error]
           render action: "edit"
