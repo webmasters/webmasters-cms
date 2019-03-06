@@ -15,6 +15,7 @@ jQuery(function($) {
     var resetForm = function() {
       form.attr('target', target);
       form.attr('action', action);
+      form.find('[type="submit"]').removeProp('disabled');
     };
 
     $.when(form.trigger('submit')).done(function() {
