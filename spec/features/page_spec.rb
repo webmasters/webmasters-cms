@@ -29,7 +29,9 @@ module WebmastersCms
           expect(page).to have_content 'Page successfully created!'
         end
 
-        expect(page).to have_content "Name"
+#        expect(page).to have_content "Name"
+        expect(page).to have_no_selector('.field_error')
+        expect(page).to have_selector('form')
       end
 
       it "shows an error when created with invalid attributes", js: true do
@@ -66,7 +68,9 @@ module WebmastersCms
         within ".success" do
           expect(page).to have_content "Page successfully updated"
         end
-        expect(page).to have_content "Updated Name"
+#        expect(page).to have_content "Updated Name"
+        expect(page).to have_no_selector('.field_error')
+        expect(page).to have_selector('form')
       end
 
       it "edits a page successfully with menu_icon_css_class and displays a success notice", js: true do
@@ -84,7 +88,9 @@ module WebmastersCms
         within ".success" do
           expect(page).to have_content "Page successfully updated"
         end
-        expect(page).to have_content "Updated Name"
+#        expect(page).to have_content "Updated Name"
+        expect(page).to have_no_selector('.field_error')
+        expect(page).to have_selector('form')
 
         page_translation.reload
         expect(page_translation.menu_icon_css_class).to eq 'menu-icon-class'

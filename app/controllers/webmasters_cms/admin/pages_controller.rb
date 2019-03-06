@@ -34,7 +34,8 @@ module WebmastersCms
         @resource = klass.new(page_params)
         if resource.save
           flash[:success] = t :create, scope: [:activerecord, :pages, :flash, :success]
-          redirect_to admin_pages_path
+#          redirect_to admin_pages_path
+          redirect_to action: 'edit', id: resource.id
         else
           flash[:error] = t :create, scope: [:activerecord, :pages, :flash, :error]
           render action: 'new'
@@ -44,7 +45,8 @@ module WebmastersCms
       def update
         if resource.update(page_params)
           flash[:success] = t :update, scope: [:activerecord, :pages, :flash, :success]
-          redirect_to admin_pages_path
+#          redirect_to admin_pages_path
+          redirect_to action: 'edit', id: resource.id
         else
           flash[:error] = t :update, scope: [:activerecord, :pages, :flash, :error]
           render action: "edit"

@@ -80,7 +80,7 @@ module WebmastersCms
             end.to change(PageTranslation, :count).by(1)
           end
 
-          it "redirects to the Pages overview" do
+          it "redirects to the edit" do
             page_params = attributes_for :webmasters_cms_page, 
               translations_attributes: [
                 attributes_for(:webmasters_cms_page_translation, 
@@ -88,7 +88,8 @@ module WebmastersCms
 
             post :create, params: {page: page_params}
             
-            expect(response).to redirect_to admin_pages_path
+#            expect(response).to redirect_to admin_pages_path
+            expect(response).to redirect_to action: 'edit', id: assigns(:resource).id
           end
         end
 
@@ -164,9 +165,10 @@ module WebmastersCms
             expect(expect_block).to change{[page_translation.name, page_translation.local_path]}
           end
 
-          it "redirects to the Pages overview" do
+          it "redirects to the edit page" do
             expect_block.call
-            expect(response).to redirect_to admin_pages_path
+#            expect(response).to redirect_to admin_pages_path
+            expect(response).to redirect_to action: 'edit', id: page_translation.page_id
           end
 
           it "has no error messages" do
