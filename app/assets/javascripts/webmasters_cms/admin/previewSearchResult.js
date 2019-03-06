@@ -29,23 +29,26 @@ jQuery(function($) {
   function buildPreviewMetaDesc(element) {
     var strLength = 155;
     var target = element.closest('fieldset').find('span.metadesc');
+    var value = element.val() || '';
 
-    if (element.val().length === 0) {
+    if (value.length === 0) {
       target.html("This is the meta description for the page");
-    } else if (element.val().length <= strLength) {
-      target.html(element.val());
+    } else if (value.length <= strLength) {
+      target.html(value);
     } else {
-      target.html(element.val().replace(new RegExp("^(.{" + strLength + "}[\s]*).*"), "$1") + '&nbsp;...');
+      target.html(value.replace(new RegExp("^(.{" + strLength + "}[\s]*).*"), "$1") + '&nbsp;...');
     }
   }
 
   function buildPreviewLocalPath(element) {
     var target = element.closest('fieldset').find('cite.url');
     var lang = $('input[name="code"]:checked').val();
-    if (element.val().length === 0) {
+    var value = element.val() || '';
+
+    if (value.length === 0) {
       target.html(location.host + '/' + lang);
     } else {
-      target.html(location.host + '/' + lang + '/' + element.val());
+      target.html(location.host + '/' + lang + '/' + value);
     }
   }
 
