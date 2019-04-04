@@ -43,6 +43,17 @@ jQuery(function($) {
       }
     });
 
+    // https://stackoverflow.com/questions/16591205/is-ckeditor-4-really-ready-for-html5
+    if(config.allowedContent === true) {
+      if(config.protectedSource) {
+        config.protectedSource.push(/[\r|\n]|(<a([^*>]+>)|<\/a>)/g);
+        config.protectedSource.push(/[\r|\n]|(<i([^*>]+>)|<\/i>)/g);
+      } else {
+        config.protectedSource = [/[\r|\n]|(<a([^*>]+>)|<\/a>)/g];
+        config.protectedSource = [/[\r|\n]|(<i([^*>]+>)|<\/i>)/g];
+      }
+    }
+
     //element.ckeditor(config);
     CKEDITOR.replace(this, config);
   });
