@@ -47,10 +47,8 @@ jQuery(function($) {
     if(config.allowedContent === true) {
       if(config.protectedSource) {
         config.protectedSource.push(/[\r|\n]|(<a([^*>]+>)|<\/a>)/g);
-        config.protectedSource.push(/[\r|\n]|(<i([^*>]+>)|<\/i>)/g);
       } else {
         config.protectedSource = [/[\r|\n]|(<a([^*>]+>)|<\/a>)/g];
-        config.protectedSource = [/[\r|\n]|(<i([^*>]+>)|<\/i>)/g];
       }
     }
 
