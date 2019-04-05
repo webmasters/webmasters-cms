@@ -45,10 +45,11 @@ jQuery(function($) {
 
     // https://stackoverflow.com/questions/16591205/is-ckeditor-4-really-ready-for-html5
     if(config.allowedContent === true) {
+      var protectedSource = /(<(i|a)\s+([^*>]+>)|<\/(a|i)>)/g;
       if(config.protectedSource) {
-        config.protectedSource.push(/[\r|\n]|(<a([^*>]+>)|<\/a>)/g);
+        config.protectedSource.push(protectedSource);
       } else {
-        config.protectedSource = [/[\r|\n]|(<a([^*>]+>)|<\/a>)/g];
+        config.protectedSource = [protectedSource];
       }
     }
 
