@@ -7,7 +7,7 @@ module WebmastersCms
 
     it "gets created on PageTranslation attribute change" do
       expect{
-        page_translation.update_attributes!(name: "New Name")
+        page_translation.update!(name: "New Name")
       }.to change(page_translation.versions, :count).by(1)
     end
 

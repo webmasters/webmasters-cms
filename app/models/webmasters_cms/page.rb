@@ -95,7 +95,7 @@ class WebmastersCms::Page < WebmastersCms::ApplicationRecord
         new_parent_id = nil if new_parent_id == "null"
         attributes = {parent_id: new_parent_id}
         attributes[:host_index] = maximum(:host_index).next if !new_parent_id && child.parent_id.present?
-        child.update_attributes! attributes
+        child.update! attributes
       end
 
       page_ids_with_parent_ids.each do |page_id, new_parent_id|
