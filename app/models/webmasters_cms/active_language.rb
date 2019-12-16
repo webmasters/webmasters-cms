@@ -1,5 +1,5 @@
 class WebmastersCms::ActiveLanguage < WebmastersCms::ApplicationRecord
-  validates :code, uniqueness: true, presence: true
+  validates :code, uniqueness: {case_sensitive: true}, presence: true
 
   AVAILABLE_LANGUAGES = ActiveSupport::JSON.decode(File.read(
     ::WebmastersCms::Engine.root.join("config", "languages.json")))
