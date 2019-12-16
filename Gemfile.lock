@@ -4,6 +4,57 @@ GIT
   specs:
     acts_as_versioned (0.6.0)
 
+GIT
+  remote: https://github.com/rspec/rspec
+  revision: 459e073a4f21922c4bce7dd93e63a56b31a48fb8
+  specs:
+    rspec (3.10.0.pre)
+      rspec-core (= 3.10.0.pre)
+      rspec-expectations (= 3.10.0.pre)
+      rspec-mocks (= 3.10.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-core
+  revision: 91bc14f49b1d25df4c4c43d2460ff87b5609f499
+  specs:
+    rspec-core (3.10.0.pre)
+      rspec-support (= 3.10.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-expectations
+  revision: 95d9693923ef605183eb102c6dcb40d4f9d8a144
+  specs:
+    rspec-expectations (3.10.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.10.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-mocks
+  revision: fa3b6a06b63d785a594723befc34edf9eed8c0f5
+  specs:
+    rspec-mocks (3.10.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.10.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-rails
+  revision: 7d68eb2306f3495d62618318e8839cf20f2a463d
+  specs:
+    rspec-rails (4.0.0.pre)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
+      rspec-core (= 3.10.0.pre)
+      rspec-expectations (= 3.10.0.pre)
+      rspec-mocks (= 3.10.0.pre)
+      rspec-support (= 3.10.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-support
+  revision: c1d3ce25ea5504fc8478eeb4f340f7b91df7e98b
+  specs:
+    rspec-support (3.10.0.pre)
+
 PATH
   remote: .
   specs:
@@ -226,27 +277,6 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     regexp_parser (1.6.0)
-    rspec (3.9.0)
-      rspec-core (~> 3.9.0)
-      rspec-expectations (~> 3.9.0)
-      rspec-mocks (~> 3.9.0)
-    rspec-core (3.9.0)
-      rspec-support (~> 3.9.0)
-    rspec-expectations (3.9.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.9.0)
-    rspec-mocks (3.9.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.9.0)
-    rspec-rails (3.9.0)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-core (~> 3.9.0)
-      rspec-expectations (~> 3.9.0)
-      rspec-mocks (~> 3.9.0)
-      rspec-support (~> 3.9.0)
-    rspec-support (3.9.0)
     rubyzip (2.0.0)
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
@@ -293,7 +323,12 @@ DEPENDENCIES
   passenger
   puma
   rails-controller-testing
-  rspec-rails
+  rspec!
+  rspec-core!
+  rspec-expectations!
+  rspec-mocks!
+  rspec-rails!
+  rspec-support!
   selenium-webdriver
   sprockets (< 4)
   thor
