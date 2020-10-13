@@ -1,7 +1,7 @@
 class WebmastersCms::File < WebmastersCms::ApplicationRecord
 
-  klass = WebmastersCms.uploaded_by_klass
-  belongs_to :uploaded_by, :class_name => klass.to_s if klass
+  klass = WebmastersCms.uploaded_by_class_name
+  belongs_to :uploaded_by, :class_name => klass if klass
   
   has_attached_file :file
  

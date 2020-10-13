@@ -3,34 +3,20 @@ require "webmasters_cms/engine"
 require "webmasters_cms/extensions/routing"
 
 module WebmastersCms
-  def self.uploaded_by_klass=(klass)
-    @uploaded_by_klass = klass
-  end
+  mattr_accessor :uploaded_by_class_name
+  mattr_writer :uploaded_by_validation
+  mattr_accessor :uploaded_by_factory_name if Rails.env.test?
 
   def self.uploaded_by_klass
-    @uploaded_by_klass
+    uploaded_by_class_name.constantize if uploaded_by_class_name
   end
 
   def self.uploaded_by_table_name
     uploaded_by_klass.table_name if uploaded_by_klass
   end
 
-  def self.uploaded_by_validation=(v)
-    @uploaded_by_validation = v
-  end
-
   def self.uploaded_by_validation
     @uploaded_by_validation ||= :admin?
-  end
-
-  if Rails.env.test?
-  def self.uploaded_by_factory_name=(v)
-    @uploaded_by_factory_name = v
-  end
-
-  def self.uploaded_by_factory_name
-    @uploaded_by_factory_name
-  end
   end
 end
 
