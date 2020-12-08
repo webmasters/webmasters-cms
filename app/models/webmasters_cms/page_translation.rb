@@ -22,7 +22,7 @@ class WebmastersCms::PageTranslation < WebmastersCms::ApplicationRecord
 
   validates :local_path, format: { with: /\A[a-zA-Z0-9\-\_\/\.]+\z/, allow_blank: true }
 
-  validates :language, presence: true, active_languages: true,
+  validates :language, presence: true, 'webmasters_cms/active_languages': true,
     uniqueness: {scope: :page_id, case_sensitive: true }
 
   validates :soft_deleted, :show_in_navigation, :redirect_to_child, inclusion: [true, false]
