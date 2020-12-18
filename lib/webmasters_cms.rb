@@ -1,7 +1,3 @@
-require 'webmasters_cms/railtie'
-require "webmasters_cms/engine"
-require "webmasters_cms/extensions/routing"
-
 module WebmastersCms
   mattr_accessor :uploaded_by_class_name
   mattr_writer :uploaded_by_validation
@@ -19,6 +15,11 @@ module WebmastersCms
     @uploaded_by_validation ||= :admin?
   end
 end
+
+require 'webmasters_cms/railtie'
+require 'webmasters_cms/engine'
+require 'webmasters_cms/extensions'
+require 'webmasters_cms/extensions/routing'
 
 # manual requiring of jquery gems as work-around because it did not work automatically
 require 'jquery-rails' unless defined? Jquery::Rails

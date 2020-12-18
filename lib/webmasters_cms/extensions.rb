@@ -1,0 +1,2 @@
+module WebmastersCms::Extensions
+end
