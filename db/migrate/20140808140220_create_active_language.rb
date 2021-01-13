@@ -1,10 +1,12 @@
 class CreateActiveLanguage < ActiveRecord::Migration[4.2]
-  class WebmastersCms::ActiveLanguage < ActiveRecord::Base
+  class WebmastersCmsActiveLanguage < ActiveRecord::Base
   end
 
   def up
-    unless WebmastersCms::ActiveLanguage.where(code: 'en').exists?
-      WebmastersCms::ActiveLanguage.create! code: 'en'
+    klass = WebmastersCmsActiveLanguage
+    klass.reset_column_information
+    klass.transaction do
+      klass.create! code: 'en' unless klass.where(code: 'en').exists?
     end
   end
 end
